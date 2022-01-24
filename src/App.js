@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect, useRef } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Container } from "react-bootstrap";
+
+// Widgets
+import { Navbar } from "./components/widgets/Navbar";
+import { Footer } from './components/widgets/Footer';
+import { Card } from './components/widgets/Card';
+
+// Styling
+import './bootstrap.css';
+import './css/style.css';
+
+// Bootstrap bundle
+import 'react-bootstrap/dist/react-bootstrap.min.js';
+
+export const App = () => {
+    // toggle modal
+    const [show, setShow] = useState(false);
+    const handleShow = () => { setShow(true) }
+    const handleClose = () => { setShow(false) }
+
+    return (
+        <>
+            <Navbar 
+                modalToggle={ true } 
+                modalShown={ show }
+                modalOnclick={ handleShow } 
+                modalOnhide={ handleClose }
+                modalBtnText='Click me'
+            />
+            <Container fluid="md" className="mt-5 bg-warning">
+                <div>I am inside div</div>
+                <Card cardClass='bg-success'/>
+            </Container>
+            <Container>
+                <Footer />
+            </Container>
+        </>
+    );
 }
-
-export default App;
