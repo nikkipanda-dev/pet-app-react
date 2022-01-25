@@ -5,17 +5,14 @@ import ModalBody from 'react-bootstrap/ModalBody';
 import ModalFooter from 'react-bootstrap/ModalFooter';
 import ModalTitle from 'react-bootstrap/ModalTitle';
 
-import { Button } from '../core/Button';
-import { func } from 'prop-types';
+import { BtnIdx } from '../../../core/Button';
 
-export const Modal = ({ modalShown, modalOnhide }) => {    
+export const ModalReg = ({ btnOnhide, isShown }) => {  
+
     return (
         <ModalWrapper 
-            show={ modalShown } 
-            backdrop="static" 
-            backdrop="static" 
-            keyboard={ false }>
-
+            show={ isShown }
+        >
             <ModalDialog>
                 <ModalHeader>
                     <ModalTitle>Modal title</ModalTitle>
@@ -25,13 +22,7 @@ export const Modal = ({ modalShown, modalOnhide }) => {
                     escape key.
                 </ModalBody>
                 <ModalFooter>
-                    <Button 
-                        text='Close' 
-                        btnClass="navlink" 
-                        type='button' 
-                        isModal={ true } 
-                        modalOnhide={ modalOnhide } 
-                    />
+                    <BtnIdx text='Close' type='modal' btnOnhide={ btnOnhide }/>
                 </ModalFooter>
             </ModalDialog>
         </ModalWrapper>
