@@ -1,24 +1,35 @@
-import { Anchor } from "../../core/Anchor/AnchorRef/AnchorRef";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ContainerIdx } from "../../core/Container";
 
-export const Navbar = ({ modalShown, modalBtnText, modalOnclick, modalOnhide }) => {    
+import { AnchorIdx } from "../../core/Anchor";
+
+export const Navbar = () => {
+    const navbarContext = {
+        'text': '',
+        'href': '',
+        'type': '',
+        'isTargetBlank': false,
+    }
+
+    const navbarStyle = {
+        backgroundColor: 'transparent',
+        minHeight: '10vh',
+    }
+
     return (
-        <div 
-            className="position-fixed top-0 start-50 translate-middle-x bg-light" 
-            style={
-                { 
-                    width: '100vw',
-                }
-            }
-        >
-            <div>I am a navbar</div>
-            <Anchor 
-                text={ modalBtnText } 
-                data-bs-toggle="modal" 
-                role="button" 
-                modalOnclick={ modalOnclick } 
-                modalOnhide={ modalOnhide } 
-                modalShown={ modalShown } 
-            />
-        </div>
+        <>
+            <ContainerIdx 
+                fluid={ true } 
+                containerStyle={ navbarStyle } 
+                containerClass='sticky-top'
+            >
+                <ContainerIdx fluid='md'>
+                    <Link to='home'>Home</Link>
+                    <Link to='profile'>Profile</Link>
+                    <Link to='settings'>Settings</Link>
+                </ContainerIdx>
+            </ContainerIdx>
+        </>
     );
 };
