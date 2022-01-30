@@ -1,29 +1,20 @@
 import { InputReg } from './InputReg/InputReg'
-import { InputValidation } from './InputValidation/InputValidation';
+import validate from '../../../util/Validation';
 
-export const InputIdx = ({ validation, type, inputClass, refTarget, name, onChange, value, errorMsg, selfValidate }) => {
-    console.log('validation: ', (validation === 'name') ? 'name' : 'zzz');
-
-    const isError = false;
-    // validate name
-    // validate username
-    // validate email
-    // validate pw
+export const InputIdx = ({ validationType, type, inputClass, refTarget, name, onChange, value, alertAttr, validateInput, setIsError }) => {
 
     return (
         <>
             <InputReg
-                type={type}
-                inputClass={inputClass}
-                refTarget={refTarget}
-                name={name}
-                onChange={onChange}
+                type={ type } 
+                inputClass={ inputClass } 
+                refTarget={ refTarget } 
+                name={ name } 
+                onChange={ onChange } 
+                value={ value }
             />
 
-            {
-                isError ? <InputErrorMsg>
-            }
+            { validateInput && validate(value, alertAttr, validationType, validateInput, () => setIsError) }
         </>
-
     )
 };

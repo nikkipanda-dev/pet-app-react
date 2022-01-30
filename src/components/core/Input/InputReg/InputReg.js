@@ -1,12 +1,12 @@
-export const InputReg = ({ type, inputClass, refTarget, name, onChange }) => {
-    console.log('name: ', name);
-
+export const InputReg = ({ type, inputClass, refTarget, name, onChange, value }) => {
     return (
-        <input type={ type } 
-                className={ inputClass }
-                ref={ refTarget } 
-                name={ name }
-                onChange={ () => onChange('i am ' + name) }
+        <input 
+            type={ type } 
+            className={ inputClass } 
+            ref={ refTarget } 
+            name={ name } 
+            onChange={ (evt) => onChange(evt.target.value) } 
+            value={ value }
         />
     )
 };
