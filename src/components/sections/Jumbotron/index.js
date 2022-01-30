@@ -1,12 +1,8 @@
 import { ContainerIdx } from "../../core/Container";
 
-export const JumbotronIdx = ({ children }) => {
-    const jumobtronStyle = {
-        'minHeight': '30vh',
-    }
-
+export const JumbotronIdx = ({ children, jumbotronStyle }) => {
     return (
-        <ContainerIdx fluid='md' containerStyle={ jumobtronStyle }>
+        <ContainerIdx fluid='true' containerStyle={ jumbotronStyle }>
             { children }
         </ContainerIdx>
     )

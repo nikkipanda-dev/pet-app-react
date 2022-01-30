@@ -2,7 +2,7 @@ import { AlertReg } from "./AlertReg/AlertReg";
 
 export const AlertIdx = ({ children, alertClass }) => {
     return (
-        <AlertReg>
+        <AlertReg alertClass={ alertClass }>
             { children }
         </AlertReg>
     )

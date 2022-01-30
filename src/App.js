@@ -16,6 +16,7 @@ import './css/style.css';
 
 // Bootstrap bundle
 import 'react-bootstrap/dist/react-bootstrap.min.js';
+import { useState } from "react";
 
 export const App = () => {
     return (

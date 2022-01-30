@@ -24,10 +24,42 @@ time, mark, audio, video {
 body {
     font-family: 'Noto Sans Display', sans-serif;
     font-size: 1rem;
+    color: #4a4e69;
 }
 
 .btn-reg, .btn-reg:hover, .btn-reg:focus {
     outline: unset;
     border: none;
     box-shadow: none;
+}
+
+.fine-print {
+    font-size: .8rem;
+    color: #c32f27;
+}
+
+.navbar-link {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #6930c3;
+}
+
+.navbar-link:hover {
+    color: #8f59e6;
+}
+
+.lead {
+    color: #393939;
+    font-size: 2rem;
+}
+
+.curved-border {
+    border-radius: 10px;
+    border: none;
+}
+
+@media screen and (max-width: 576px) {
+    .navbar-link {
+        font-size: 1rem;
+    }
 }

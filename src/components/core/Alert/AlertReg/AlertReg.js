@@ -1,6 +1,6 @@
 export const AlertReg = ({ children, alertClass }) => {
     return (
-        <div>
+        <div className={ alertClass }>
             { children }
         </div>
     )

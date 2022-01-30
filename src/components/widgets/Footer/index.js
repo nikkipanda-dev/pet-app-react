@@ -1,18 +1,21 @@
+import { Link } from "react-router-dom";
 import { ContainerIdx } from "../../core/Container";
 
 const Footer = () => {
     const footerStyle= {
-        minHeight: '10vh',
-        background: 'transparent',
-        width: '100vw',
+        minHeight: '30vh',
+        background: '#22223b',
     }
 
     return (
         <ContainerIdx 
-            fluid='md' 
-            containerStyle={ footerStyle }
+            fluid={ true }  
+            containerStyle={ footerStyle } 
+            containerClass='mt-5'
         >
-            Footer here
+            <span className="text-white">F.A.Q.</span>
+            <span className="text-white">About</span>
+            <span className="text-white">Contact Us</span>
         </ContainerIdx>
     )
 };

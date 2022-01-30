@@ -1,5 +1,6 @@
 import { InputReg } from './InputReg/InputReg'
 import validate from '../../../util/Validation';
+import { AlertIdx } from '../Alert';
 
 export const InputIdx = ({ validationType, type, inputClass, refTarget, name, onChange, value, alertAttr, validateInput, setIsError }) => {
 
@@ -13,8 +14,9 @@ export const InputIdx = ({ validationType, type, inputClass, refTarget, name, on
                 onChange={ onChange } 
                 value={ value }
             />
-
-            { validateInput && validate(value, alertAttr, validationType, validateInput, () => setIsError) }
+            <AlertIdx alertClass='text-danger fine-print mb-3'>
+                { validateInput && validate(value, alertAttr, validationType, validateInput, () => setIsError) }
+            </AlertIdx>
         </>
     )
 };
