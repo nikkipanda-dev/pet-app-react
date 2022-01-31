@@ -203,7 +203,7 @@ a:hover {
     color: #fff;
 }
 
-.fade-in {
+/* .fade-in {
     opacity: 1;
     transition: opacity .5s;
 }
@@ -211,7 +211,7 @@ a:hover {
 .fade-out {
     opacity: 0;
     transition: opacity .5s;
-}
+} */
 
 @media screen and (max-width: 576px) {
     .navbar-link {

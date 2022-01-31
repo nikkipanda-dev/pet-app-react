@@ -1,6 +1,7 @@
 import axiosDef from '../../../util/Request';
 import { useState, createRef, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 import { ContainerIdx } from '../../core/Container'
 import { JumbotronIdx } from '../../sections/Jumbotron'
@@ -14,6 +15,8 @@ import { HeaderIdx } from '../../core/Header';
 import { CardIdx } from '../../widgets/Card';
 
 const LandingPage = () => {
+    const navigate = useNavigate();
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -36,10 +39,6 @@ const LandingPage = () => {
     const passwordRef = createRef();
     const repeatPasswordRef = createRef();
 
-    function focusRegister(el) {
-        el.current.focus();
-    }
-
     const register = (evt) => {
         evt.preventDefault();
 
@@ -48,6 +47,7 @@ const LandingPage = () => {
 
         const registerForm = new FormData(evt.target);
     
+        // TODO update client-side validation
         if (!(isRegisterError)) {
             axiosDef.get('http://localhost:8000/sanctum/csrf-cookie')
                 .then(() => {
@@ -55,7 +55,14 @@ const LandingPage = () => {
 
                     .then (res => {
                         const registerResponse = res.data;
-                        registerResponse.isSuccess && Cookies.set('secretTk', registerResponse.secret, { sameSite: 'strict', secure: true });
+                        
+                        if (registerResponse.isSuccess) {
+                            Cookies.set('secretTk', registerResponse.secret, { sameSite: 'strict', secure: true });
+
+                            return (
+                                navigate('home')
+                            );
+                        } 
                     })
 
                     .catch (err => {
@@ -105,7 +112,8 @@ const LandingPage = () => {
                                             isError={ isRegisterError } 
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
-                                            errorMsg={ registerErr }
+                                            errorMsg={ registerErr } 
+                                            fieldType='regular'
                                         />
                                     </div>
                                     <div>
@@ -129,7 +137,8 @@ const LandingPage = () => {
                                             isError={ isRegisterError } 
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
-                                            errorMsg={ registerErr }
+                                            errorMsg={ registerErr } 
+                                            fieldType='regular'
                                         />
                                     </div>
                                     <div>
@@ -153,7 +162,8 @@ const LandingPage = () => {
                                             isError={ isRegisterError } 
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
-                                            errorMsg={ registerErr }
+                                            errorMsg={ registerErr } 
+                                            fieldType='regular'
                                         />
                                     </div>
                                     <div>
@@ -177,7 +187,8 @@ const LandingPage = () => {
                                             isError={ isRegisterError } 
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
-                                            errorMsg={ registerErr }
+                                            errorMsg={ registerErr } 
+                                            fieldType='regular'
                                         />
                                     </div>
                                     <div>
@@ -201,7 +212,8 @@ const LandingPage = () => {
                                             isError={ isRegisterError } 
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
-                                            errorMsg={ registerErr }
+                                            errorMsg={ registerErr } 
+                                            fieldType='regular'
                                         />
                                     </div>
                                     <div>
@@ -225,7 +237,8 @@ const LandingPage = () => {
                                             isError={ isRegisterError } 
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
-                                            errorMsg={ registerErr }
+                                            errorMsg={ registerErr } 
+                                            fieldType='regular'
                                         />
                                     </div>
                                     <div className='d-grid gap-2 col-12 col-sm-6 mx-auto'>
@@ -270,5 +283,17 @@ const LandingPage = () => {
         </>
     )
 };
+
+function focusRegister(el) {
+    el.current.focus();
+}
+
+// function setToken() {
+//     Cookies.set('secretTk', registerResponse.secret, { sameSite: 'strict', secure: true });
+
+//     return (
+//         Navigate('/home')
+//     );
+// }
 
 export default LandingPage;
