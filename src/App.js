@@ -1,4 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 // Widgets
 import { Navbar } from './components/widgets/Navbar/Navbar';
@@ -23,7 +25,7 @@ export const App = () => {
         <Router>
             <Navbar />
             <Routes>
-                <Route path='/' element={ <LandingPage /> } />
+                <Route path='/' element={ Cookies.get('secretTk') ? <Navigate to='/home' /> : <LandingPage /> } />
                 <Route path='/home' element={ <Home /> } />
                 <Route path='/profile' element={ <Profile /> } />
                 <Route path='/settings' element={ <Settings /> } />

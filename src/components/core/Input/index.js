@@ -1,8 +1,25 @@
+import { useEffect, useState } from 'react';
+
 import { InputReg } from './InputReg/InputReg'
-import validate from '../../../util/Validation';
 import { AlertIdx } from '../Alert';
 
-export const InputIdx = ({ validationType, type, inputClass, refTarget, name, onChange, value, alertAttr, validateInput, setIsError }) => {
+export const InputIdx = ({ validationType, type, inputClass, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg }) => { 
+    let thisErrorMsg = null;
+
+    const charLen = (validationType === 'name') ? '2' :
+    (validationType === 'email') ? '5' : 
+    (validationType === 'password') ? '8' : '';
+
+    const blankAndLenError = `The ${ alertAttr } field cannot be blank and must be at least ${ charLen } characters.`;
+    const requiredField = `The ${ alertAttr } field is required.`;
+
+    if (validateInput) {
+        if ((name !== 'password' && name !== 'password_confirmation') && value.length < 2) {
+            thisErrorMsg = blankAndLenError;
+        } else if (((name === 'password' || name === 'password_confirmation') && value.length < 8)) {
+            thisErrorMsg = requiredField;
+        }
+    }
 
     return (
         <>
@@ -14,8 +31,14 @@ export const InputIdx = ({ validationType, type, inputClass, refTarget, name, on
                 onChange={ onChange } 
                 value={ value }
             />
-            <AlertIdx alertClass='text-danger fine-print mb-3'>
-                { validateInput && validate(value, alertAttr, validationType, validateInput, () => setIsError) }
+            <AlertIdx alertClass={ alertClass }>
+                {
+                    // TO DO: Client-side validation
+                    
+                    // thisErrorMsg ? thisErrorMsg : 
+                    errorMsg[name] ? (!errorMsg['password_confirmation'] ? errorMsg[name][0] : errorMsg[name]) :
+                     null
+                }
             </AlertIdx>
         </>
     )

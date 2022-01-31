@@ -1,15 +1,14 @@
 import { ModalIdx } from '../../../widgets/Modal';
 
-export const AnchorModal = ({ anchorContext, modalContext }) => {
+export const AnchorModal = ({ text, anchorOnclick, anchorClass }) => {
     return (
         <>
             <a 
-                onClick={ () => modalContext.modalOnclick() }
+                onClick={ evt => anchorOnclick(evt) } 
+                className={ anchorClass }
             >
-                { anchorContext.text }
+                { text }
             </a>
-
-            <ModalIdx type='regular' modalContext={ modalContext }/>
         </>
     )
 };

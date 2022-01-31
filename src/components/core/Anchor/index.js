@@ -1,9 +1,9 @@
 import { AnchorReg } from './AnchorReg/AnchorReg';
 import { AnchorModal } from './AnchorModal/AnchorModal';
 
-export const AnchorIdx = ({ anchorContext, modalContext }) => {
+export const AnchorIdx = ({ type, text, anchorOnclick, anchorClass }) => {
     return (
-        (anchorContext.type == 'regular') ? <AnchorReg anchorContext={ anchorContext }/> : 
-        <AnchorModal anchorContext={ anchorContext } modalContext={ modalContext }/>
+        (type == 'regular') ? <AnchorReg text={ text } anchorClass={ anchorClass }/> : 
+        <AnchorModal text={ text } anchorClass={ anchorClass } anchorOnclick={ anchorOnclick }/>
     )
 };

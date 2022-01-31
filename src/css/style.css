@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,200;0,300;1,200;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -22,9 +23,18 @@ time, mark, audio, video {
 }
 
 body {
-    font-family: 'Noto Sans Display', sans-serif;
+    font-family: 'Fira Sans', sans-serif;
     font-size: 1rem;
+    font-weight: 200;
     color: #4a4e69;
+}
+
+a, label, .fine-print, .text-alert {
+    font-size: .8rem;
+}
+
+a:hover {
+    cursor: pointer;
 }
 
 .btn-reg, .btn-reg:hover, .btn-reg:focus {
@@ -33,19 +43,15 @@ body {
     box-shadow: none;
 }
 
-.fine-print {
-    font-size: .8rem;
-    color: #c32f27;
-}
-
 .navbar-link {
     text-decoration: none;
-    font-size: 1.5rem;
-    color: #6930c3;
+    font-size: 1.3rem;
+    color: #ffca7b;
+    font-weight: 300;
 }
 
 .navbar-link:hover {
-    color: #8f59e6;
+    color: #aaadc9;
 }
 
 .lead {
@@ -56,6 +62,155 @@ body {
 .curved-border {
     border-radius: 10px;
     border: none;
+}
+
+.bg-purple-300 {
+    background-color: #4b507a;
+}
+.purple-300 {
+    color: #4b507a;
+}
+
+.bg-purple-200 {
+    background-color: #7177a1;
+}
+.purple-200 {
+    color: #7177a1;
+}
+
+.bg-purple-100 {
+    background-color: #989cb9;
+}
+.purple-100 {
+    color: #989cb9;
+}
+
+.bg-green-200 {
+    background-color: #76ae98;
+}
+.green-200 {
+    color: #76ae98;
+}
+
+.bg-yellow-300 {
+    background-color: #ffbd5b;
+}
+.yellow-300 {
+    color: #ffbd5b;
+}
+
+.bg-yellow-200 {
+    background-color: #ffca7b;
+}
+.yellow-200 {
+    color: #ffca7b;
+}
+
+.bg-yellow-100 {
+    background-color: #ffdfb0;
+}
+.yellow-100 {
+    color: #ffdfb0;
+}
+
+.bg-tangerine-300 {
+    background-color: #F08000;
+}
+.tangerine-300 {
+    color: #F08000;
+}
+
+.bg-tangerine-200 {
+    background-color: #f0a856;
+}
+.tangerine-200 {
+    color: #f0a856;
+}
+
+.bg-tangerine-100 {
+    background-color: #efc697;
+}
+.tangerine-100 {
+    color: #efc697;
+}
+
+.bg-coral-300 {
+    background-color: #ec5b12;
+}
+.coral-300 {
+    color: #ec5b12;
+}
+
+.bg-coral-200 {
+    background-color: #ee8753;
+}
+.coral-200 {
+    color: #ee8753;
+}
+
+.bg-coral-100 {
+    background-color: #f1b79a;
+}
+.coral-100 {
+    color: #f1b79a;
+}
+
+.bg-red-300 {
+    background-color: #c32f27;
+}
+.red-300 {
+    color: #c32f27;
+}
+
+.bg-red-200 {
+    background-color: #c6615c;
+}
+.red-200 {
+    color: #c6615c;
+}
+
+.bg-red-100 {
+    background-color: #c68a87;
+}
+.red-100 {
+    color: #c68a87;
+}
+
+.btn-purple {
+    background-color: #4b507a;
+    color: #ffdfb0;
+    font-size: 1.3rem;
+}
+
+.btn-purple:hover {
+    background-color: #ffdfb0;
+    color: #4b507a;
+    font-size: 1.3rem;
+}
+
+.bg-muted {
+    background-color: #eee;
+}
+
+.btn-secondary {
+    background-color: #dfdfdf;
+    color: #414141;
+    font-size: 1.3rem;
+}
+
+.btn-secondary:hover {
+    background-color: #9c9c9c;
+    color: #fff;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity .5s;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity .5s;
 }
 
 @media screen and (max-width: 576px) {

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
-
+import { ModalIdx } from "../Modal";
 import { ContainerIdx } from "../../core/Container";
 import { AnchorIdx } from "../../core/Anchor";
+import { ImgIdx } from '../../core/Image';
 
 export const Navbar = () => {
     const navbarContext = {
@@ -14,9 +16,14 @@ export const Navbar = () => {
     }
 
     const navbarStyle = {
-        backgroundColor: 'white',
-        minHeight: '10vh',
+        backgroundColor: '#4b507a',
+        minHeight: '7vh',
     }
+
+    // trigger modal
+    const [navModal, setNavModal] = useState(false);
+    const showNavModal = () => { setNavModal(true) }
+    const hideNavModal = () => { setNavModal(false) }
 
     return (
         <>
@@ -27,15 +34,23 @@ export const Navbar = () => {
             >
                 <ContainerIdx fluid='md' containerClass='d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center'>
                     <div>
-                        <span className='text-white'>Brand</span>
+                        <Link to={Cookies.get('secretTk') ? '/home' : '/'}><ImgIdx src='/pup_patrol_logo.png' imgStyle={{ objectFit: 'cover', width: '40px', height: '40px', }}/></Link>
                     </div>
                     <div className="d-flex flex-wrap">
-                        <Link to='home' className='navbar-link me-3'>Home</Link>
-                        <Link to='profile' className='navbar-link me-3'>Profile</Link>
-                        <Link to='settings' className='navbar-link'>Settings</Link>
+                        { Cookies.get('secretTk') ? 
+                            <>
+                                <Link to='home' className='navbar-link me-3'>Home</Link>
+                                <Link to='profile' className='navbar-link me-3'>Profile</Link>
+                                <Link to='settings' className='navbar-link'>Settings</Link>                        
+                            </> :
+                            <AnchorIdx type='modal' text='Log In' anchorClass='navbar-link me-3' anchorOnclick={ showNavModal }/>
+                        }
                     </div>
                 </ContainerIdx>
             </ContainerIdx>
+            <ModalIdx type='regular' modalSize='md' isShown={ navModal } btnOnhide={ hideNavModal } modalHeader='Test header'>
+                helo
+            </ModalIdx>
         </>
     );
 };

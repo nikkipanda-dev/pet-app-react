@@ -1,5 +1,11 @@
-export function validate(value, alertAttr, validationType, validateInput, setIsError) {
+import { func } from "prop-types";
+import { useState } from "react";
+
+export const Validate = ({ value, alertAttr, validationType, validateInput }) => {
+    const [isErr, setRegisterErrClient] = useState({});
+
     let errorMsg = '';
+    let isError = false;
 
     const charLen = (validationType === 'name') ? '2' :
     (validationType === 'email') ? '5' : 
@@ -9,13 +15,15 @@ export function validate(value, alertAttr, validationType, validateInput, setIsE
     const requiredField = `The ${ alertAttr } is required.`;
 
     if (validateInput && value.length < 2) {
-        setIsError(true);
+        // setIsError(true);
+        isError = true;
         errorMsg = (validationType === 'repeatPassword') ? requiredField : blankAndLenError;
-    } else {
-        setIsError(false);
     }
 
-    return errorMsg;
+    return {
+        'errorMsg': errorMsg,
+        'isError': isError,
+    };
 }
 
-export default validate;
+export default Validate;

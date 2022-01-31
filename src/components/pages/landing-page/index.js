@@ -1,5 +1,5 @@
 import axiosDef from '../../../util/Request';
-import { useState, createRef } from 'react';
+import { useState, createRef, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 import { ContainerIdx } from '../../core/Container'
@@ -23,6 +23,10 @@ const LandingPage = () => {
 
     const [validateRegister, setValidateRegister] = useState(false);
     const [isRegisterError, setIsRegisterError] = useState(false);
+    const [registerErr, setRegisterErr] = useState({});
+
+    useEffect(() => {
+    }, [firstName, lastName, username, email, password, repeatPassword, registerErr, validateRegister]);
     
     // focus input
     const firstNameRef = createRef();
@@ -39,7 +43,7 @@ const LandingPage = () => {
     const register = (evt) => {
         evt.preventDefault();
 
-        // set validate before axios
+        // set validate before request
         setValidateRegister(true);
 
         const registerForm = new FormData(evt.target);
@@ -51,7 +55,6 @@ const LandingPage = () => {
 
                     .then (res => {
                         const registerResponse = res.data;
-
                         registerResponse.isSuccess && Cookies.set('secretTk', registerResponse.secret, { sameSite: 'strict', secure: true });
                     })
 
@@ -60,11 +63,13 @@ const LandingPage = () => {
                             const registerErr = err.response.data.errors;
 
                             Object.keys(registerErr).forEach((i, val) => {
-                                console.log(Object.values(registerErr)[val][0]);
+                                setRegisterErr({...registerErr, [i]: Object.values(registerErr)[val][0]});
                             })
                         }
                     })
             })            
+        } else {
+            console.log('react err');
         }
     }
 
@@ -72,41 +77,162 @@ const LandingPage = () => {
         <>
             <ContainerIdx fluid={ true }>
                 <ContainerIdx fluid='md'>
-                    <JumbotronIdx>
-                        <RowIdx>
-                            <ColIdx columnClass='mt-5' sm={ 6 } md={ 7 } lg={ 8 }>
-                                <HeaderIdx text='YEEEEEEEET' headerClass='lead'/>
+                    <JumbotronIdx jumbotronStyle={{ minHeight: '93vh', }}>
+                        <RowIdx rowClass='p-2' rowStyle={{ minHeight: 'inherit', }}>
+                            <ColIdx columnClass='mt-5 py-3' sm={ 6 } md={ 7 } lg={ 8 } columnStyle={{ height: '100%', }}>
+                                <HeaderIdx text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, dolorem necessitatibus!' headerClass='display-5'/>
                             </ColIdx>
-                            <ColIdx columnClass='' sm={ 6 } md={ 5 } lg={ 4 }>
+                            <ColIdx columnClass='mt-5 py-3' sm={ 6 } md={ 5 } lg={ 4 } columnStyle={{ height: '100%', }}>
                                 <FormIdx action='#' method='post' encType='multipart' onSubmit={ register }>
                                     <div>
-                                        <LabelIdx text='First name:' labelClass='form-label' labelOnclick={ focusRegister } refTarget={ firstNameRef }/>
-                                        <InputIdx validationType='name' type='text' inputClass='form-control' refTarget={ firstNameRef } name='first_name' onChange={ setFirstName } value={ firstName } alertAttr='first name' validateInput={ validateRegister } setIsError={ () => setIsRegisterError }/>
+                                        <LabelIdx 
+                                            text='First name:' 
+                                            labelClass='form-label' 
+                                            labelOnclick={ focusRegister } 
+                                            refTarget={ firstNameRef }
+                                        />
+                                        <InputIdx 
+                                            validationType='name' 
+                                            type='text' 
+                                            inputClass='form-control' 
+                                            refTarget={ firstNameRef } 
+                                            name='first_name' 
+                                            onChange={ setFirstName } 
+                                            value={ firstName } 
+                                            alertAttr='first name' 
+                                            validateInput={ validateRegister } 
+                                            setIsValidateInput={ setValidateRegister } 
+                                            isError={ isRegisterError } 
+                                            setIsError={ setIsRegisterError } 
+                                            alertClass='text-alert red-300 mb-4' 
+                                            errorMsg={ registerErr }
+                                        />
                                     </div>
                                     <div>
-                                        <LabelIdx text='Last name:' labelClass='form-label' labelOnclick={ focusRegister } refTarget={ lastNameRef }/>
-                                        <InputIdx validationType='name' type='text' inputClass='form-control' refTarget={ lastNameRef } name='last_name' onChange={ setLastName } value={ lastName } alertAttr='last name' validateInput={ validateRegister } setIsError={ () => setIsRegisterError }/>
+                                        <LabelIdx 
+                                            text='Last name:' 
+                                            labelClass='form-label' 
+                                            labelOnclick={ focusRegister } 
+                                            refTarget={ lastNameRef }
+                                        />
+                                        <InputIdx 
+                                            validationType='name' 
+                                            type='text' 
+                                            inputClass='form-control' 
+                                            refTarget={ lastNameRef } 
+                                            name='last_name' 
+                                            onChange={ setLastName } 
+                                            value={ lastName } 
+                                            alertAttr='last name' 
+                                            validateInput={ validateRegister } 
+                                            setIsValidateInput={ setValidateRegister } 
+                                            isError={ isRegisterError } 
+                                            setIsError={ setIsRegisterError } 
+                                            alertClass='text-alert red-300 mb-4' 
+                                            errorMsg={ registerErr }
+                                        />
                                     </div>
                                     <div>
-                                        <LabelIdx text='Username:' labelClass='form-label' labelOnclick={ focusRegister } refTarget={ usernameRef }/>
-                                        <InputIdx validationType='name' type='text' inputClass='form-control' refTarget={ usernameRef } name='username' onChange={ setUsername } value={ username } alertAttr='username' validateInput={ validateRegister } setIsError={ () => setIsRegisterError }/>
+                                        <LabelIdx 
+                                            text='Username:' 
+                                            labelClass='form-label' 
+                                            labelOnclick={ focusRegister } 
+                                            refTarget={ usernameRef }
+                                        />
+                                        <InputIdx 
+                                            validationType='name' 
+                                            type='text' 
+                                            inputClass='form-control' 
+                                            refTarget={ usernameRef } 
+                                            name='username' 
+                                            onChange={ setUsername } 
+                                            value={ username } 
+                                            alertAttr='username' 
+                                            validateInput={ validateRegister } 
+                                            setIsValidateInput={ setValidateRegister } 
+                                            isError={ isRegisterError } 
+                                            setIsError={ setIsRegisterError } 
+                                            alertClass='text-alert red-300 mb-4' 
+                                            errorMsg={ registerErr }
+                                        />
                                     </div>
                                     <div>
-                                        <LabelIdx text='Email:' labelClass='form-label' labelOnclick={ focusRegister } refTarget={ emailRef }/>
-                                        <InputIdx validationType='email' type='email' inputClass='form-control' refTarget={ emailRef } name='email' onChange={ setEmail } value={ email } alertAttr='email address' validateInput={ validateRegister } setIsError={ () => setIsRegisterError }/>
+                                        <LabelIdx 
+                                            text='Email:' 
+                                            labelClass='form-label' 
+                                            labelOnclick={ focusRegister } 
+                                            refTarget={ emailRef }
+                                        />
+                                        <InputIdx 
+                                            validationType='email' 
+                                            type='email' 
+                                            inputClass='form-control' 
+                                            refTarget={ emailRef } 
+                                            name='email' 
+                                            onChange={ setEmail } 
+                                            value={ email } 
+                                            alertAttr='email address' 
+                                            validateInput={ validateRegister } 
+                                            setIsValidateInput={ setValidateRegister } 
+                                            isError={ isRegisterError } 
+                                            setIsError={ setIsRegisterError } 
+                                            alertClass='text-alert red-300 mb-4' 
+                                            errorMsg={ registerErr }
+                                        />
                                     </div>
                                     <div>
-                                        <LabelIdx text='Password:' labelClass='form-label' labelOnclick={ focusRegister } refTarget={ passwordRef }/>
-                                        <InputIdx validationType='password' type='password' inputClass='form-control' refTarget={ passwordRef } name='password' onChange={ setPassword } value={ password } alertAttr='password' validateInput={ validateRegister } setIsError={ () => setIsRegisterError }/>
+                                        <LabelIdx 
+                                            text='Password:' 
+                                            labelClass='form-label' 
+                                            labelOnclick={ focusRegister } 
+                                            refTarget={ passwordRef }
+                                        />
+                                        <InputIdx 
+                                            validationType='password' 
+                                            type='password' 
+                                            inputClass='form-control' 
+                                            refTarget={ passwordRef } 
+                                            name='password' 
+                                            onChange={ setPassword } 
+                                            value={ password } 
+                                            alertAttr='password' 
+                                            validateInput={ validateRegister } 
+                                            setIsValidateInput={ setValidateRegister } 
+                                            isError={ isRegisterError } 
+                                            setIsError={ setIsRegisterError } 
+                                            alertClass='text-alert red-300 mb-4' 
+                                            errorMsg={ registerErr }
+                                        />
                                     </div>
                                     <div>
-                                        <LabelIdx text='Repeat password:' labelClass='form-label' labelOnclick={ focusRegister } refTarget={ repeatPasswordRef }/>
-                                        <InputIdx validationType='repeatPassword' type='password' inputClass='form-control' refTarget={ repeatPasswordRef } name='password_confirmation' onChange={ setRepeatPassword } value={ repeatPassword } alertAttr='repeat password' validateInput={ validateRegister } setIsError={ () => setIsRegisterError }/>
+                                        <LabelIdx 
+                                            text='Repeat password:' 
+                                            labelClass='form-label' 
+                                            labelOnclick={ focusRegister } 
+                                            refTarget={ repeatPasswordRef }
+                                        />
+                                        <InputIdx 
+                                            validationType='repeatPassword' 
+                                            type='password' 
+                                            inputClass='form-control' 
+                                            refTarget={ repeatPasswordRef } 
+                                            name='password_confirmation' 
+                                            onChange={ setRepeatPassword } 
+                                            value={ repeatPassword } 
+                                            alertAttr='password confirmation' 
+                                            validateInput={ validateRegister } 
+                                            setIsValidateInput={ setValidateRegister } 
+                                            isError={ isRegisterError } 
+                                            setIsError={ setIsRegisterError } 
+                                            alertClass='text-alert red-300 mb-4' 
+                                            errorMsg={ registerErr }
+                                        />
                                     </div>
-                                    <div>
+                                    <div className='d-grid gap-2 col-12 col-sm-6 mx-auto'>
                                         <BtnIdx 
                                             type='submit' 
-                                            text='Register'
+                                            text='Register' 
+                                            btnClass='btn btn-reg btn-purple'
                                         />
                                     </div>
                                 </FormIdx>
@@ -117,16 +243,25 @@ const LandingPage = () => {
             </ContainerIdx>
             <ContainerIdx fluid={ true } containerClass='mt-5'>
                 <ContainerIdx fluid='md' containerClass=''>
-                    <RowIdx>
-                        <ColIdx 
-                            columnClass='p-0' sm={ 6 }>
-                            <CardIdx cardClass='curved-border p-3 fs-3' cardStyle={{ backgroundColor: '#e8d9ff', }}>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Non eveniet, incidunt voluptatem libero tenetur deserunt ex porro nostrum explicabo laboriosam, molestiae ut quis aliquam, esse totam. Rem necessitatibus modi esse!
+                    <RowIdx xs={ 1 } md={ 2 }>
+                        <ColIdx>
+                            <CardIdx cardClass='curved-border p-3 fs-3' cardClass='bg-muted p-2' cardStyle={{ border: 'none', }}>
+                                <BtnIdx btnClass='btn-reg btn-purple' text='Browse Communities'/>
                             </CardIdx>
                         </ColIdx>
-                        <ColIdx columnClass='' sm={ 6 }>
-                            <CardIdx cardClass='curved-border p-3 fs-3' cardStyle={{ backgroundColor: '#e8d9ff', }}>
-                                col 2
+                        <ColIdx>
+                            <CardIdx cardClass='curved-border p-3 fs-3' cardClass='bg-muted p-2' cardStyle={{ border: 'none', }}>
+                                <BtnIdx btnClass='btn-reg btn-purple' text='Browse Stories'/>
+                            </CardIdx>
+                        </ColIdx>
+                        <ColIdx>
+                            <CardIdx cardClass='curved-border p-3 fs-3' cardClass='bg-muted p-2' cardStyle={{ border: 'none', }}>
+                                <BtnIdx btnClass='btn-reg btn-purple' text='Browse Memes'/>
+                            </CardIdx>
+                        </ColIdx>
+                        <ColIdx>
+                            <CardIdx cardClass='curved-border p-3 fs-3' cardClass='bg-muted p-2' cardStyle={{ border: 'none', }}>
+                                <BtnIdx btnClass='btn-reg btn-purple' text='Browse DOFTD'/>
                             </CardIdx>
                         </ColIdx>
                     </RowIdx>

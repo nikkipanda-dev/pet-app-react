@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
+
 import { ContainerIdx } from "../../core/Container";
+import { RowIdx } from "../../core/Row";
+import { ColIdx } from "../../core/Column";
 
 const Footer = () => {
     const footerStyle= {
         minHeight: '30vh',
         background: '#22223b',
     }
-
     return (
         <ContainerIdx 
             fluid={ true }  
