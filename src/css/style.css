@@ -60,7 +60,7 @@ a:hover {
 }
 
 .curved-border {
-    border-radius: 10px;
+    border-radius: 20px;
     border: none;
 }
 
@@ -189,7 +189,7 @@ a:hover {
 }
 
 .bg-muted {
-    background-color: #eee;
+    background-color: rgb(216, 216, 216);
 }
 
 .btn-secondary {

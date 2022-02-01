@@ -13,9 +13,8 @@ import { BtnIdx } from '../../core/Button';
 // import { BtnIdx } from '../../core/Button';
 
 const Home = () => {
-    //TODO:
-        // CRUD entries
-        // loop entries
+    //TODO CRUD entries
+    //TODO loop entries
 
     // toggle
     const [show, setShow] = useState(false);
@@ -31,8 +30,8 @@ const Home = () => {
     }
 
     return (
-        <ContainerIdx fluid={ true }>
-            <ContainerIdx fluid='xl' containerClass=''>
+        <ContainerIdx fluid={ true } containerClass='pt-5'>
+            <ContainerIdx fluid='xl' containerClass='mt-5'>
                 <RowIdx rowClass='flex-column flex-md-row'>
                     <ColIdx columnClass='d-none d-md-flex flex-column p-2' md={ 3 }>
                         <CardIdx cardClass='p-2 fine-print'>

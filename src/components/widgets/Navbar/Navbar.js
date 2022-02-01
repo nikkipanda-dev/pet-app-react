@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, createRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axiosDef from "../../../util/Request";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
@@ -8,11 +9,34 @@ import { ModalIdx } from "../Modal";
 import { ContainerIdx } from "../../core/Container";
 import { AnchorIdx } from "../../core/Anchor";
 import { ImgIdx } from '../../core/Image';
+import FormIdx from "../Form";
+import { LabelIdx } from "../../core/Label";
+import { InputIdx } from "../../core/Input";
+import { BtnIdx } from "../../core/Button";
 
 export const Navbar = () => {
+    // TODO: custom div
+
+    const navigate = useNavigate();
+
     const navbarStyle = {
         backgroundColor: '#4b507a',
         minHeight: '7vh',
+        zIndex: '9999',
+    }
+
+    const [authEmail, setAuthEmail] = useState('');
+    const [authPassword, setAuthPassword] = useState('');
+
+    const authEmailRef = createRef();
+    const authPasswordRef = createRef();
+
+    const [validateLogin, setValidateLogin] = useState(false);
+    const [loginErr, setLoginErr] = useState({});
+    console.log('auth err bag: ', loginErr);
+
+    const focusField = evt => {
+        evt.current.focus();
     }
 
     // trigger modal
@@ -20,12 +44,49 @@ export const Navbar = () => {
     const showNavModal = () => { setNavModal(true) }
     const hideNavModal = () => { setNavModal(false) }
 
+    const authenticate = evt => {
+        evt.preventDefault();
+
+        setValidateLogin(true);
+
+        const loginForm = new FormData(evt.target);
+
+        axiosDef.get('http://localhost:8000/sanctum/csrf-cookie')
+            .then(res => {
+                axiosDef.post('http://localhost:8000/api/login', loginForm)
+
+                .then (res => {
+                    const loginRes = res.data;
+
+                    console.log('data: ', loginRes)
+                    if (loginRes.isSuccess) {
+                        Cookies.set('secretTk', loginRes.secret, { sameSite: 'strict', secure: true });
+                        hideNavModal(false);
+
+                        return (
+                            navigate('home')
+                        );
+                    }
+                })
+
+                .catch (err => {
+                    if (err.response) {
+                        const loginErrBag = err.response.data.errors;
+
+                        Object.keys(loginErrBag).forEach((i, val) => {
+                            setLoginErr({...loginErrBag, [i]: Object.values(loginErrBag)[val][0]});
+                        })
+                    }
+                })
+        });
+    }
+
     return (
         <>
             <ContainerIdx 
                 fluid={ true } 
                 containerStyle={ navbarStyle } 
-                containerClass='sticky-top d-flex align-items-center'
+                containerClass='position-fixed d-flex align-items-center'
             >
                 <ContainerIdx fluid='xl' containerClass='d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center'>
                     <div>
@@ -54,11 +115,61 @@ export const Navbar = () => {
             <ModalIdx 
                 type='regular' 
                 modalSize='md' 
+                modalHeader=''
                 isShown={ navModal } 
                 btnOnhide={ hideNavModal } 
-                modalHeader='Test header'
             >
-                helo
+                <FormIdx action='#' method='POST' encType='multipart' onSubmit={ authenticate }>
+                    <LabelIdx 
+                        text='Email address:' 
+                        labelClass='form-label' 
+                        refTarget={ authEmailRef } 
+                        labelOnclick={ focusField }
+                    />
+                    <InputIdx
+                        fieldType='regular' 
+                        refTarget={ authEmailRef } 
+                        inputClass='form-control' 
+                        validationType='email' 
+                        type='email' 
+                        name='email' 
+                        onChange={ setAuthEmail } 
+                        value={ authEmail } 
+                        alertAttr='email address' 
+                        validateInput={ validateLogin } 
+                        setIsValidateInput={ setValidateLogin } 
+                        // isError={ isRegisterError } 
+                        // setIsError={ setIsRegisterError } 
+                        alertClass='text-alert red-300 mb-4' 
+                        errorMsg={ loginErr } 
+                        fieldType='regular'
+                    />
+                    <LabelIdx 
+                        text='Password:' 
+                        labelClass='form-label' 
+                        refTarget={ authPasswordRef } 
+                        labelOnclick={ focusField }
+                    />
+                    <InputIdx
+                        fieldType='regular' 
+                        refTarget={ authPasswordRef } 
+                        inputClass='form-control' 
+                        validationType='password' 
+                        type='password' 
+                        name='password' 
+                        onChange={ setAuthPassword } 
+                        value={ authPassword } 
+                        alertAttr='password' 
+                        validateInput={ validateLogin } 
+                        setIsValidateInput={ setValidateLogin } 
+                        // isError={ isRegisterError } 
+                        // setIsError={ setIsRegisterError } 
+                        alertClass='text-alert red-300 mb-4' 
+                        errorMsg={ loginErr } 
+                        fieldType='regular'
+                    />
+                    <BtnIdx type='regular' text='Log In' btnClass='btn btn-purple'/>
+                </FormIdx>
             </ModalIdx>
         </>
     );

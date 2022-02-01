@@ -5,7 +5,8 @@ import { Textarea } from './Textarea/Textarea';
 import { AlertIdx } from '../Alert';
 
 export const InputIdx = ({ validationType, fieldType, type, inputClass, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows }) => { 
-    console.log('value: ', value);
+    // TODO: Client-side validation
+
     // let thisErrorMsg = null;
 
     // const charLen = (validationType === 'name') ? '2' :
@@ -27,7 +28,6 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, refTarge
         <>
             {
                 (fieldType === 'regular') ? 
-                <>
                     <InputReg
                         type={ type } 
                         inputClass={ inputClass } 
@@ -35,35 +35,22 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, refTarge
                         name={ name } 
                         onChange={ onChange } 
                         value={ value }
-                    /> 
-                    <AlertIdx alertClass={ alertClass }>
-                        {
-                            // TO DO: Client-side validation
-                            
-                            // thisErrorMsg ? thisErrorMsg : 
-                            errorMsg[name] ? (!errorMsg['password_confirmation'] ? errorMsg[name][0] : errorMsg[name]) :
-                            null
-                        }
-                    </AlertIdx>
-                </> :
-                <>
+                    />  :
                     <Textarea 
                         textareaClass={ inputClass } 
                         onChange={ onChange } 
                         rows={ rows }
                         value={ value }
                     />
-                <   AlertIdx alertClass={ alertClass }>
-                        {
-                            // TO DO: Client-side validation
-                            
-                            // thisErrorMsg ? thisErrorMsg : 
-                            errorMsg ? (!errorMsg['password_confirmation'] ? errorMsg[name][0] : errorMsg[name]) :
-                            null
-                        }
-                    </AlertIdx>
-                </>
             }
+
+            <AlertIdx alertClass={ alertClass }>
+                {                    
+                    // thisErrorMsg ? thisErrorMsg : 
+                    errorMsg && errorMsg[name] ? (!errorMsg['password_confirmation'] ? errorMsg[name] : errorMsg[name]) :
+                    null
+                }
+            </AlertIdx>
         </>
     )
 };

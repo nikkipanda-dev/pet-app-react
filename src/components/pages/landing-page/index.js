@@ -13,6 +13,7 @@ import { InputIdx } from '../../core/Input'
 import { BtnIdx } from '../../core/Button'
 import { HeaderIdx } from '../../core/Header';
 import { CardIdx } from '../../widgets/Card';
+import { ModalIdx } from '../../widgets/Modal';
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -38,6 +39,10 @@ const LandingPage = () => {
     const emailRef = createRef();
     const passwordRef = createRef();
     const repeatPasswordRef = createRef();
+
+    const focusRegister = el => {
+        el.current.focus();
+    }
 
     const register = (evt) => {
         evt.preventDefault();
@@ -67,10 +72,11 @@ const LandingPage = () => {
 
                     .catch (err => {
                         if (err.response) {
-                            const registerErr = err.response.data.errors;
+                            const regErr = err.response.data.errors;
 
-                            Object.keys(registerErr).forEach((i, val) => {
-                                setRegisterErr({...registerErr, [i]: Object.values(registerErr)[val][0]});
+                            Object.keys(regErr).forEach((i, val) => {
+                                console.log('keys: ', i);
+                                setRegisterErr({...regErr, [i]: Object.values(regErr)[val][0]});
                             })
                         }
                     })
@@ -83,8 +89,8 @@ const LandingPage = () => {
     return (
         <>
             <ContainerIdx fluid={ true }>
-                <ContainerIdx fluid='md'>
-                    <JumbotronIdx jumbotronStyle={{ minHeight: '93vh', }}>
+                <ContainerIdx fluid='md' containerClass='pt-5'>
+                    <JumbotronIdx jumbotronStyle={{ minHeight: '100vh', }}>
                         <RowIdx rowClass='p-2' rowStyle={{ minHeight: 'inherit', }}>
                             <ColIdx columnClass='mt-5 py-3' sm={ 6 } md={ 7 } lg={ 8 } columnStyle={{ height: '100%', }}>
                                 <HeaderIdx text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, dolorem necessitatibus!' headerClass='display-5'/>
@@ -256,25 +262,41 @@ const LandingPage = () => {
             </ContainerIdx>
             <ContainerIdx fluid={ true } containerClass='mt-5'>
                 <ContainerIdx fluid='md' containerClass=''>
-                    <RowIdx xs={ 1 } md={ 2 }>
+                    <RowIdx rowClass='g-5' xs={ 1 } md={ 2 }>
                         <ColIdx>
-                            <CardIdx cardClass='curved-border p-3 fs-3' cardClass='bg-muted p-2' cardStyle={{ border: 'none', }}>
-                                <BtnIdx btnClass='btn-reg btn-purple' text='Browse Communities'/>
+                            <CardIdx 
+                                cardClass='curved-border p-3 fs-3' 
+                                cardStyle={{ border: 'none', }}
+                            >
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat explicabo neque totam amet autem quasi iusto sequi non aspernatur accusantium, modi quas ab cupiditate, laboriosam magnam unde, laudantium vel sit.
+                                <BtnIdx btnClass='btn btn-purple' text='Browse Communities'/>
                             </CardIdx>
                         </ColIdx>
                         <ColIdx>
-                            <CardIdx cardClass='curved-border p-3 fs-3' cardClass='bg-muted p-2' cardStyle={{ border: 'none', }}>
-                                <BtnIdx btnClass='btn-reg btn-purple' text='Browse Stories'/>
+                            <CardIdx 
+                                cardClass='curved-border p-3 fs-3' 
+                                cardStyle={{ border: 'none', }}
+                            >
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae debitis dolorem eligendi natus laborum praesentium officia, repellat nobis. Voluptatum inventore tenetur vel cumque ab libero consequatur quam saepe accusantium necessitatibus.
+                                <BtnIdx btnClass='btn btn-purple' text='Browse Stories'/>
                             </CardIdx>
                         </ColIdx>
                         <ColIdx>
-                            <CardIdx cardClass='curved-border p-3 fs-3' cardClass='bg-muted p-2' cardStyle={{ border: 'none', }}>
-                                <BtnIdx btnClass='btn-reg btn-purple' text='Browse Memes'/>
+                            <CardIdx 
+                                cardClass='curved-border p-3 fs-3' 
+                                cardStyle={{ border: 'none', }}
+                            >
+                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem natus, odio labore nesciunt quis eaque nobis quod quaerat suscipit id quibusdam non quo rerum dolores excepturi provident in laborum asperiores.
+                                <BtnIdx btnClass='btn btn-purple' text='Browse Memes'/>
                             </CardIdx>
                         </ColIdx>
                         <ColIdx>
-                            <CardIdx cardClass='curved-border p-3 fs-3' cardClass='bg-muted p-2' cardStyle={{ border: 'none', }}>
-                                <BtnIdx btnClass='btn-reg btn-purple' text='Browse DOFTD'/>
+                            <CardIdx 
+                                cardClass='curved-border p-3 fs-3' 
+                                cardStyle={{ border: 'none', }}
+                            >
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore laudantium sunt quaerat quam! Tempora suscipit modi ipsa sint eaque similique voluptatem. Nobis id assumenda reprehenderit nemo fugit dolor aperiam. Animi.
+                                <BtnIdx btnClass='btn btn-purple' text='Browse DOFTD'/>
                             </CardIdx>
                         </ColIdx>
                     </RowIdx>
@@ -283,17 +305,5 @@ const LandingPage = () => {
         </>
     )
 };
-
-function focusRegister(el) {
-    el.current.focus();
-}
-
-// function setToken() {
-//     Cookies.set('secretTk', registerResponse.secret, { sameSite: 'strict', secure: true });
-
-//     return (
-//         Navigate('/home')
-//     );
-// }
 
 export default LandingPage;

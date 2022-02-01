@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate as Redirect } from "react-router-dom";
 import Cookies from "js-cookie";
-import { Navigate as Redirect} from "react-router-dom";
 
 // Widgets
 import { Navbar } from './components/widgets/Navbar/Navbar';
 import Footer from './components/widgets/Footer';
+import { ModalIdx } from "./components/widgets/Modal";
 
 // Pages
 import LandingPage from './components/pages/landing-page';
