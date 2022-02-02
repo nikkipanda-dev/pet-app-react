@@ -36,6 +36,7 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, inputSty
                         name={ name } 
                         onChange={ onChange } 
                         value={ value }
+                        hidden={ hidden }
                     />  : 
                     (fieldType === 'textarea') ? 
                         <Textarea 

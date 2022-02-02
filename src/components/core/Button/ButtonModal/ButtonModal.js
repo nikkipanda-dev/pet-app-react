@@ -1,12 +1,14 @@
 import Button from 'react-bootstrap/Button';
 
-export const ButtonModal = ({ text, btnOnclick, btnClass }) => {
+export const ButtonModal = ({ text, btnOnclick, btnClass, btnStyle, targetID }) => {
 
     return (
         <>
             <Button 
                 className={ btnClass }
-                onClick={ () => btnOnclick() } 
+                onClick={ (evt) => btnOnclick(evt) } 
+                data-target-id={ targetID } 
+                style={{ ...btnStyle }}
             >
                 { text }
             </Button>

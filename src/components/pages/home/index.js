@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axiosDef, { axiosAuthBearer } from '../../../util/Request';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
 
 import { ContainerIdx } from '../../core/Container';
@@ -19,8 +20,7 @@ import { AnchorIdx } from '../../core/Anchor';
 // import { BtnIdx } from '../../core/Button';
 
 const Home = () => {
-    //TODO CRUD entries
-    //TODO loop entries
+    //TODO sanitize textarea, submits if empty
 
     // console.log('user: ', user);
 
@@ -28,19 +28,14 @@ const Home = () => {
     // const [show, setShow] = useState(false);
     // const handleShow = () => { setShow(true) };
     // const handleClose = () => { setShow(false) };
+    
+    // toggle comment
+    const [showComment, setShowComment] = useState(false);
 
+    const [updateID, setUpdateID] = useState(null);
     const [posts, setPosts] = useState(null);
     const [body, setBody] = useState('');
     const [images, setImages] = useState([]);
-
-    // retrieved posts
-    const [postImages, setPostImages] = useState(null);
-
-    // console.log('posts: ', posts);
-
-    // console.log('body: ', body);
-    // console.log('user: ', JSON.parse(Cookies.get('x_auth_user')).id);
-    // console.log('images: ', images);
 
     const imageRef = createRef();
 
@@ -50,14 +45,11 @@ const Home = () => {
 
     const inputFiles = evt => {
         [ ...evt.target.files ].map(i => {
-            // console.log('i: ', i);
             setImages([ ...images, i ]);
         })
     }
 
     const getPosts = async() => {
-        // return axiosDef.get('http://localhost:8000/api/posts')
-
         await axiosDef.get('http://localhost:8000/api/posts')
 
         .then (res => {
@@ -75,7 +67,28 @@ const Home = () => {
         })
     }
 
-    // TODO: GET POST IMAGES
+    const updatePostID = evt => {
+        console.log('evt: ', evt);
+    }
+
+    const updatePost = evt => {
+        evt.preventDefault();
+
+        console.log('evt');
+
+        const updateForm = new FormData(evt.target);
+
+        axiosDef.post('http://localhost:8000/api/post/update', updateForm)
+
+        .then (res => {
+            console.log('res: ', res.data);
+        })
+
+        .catch (err => {
+            console.log('errrr: ', err);
+        })
+    }
+
     // const getPostImages = (id) => {
     //     axiosDef.get('http://localhost:8000/api/post/images/' + id)
 
@@ -101,18 +114,23 @@ const Home = () => {
         const postForm = new FormData(evt.target);
         postForm.append('id', JSON.parse(Cookies.get('x_auth_user')).id);
 
+        for(var pair of postForm.entries()) {
+            console.log(pair[0]+ ', '+ pair[1].length);
+         }
+
         axiosAuthBearer.post('http://localhost:8000/api/post/create', postForm)
 
         .then(res => {
             const postRes = res.data;
 
             if (postRes.isSuccess) {
+                console.log(postRes.data)
                 setBody('');
 
                 // refresh posts
                 getPosts();
             } else {
-                console.log('text: ', postRes.data);
+                console.log('texttttt: ', postRes.data);
             }
         })
 
@@ -173,7 +191,7 @@ const Home = () => {
                                 />
                                 <div className='mt-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-between align-items-sm-center'>
                                     <LabelIdx 
-                                        text={ <FontAwesomeIcon icon={faImages} className='fa-2x'/> } 
+                                        text={ <FontAwesomeIcon icon={ faImages } className='fa-2x'/> } 
                                         refTarget={ imageRef } 
                                         labelOnclick={ focusField } 
                                         labelClass='pointer-cursor mt-3 mt-sm-0 align-self-center'
@@ -225,7 +243,7 @@ const Home = () => {
                                                     <span className='mt-3'>{ postAuthor['username'] }</span>
                                                 </ColIdx>
                                                 <ColIdx 
-                                                    columnClass='bg-warning text-end d-flex flex-column' 
+                                                    columnClass='bg-warning text-end d-flex flex-column align-items-end' 
                                                     sm={ 8 }
                                                 >
                                                     <span>{ postCreated }</span>
@@ -234,7 +252,6 @@ const Home = () => {
                                                     columnClass='bg-primary' 
                                                     sm={ 12 }
                                                 >
-                                                    
                                                     {
                                                         postImages && postImages.map(i => {
                                                             const postImageURL = new URL(i['image_path'], 'http://localhost:8000/storage/posts/');
@@ -258,11 +275,34 @@ const Home = () => {
                                                 </ColIdx>
                                                 <ColIdx columnClass='bg-dark' sm={ 12 }>
                                                     <AnchorIdx 
-                                                        type='regular' 
-                                                        href='#' 
+                                                        type='toggle' 
                                                         text='Comment' 
-                                                        isTargetBlank={ false }
+                                                        isShown={ showComment }
+                                                        anchorOnclick= { setShowComment }
                                                     />
+                                                    <ContainerIdx containerClass={ showComment ? 'd-block' : 'd-none' }>
+                                                        <FormIdx 
+                                                            action='#' 
+                                                            method='POST' 
+                                                            encType='multipart' 
+                                                            onSubmit={ postForm } 
+                                                            formStyle={{ width: '100%', }}
+                                                        >
+                                                            <InputIdx
+                                                                inputClass='form-control' 
+                                                                fieldType='textarea' 
+                                                                value={ body } 
+                                                                name='body' 
+                                                                onChange={ setBody } 
+                                                                rows={ 4 }
+                                                            />
+                                                            <BtnIdx 
+                                                                type='submit' 
+                                                                text='post' 
+                                                                btnClass='btn btn-purple mt-3 mt-sm-0'
+                                                            />
+                                                        </FormIdx>
+                                                    </ContainerIdx>
                                                 </ColIdx>
                                             </RowIdx>
                                         </CardIdx>

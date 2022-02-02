@@ -26,7 +26,7 @@ export const App = () => {
         <Router>
             <Navbar />
             <Routes>
-                <Route path='/' element={ Cookies.get('secretTk') ? <Redirect to='/home' /> : <LandingPage /> } />
+                <Route path='/' element={ Cookies.get('x_auth_secret_tk') ? <Redirect to='/home' /> : <LandingPage /> } />
                 <Route path='/home' element={ <Home /> } />
                 <Route path='/profile' element={ <Profile /> } />
                 <Route path='/settings' element={ <Settings /> } />
