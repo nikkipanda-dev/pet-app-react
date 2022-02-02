@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useState, createRef } from 'react';
 import { Link } from 'react-router-dom';
+import { axiosAuthBearer } from '../../../util/Request';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImages } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'js-cookie';
 
 import { ContainerIdx } from '../../core/Container';
 import { RowIdx } from '../../core/Row';
@@ -16,17 +20,53 @@ const Home = () => {
     //TODO CRUD entries
     //TODO loop entries
 
-    // toggle
-    const [show, setShow] = useState(false);
-    const handleShow = () => { setShow(true) };
-    const handleClose = () => { setShow(false) };
+    // console.log('user: ', user);
 
-    const [post, setPost] = useState('');
+    // // toggle
+    // const [show, setShow] = useState(false);
+    // const handleShow = () => { setShow(true) };
+    // const handleClose = () => { setShow(false) };
+    const [body, setBody] = useState('');
+    const [images, setImages] = useState([]);
 
-    const postEntry = evt => {
+    console.log('body: ', body);
+    console.log('images: ', images);
+
+    const imageRef = createRef();
+
+    const focusField = evt => {
+        evt.current.click();
+    }
+
+    const test = evt => {
+        [ ...evt.target.files ].map(i => {
+            console.log('i: ', i);
+            setImages([ ...images, i ]);
+        })
+    }
+
+    const postForm = evt => {
         evt.preventDefault();
 
-        console.log('post');
+        const postForm = new FormData(evt.target);
+        postForm.append('id', parseInt(Cookies.get('authID'), 10));
+
+        axiosAuthBearer.post('http://localhost:8000/api/post/create', postForm)
+
+        .then(res => {
+            console.log('res: ', res);
+            const postRes = res.data;
+
+            if (postRes.isSuccess) {
+                setBody('');
+            } else {
+                console.log('text: ', postRes.data);
+            }
+        })
+
+        .catch(err => {
+            console.log('err: ', err.response);
+        })
     }
 
     return (
@@ -57,19 +97,50 @@ const Home = () => {
                         </CardIdx>
                     </ColIdx>
                     <ColIdx columnClass='py-2' md={ 6 }>
-                        <ContainerIdx fluid={ true }>
-                            <FormIdx action='#' method='POST' formClass='d-flex flex-column justify-content-center align-items-md-center' encType='multipart' onSubmit={ postEntry }>
+                        <ContainerIdx fluid={ true } containerClass='px-0'>
+                            <FormIdx 
+                                action='#' 
+                                method='POST' 
+                                encType='multipart' 
+                                onSubmit={ postForm } 
+                                formStyle={{ width: '100%', }}
+                            >
                                 <InputIdx
                                     inputClass='form-control' 
                                     fieldType='textarea' 
-                                    value={ post } 
-                                    onChange={ setPost } 
+                                    value={ body } 
+                                    name='body' 
+                                    onChange={ setBody } 
                                     rows={ 4 }
                                 />
-                                <BtnIdx type='submit' text='post' btnClass='mt-3 btn btn-purple align-self-md-end'/>
+                                <div className='mt-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-between align-items-sm-center'>
+                                    <LabelIdx 
+                                        text={ <FontAwesomeIcon icon={faImages} className='fa-2x'/> } 
+                                        refTarget={ imageRef } 
+                                        labelOnclick={ focusField } 
+                                        labelClass='pointer-cursor mt-3 mt-sm-0 align-self-center'
+                                    />
+                                    <InputIdx 
+                                        fieldType='file' 
+                                        type='file' 
+                                        refTarget={ imageRef } 
+                                        name='images[]' 
+                                        inputClass='bg-purple-200' 
+                                        // value={ images } 
+                                        accept='image/*' 
+                                        onChange={ test } 
+                                        multiple={ true } 
+                                        hidden={ true }
+                                    />
+                                    <BtnIdx 
+                                        type='submit' 
+                                        text='post' 
+                                        btnClass='btn btn-purple mt-3 mt-sm-0'
+                                    />
+                                </div>
                             </FormIdx>
                         </ContainerIdx>
-                        <ContainerIdx fluid={ true } containerClass='mt-5 p-3'>
+                        <ContainerIdx fluid={ true } containerClass='bg-purple-100 mt-5 p-3'>
                             <CardIdx cardClass='p-2'>
                                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae rerum sunt earum dicta officia temporibus, assumenda, nesciunt esse expedita perspiciatis amet incidunt molestiae? Possimus modi et, aliquid dolorem nostrum magnam?
                             </CardIdx>
@@ -100,7 +171,7 @@ const Home = () => {
                 </RowIdx>
             </ContainerIdx>
             {/* <BtnIdx type='modal' text='Modal' btnOnclick={ handleShow }/> */}
-            <ModalIdx type='regular' isShown={ show } btnOnhide={ handleClose }/>
+            {/* <ModalIdx type='regular' isShown={ show } btnOnhide={ handleClose }/> */}
         </ContainerIdx>
     )
 };

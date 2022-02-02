@@ -33,7 +33,6 @@ export const Navbar = () => {
 
     const [validateLogin, setValidateLogin] = useState(false);
     const [loginErr, setLoginErr] = useState({});
-    console.log('auth err bag: ', loginErr);
 
     const focusField = evt => {
         evt.current.focus();
@@ -60,6 +59,7 @@ export const Navbar = () => {
 
                     console.log('data: ', loginRes)
                     if (loginRes.isSuccess) {
+                        Cookies.set('authID', loginRes.data.id, { sameSite: 'strict', secure: true });
                         Cookies.set('secretTk', loginRes.secret, { sameSite: 'strict', secure: true });
                         hideNavModal(false);
 

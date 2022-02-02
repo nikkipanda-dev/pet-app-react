@@ -33,7 +33,7 @@ a, label, .fine-print, .text-alert {
     font-size: .8rem;
 }
 
-a:hover {
+a:hover, .pointer-cursor:hover {
     cursor: pointer;
 }
 

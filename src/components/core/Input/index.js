@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { InputReg } from './InputReg/InputReg';
 import { Textarea } from './Textarea/Textarea';
+import { InputFile } from './InputFile/InputFile';
 import { AlertIdx } from '../Alert';
 
-export const InputIdx = ({ validationType, fieldType, type, inputClass, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows }) => { 
+export const InputIdx = ({ validationType, fieldType, type, inputClass, inputStyle, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows, multiple, accept, hidden }) => { 
     // TODO: Client-side validation
 
     // let thisErrorMsg = null;
@@ -35,12 +36,26 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, refTarge
                         name={ name } 
                         onChange={ onChange } 
                         value={ value }
-                    />  :
-                    <Textarea 
-                        textareaClass={ inputClass } 
+                    />  : 
+                    (fieldType === 'textarea') ? 
+                        <Textarea 
+                            textareaClass={ inputClass } 
+                            onChange={ onChange } 
+                            rows={ rows } 
+                            name={ name }
+                            value={ value }
+                        /> :
+                    <InputFile 
+                        type={ type } 
+                        inputClass={ inputClass } 
+                        refTarget={ refTarget } 
+                        name={ name } 
+                        accept={ accept }
                         onChange={ onChange } 
-                        rows={ rows }
-                        value={ value }
+                        value={ value } 
+                        inputStyle={ inputStyle } 
+                        multiple={ multiple } 
+                        hidden={ hidden }
                     />
             }
 

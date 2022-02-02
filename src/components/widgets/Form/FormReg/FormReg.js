@@ -1,8 +1,6 @@
 import Form from 'react-bootstrap/Form';
 
 export const FormReg = ({ children, formClass, formStyle, action, method, encType, onSubmit }) => {
-    console.log(encType)
-
     return (
         <Form
             onSubmit={ (evt) => onSubmit(evt) }
