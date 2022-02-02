@@ -57,10 +57,11 @@ export const Navbar = () => {
                 .then (res => {
                     const loginRes = res.data;
 
-                    console.log('data: ', loginRes)
                     if (loginRes.isSuccess) {
-                        Cookies.set('authID', loginRes.data.id, { sameSite: 'strict', secure: true });
-                        Cookies.set('secretTk', loginRes.secret, { sameSite: 'strict', secure: true });
+                        Cookies.set('x_auth_user', JSON.stringify(loginRes.data), { sameSite: 'strict', secure: true });
+                        Cookies.set('x_auth_secret_tk', loginRes.secret, { sameSite: 'strict', secure: true });
+
+                        // console.log(Cookies.get('x_auth_user'));
                         hideNavModal(false);
 
                         return (
@@ -90,12 +91,12 @@ export const Navbar = () => {
             >
                 <ContainerIdx fluid='xl' containerClass='d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center'>
                     <div>
-                        <Link to={Cookies.get('secretTk') ? '/home' : '/'}>
+                        <Link to={Cookies.get('x_auth_secret_tk') ? '/home' : '/'}>
                             <ImgIdx src='/pup_patrol_logo.png' imgStyle={{ objectFit: 'cover', width: '40px', height: '40px', }}/>
                         </Link>
                     </div>
                     <div className="d-flex flex-wrap">
-                        { Cookies.get('secretTk') ? 
+                        { Cookies.get('x_auth_secret_tk') ? 
                             <>
                                 <Link to='home' className='navbar-link me-3'>Home</Link>
                                 <Link to='profile' className='navbar-link me-3'>Profile</Link>

@@ -1,6 +1,6 @@
-import { useState, createRef } from 'react';
+import { useState, createRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { axiosAuthBearer } from '../../../util/Request';
+import axiosDef, { axiosAuthBearer } from '../../../util/Request';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImages } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
@@ -14,6 +14,8 @@ import FormIdx from '../../widgets/Form';
 import { LabelIdx } from '../../core/Label';
 import { InputIdx } from '../../core/Input';
 import { BtnIdx } from '../../core/Button';
+import { ImgIdx } from '../../core/Image';
+import { AnchorIdx } from '../../core/Anchor';
 // import { BtnIdx } from '../../core/Button';
 
 const Home = () => {
@@ -26,11 +28,19 @@ const Home = () => {
     // const [show, setShow] = useState(false);
     // const handleShow = () => { setShow(true) };
     // const handleClose = () => { setShow(false) };
+
+    const [posts, setPosts] = useState(null);
     const [body, setBody] = useState('');
     const [images, setImages] = useState([]);
 
-    console.log('body: ', body);
-    console.log('images: ', images);
+    // retrieved posts
+    const [postImages, setPostImages] = useState(null);
+
+    // console.log('posts: ', posts);
+
+    // console.log('body: ', body);
+    // console.log('user: ', JSON.parse(Cookies.get('x_auth_user')).id);
+    // console.log('images: ', images);
 
     const imageRef = createRef();
 
@@ -38,27 +48,69 @@ const Home = () => {
         evt.current.click();
     }
 
-    const test = evt => {
+    const inputFiles = evt => {
         [ ...evt.target.files ].map(i => {
-            console.log('i: ', i);
+            // console.log('i: ', i);
             setImages([ ...images, i ]);
         })
     }
+
+    const getPosts = async() => {
+        // return axiosDef.get('http://localhost:8000/api/posts')
+
+        await axiosDef.get('http://localhost:8000/api/posts')
+
+        .then (res => {
+            const getPostsRes = res.data;
+
+            if (getPostsRes.isSuccess) {
+                setPosts({ ...getPostsRes.data });
+            } else {
+                console.log('err res: ', getPostsRes.data);
+            }
+        })
+
+        .catch (err => {
+            console.log('err: ', err);
+        })
+    }
+
+    // TODO: GET POST IMAGES
+    // const getPostImages = (id) => {
+    //     axiosDef.get('http://localhost:8000/api/post/images/' + id)
+
+    //     .then (res => {
+    //         // console.log('images: ', res.data);
+    //         const postImagesRes = res.data;
+
+    //         if (postImagesRes.isSuccess) {
+    //             console.log('images res: ', postImagesRes.data);
+    //         } else {
+    //             console.log('err res: ', postImagesRes.data);
+    //         }
+    //     })
+
+    //     .catch (err => {
+    //         console.log('err img: ', err);
+    //     })
+    // }
 
     const postForm = evt => {
         evt.preventDefault();
 
         const postForm = new FormData(evt.target);
-        postForm.append('id', parseInt(Cookies.get('authID'), 10));
+        postForm.append('id', JSON.parse(Cookies.get('x_auth_user')).id);
 
         axiosAuthBearer.post('http://localhost:8000/api/post/create', postForm)
 
         .then(res => {
-            console.log('res: ', res);
             const postRes = res.data;
 
             if (postRes.isSuccess) {
                 setBody('');
+
+                // refresh posts
+                getPosts();
             } else {
                 console.log('text: ', postRes.data);
             }
@@ -68,6 +120,12 @@ const Home = () => {
             console.log('err: ', err.response);
         })
     }
+
+    useEffect(() => {
+        if(posts === null) {
+            getPosts();
+        }
+    }, [posts]);
 
     return (
         <ContainerIdx fluid={ true } containerClass='pt-5'>
@@ -128,7 +186,7 @@ const Home = () => {
                                         inputClass='bg-purple-200' 
                                         // value={ images } 
                                         accept='image/*' 
-                                        onChange={ test } 
+                                        onChange={ inputFiles } 
                                         multiple={ true } 
                                         hidden={ true }
                                     />
@@ -140,22 +198,77 @@ const Home = () => {
                                 </div>
                             </FormIdx>
                         </ContainerIdx>
-                        <ContainerIdx fluid={ true } containerClass='bg-purple-100 mt-5 p-3'>
-                            <CardIdx cardClass='p-2'>
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae rerum sunt earum dicta officia temporibus, assumenda, nesciunt esse expedita perspiciatis amet incidunt molestiae? Possimus modi et, aliquid dolorem nostrum magnam?
-                            </CardIdx>
-                            <CardIdx cardClass='mt-3 p-3'>
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae rerum sunt earum dicta officia temporibus, assumenda, nesciunt esse expedita perspiciatis amet incidunt molestiae? Possimus modi et, aliquid dolorem nostrum magnam?
-                            </CardIdx>
-                            <CardIdx cardClass='mt-3 p-3'>
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae rerum sunt earum dicta officia temporibus, assumenda, nesciunt esse expedita perspiciatis amet incidunt molestiae? Possimus modi et, aliquid dolorem nostrum magnam?
-                            </CardIdx>
-                            <CardIdx cardClass='mt-3 p-3'>
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae rerum sunt earum dicta officia temporibus, assumenda, nesciunt esse expedita perspiciatis amet incidunt molestiae? Possimus modi et, aliquid dolorem nostrum magnam?
-                            </CardIdx>
-                            <CardIdx cardClass='mt-3 p-3'>
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae rerum sunt earum dicta officia temporibus, assumenda, nesciunt esse expedita perspiciatis amet incidunt molestiae? Possimus modi et, aliquid dolorem nostrum magnam?
-                            </CardIdx>
+                        <ContainerIdx fluid={ true } containerClass='mt-5'>
+                            {
+                                posts && Object.keys(posts).map(i => {
+                                    const postID = Object.values(posts)[i]['id'];
+                                    const postBody = Object.values(posts)[i]['body'];
+                                    const postCreated = Object.values(posts)[i]['created_at'];
+
+                                    // loop this
+                                    const postAuthor = Object.values(posts)[i]['user'];
+
+                                    // loop this
+                                    const postImages = Object.values(posts)[i]['post_images'];
+
+                                    return (
+                                        <CardIdx key={ 'post' + postID } cardClass='mb-5 border-0'>
+                                            <RowIdx rowClass='bg-secondary'>
+                                                <ColIdx 
+                                                    columnClass='bg-purple-100 d-flex flex-column justify-content-center align-items-center py-1 bg-yellow-100' 
+                                                    sm={ 4 }
+                                                >
+                                                    <ImgIdx 
+                                                        src='/pup_patrol_logo.png'
+                                                        imgStyle={{ objectFit: 'cover', width: '70px', height: '70px' }}
+                                                    />
+                                                    <span className='mt-3'>{ postAuthor['username'] }</span>
+                                                </ColIdx>
+                                                <ColIdx 
+                                                    columnClass='bg-warning text-end d-flex flex-column' 
+                                                    sm={ 8 }
+                                                >
+                                                    <span>{ postCreated }</span>
+                                                </ColIdx>
+                                                <ColIdx 
+                                                    columnClass='bg-primary' 
+                                                    sm={ 12 }
+                                                >
+                                                    
+                                                    {
+                                                        postImages && postImages.map(i => {
+                                                            const postImageURL = new URL(i['image_path'], 'http://localhost:8000/storage/posts/');
+
+                                                            return (
+                                                                <ImgIdx 
+                                                                    key={ 'post' + postID + 'img' + i['id'] } 
+                                                                    src={ postImageURL } 
+                                                                    imgClass='img-fluid img-thumbnail curved-border' 
+                                                                    imgStyle={{ objectFit: 'cover', width: '100px', height: '100px' }}
+                                                                />
+                                                            )
+                                                        })
+                                                    }
+                                                </ColIdx>
+                                                <ColIdx 
+                                                    columnClass='bg-secondary' 
+                                                    sm={ 12 }
+                                                >
+                                                    <p>{ postBody }</p>
+                                                </ColIdx>
+                                                <ColIdx columnClass='bg-dark' sm={ 12 }>
+                                                    <AnchorIdx 
+                                                        type='regular' 
+                                                        href='#' 
+                                                        text='Comment' 
+                                                        isTargetBlank={ false }
+                                                    />
+                                                </ColIdx>
+                                            </RowIdx>
+                                        </CardIdx>
+                                    )
+                                })
+                            }
                         </ContainerIdx>
                     </ColIdx>
                     <ColIdx columnClass='p-1 p-md-2' md={ 3 }>
@@ -170,8 +283,6 @@ const Home = () => {
                     </ColIdx>
                 </RowIdx>
             </ContainerIdx>
-            {/* <BtnIdx type='modal' text='Modal' btnOnclick={ handleShow }/> */}
-            {/* <ModalIdx type='regular' isShown={ show } btnOnhide={ handleClose }/> */}
         </ContainerIdx>
     )
 };

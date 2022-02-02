@@ -7,7 +7,7 @@ export const axiosAuthBearer = axios.create({
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'application/json',
-        'Authorization': `Bearer ${Cookies.get('secretTk')}`,
+        'Authorization': `Bearer ${Cookies.get('x_auth_secret_tk')}`,
         // 'X-CSRF-TOKEN': Cookies.get('XSRF-TOKEN'),
     },
     withCredentials: true,

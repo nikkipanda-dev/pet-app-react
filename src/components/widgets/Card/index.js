@@ -1,8 +1,12 @@
 import { CardReg } from "./CardReg/CardReg";
 
-export const CardIdx = ({ children, cardClass, cardStyle }) => {
+export const CardIdx = ({ children, keyID, cardClass, cardStyle }) => {
     return (
-        <CardReg cardClass={ cardClass } cardStyle={ cardStyle }>
+        <CardReg 
+            keyID={ keyID } 
+            cardClass={ cardClass } 
+            cardStyle={ cardStyle }
+        >
             { children }
         </CardReg>
     )

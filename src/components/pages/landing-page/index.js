@@ -62,7 +62,8 @@ const LandingPage = () => {
                         const registerResponse = res.data;
                         
                         if (registerResponse.isSuccess) {
-                            Cookies.set('secretTk', registerResponse.secret, { sameSite: 'strict', secure: true });
+                            Cookies.set('x_auth_user', JSON.stringify(registerResponse.data), { sameSite: 'strict', secure: true });
+                            Cookies.set('x_auth_secret_tk', registerResponse.secret, { sameSite: 'strict', secure: true });
 
                             return (
                                 navigate('home')
