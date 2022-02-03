@@ -1,8 +1,8 @@
-export const AnchorReg = ( { anchorContext }) => {
+export const AnchorReg = ( { text, href, isTargetBlank, anchorClass, anchorOnclick }) => {
 
     return (
-        <a href={ anchorContext.href } target={ anchorContext.isTargetBlank ? '_blank' : '' }>
-            { anchorContext.text }
+        <a href={ href } className={ anchorClass } target={ isTargetBlank ? '_blank' : '' } >
+            { text }
         </a>
     )
 };

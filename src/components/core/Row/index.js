@@ -1,9 +1,18 @@
 import PropTypes from 'prop-types';
 import { RowReg } from "./RowReg/RowReg";
 
-export const RowIdx = ({ children, rowClass, rowStyle }) => {
+export const RowIdx = ({ children, rowClass, rowStyle, xs, sm, md, lg, xl, xxl }) => {
     return (
-        <RowReg rowClass={ rowClass ? rowClass : '' } rowStyle={ rowStyle }>
+        <RowReg 
+            rowClass={ rowClass ? rowClass : '' } 
+            rowStyle={ rowStyle } 
+            xs={ xs } 
+            sm={ sm } 
+            md={ md } 
+            lg={ lg } 
+            xl={ xl } 
+            xxl={ xxl } 
+        >
             { children }
         </RowReg>
     )

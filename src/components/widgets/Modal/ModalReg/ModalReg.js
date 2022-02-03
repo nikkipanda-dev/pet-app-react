@@ -1,26 +1,24 @@
+import { useEffect } from 'react';
 import ModalWrapper from 'react-bootstrap/Modal';
 
 import { BtnIdx } from '../../../core/Button';
 
-export const ModalReg = ({ btnOnhide, isShown }) => {  
-
+export const ModalReg = ({ children, modalSize, btnOnhide, isShown, modalHeader }) => {
     return (
         <ModalWrapper 
-            show={ isShown }
+            size={ modalSize }
+            show={ isShown } 
             centered
         >
-            <ModalWrapper.Dialog>
-                <ModalWrapper.Header closeButton onClick={ () => btnOnhide() }>
-                    <ModalWrapper.Title>Modal title</ModalWrapper.Title>
-                </ModalWrapper.Header>
-                <ModalWrapper.Body>
-                    I will not close if you click outside me. Don't even try to press
-                    escape key.
-                </ModalWrapper.Body>
-                <ModalWrapper.Footer>
-                    <BtnIdx text='Close' type='modal' btnOnhide={ btnOnhide }/>
-                </ModalWrapper.Footer>
-            </ModalWrapper.Dialog>
+            <ModalWrapper.Header closeButton onClick={ () => btnOnhide() }>
+                <ModalWrapper.Title>{ modalHeader }</ModalWrapper.Title>
+            </ModalWrapper.Header>
+            <ModalWrapper.Body>
+                { children }
+            </ModalWrapper.Body>
+            <ModalWrapper.Footer>
+                <BtnIdx text='Close' type='modal' btnClass='btn-reg btn-secondary' btnOnhide={ btnOnhide }/>
+            </ModalWrapper.Footer>
         </ModalWrapper>
     )
 };

@@ -1,7 +1,11 @@
 import { ImageThumbnail } from './ImageThumbnail/ImageThumbnail';
 
-export const ImgIdx = ({ imgContext }) => {
+export const ImgIdx = ({ src, imgClass, imgStyle }) => {
     return (
-        (imgContext.type === 'thumbnail') ? <ImageThumbnail /> : <>Not thumbnail</>
+        <ImageThumbnail 
+            src={ src } 
+            imgClass={ imgClass } 
+            imgStyle={ imgStyle }
+        />
     )
 };

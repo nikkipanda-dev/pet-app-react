@@ -1,4 +1,4 @@
-export const InputReg = ({ type, inputClass, refTarget, name, onChange, value }) => {
+export const InputReg = ({ type, inputClass, refTarget, hidden, name, onChange, value }) => {
     return (
         <input 
             type={ type } 
@@ -6,7 +6,8 @@ export const InputReg = ({ type, inputClass, refTarget, name, onChange, value })
             ref={ refTarget } 
             name={ name } 
             onChange={ (evt) => onChange(evt.target.value) } 
-            value={ value }
+            value={ value } 
+            hidden={ hidden }
         />
     )
 };
