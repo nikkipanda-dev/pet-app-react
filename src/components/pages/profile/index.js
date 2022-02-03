@@ -2,7 +2,7 @@ import { useState, useEffect, createRef, } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosDef from '../../../util/Request';
 import Cookies from 'js-cookie';
-import { faEdit, faImages } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../widgets/Pagination';
 
 import { ContainerIdx } from '../../core/Container';
@@ -17,7 +17,6 @@ import { BtnIdx } from '../../core/Button';
 import FormIdx from '../../widgets/Form';
 import { LabelIdx } from '../../core/Label';
 import { ModalIdx } from '../../widgets/Modal';
-import { func } from 'prop-types';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -27,6 +26,7 @@ const Profile = () => {
     const [postId, setPostId] = useState(null);
     const [showComment, setShowComment] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
     const [body, setBody] = useState('');
     const [images, setImages] = useState([]);
 
@@ -49,6 +49,18 @@ const Profile = () => {
         setImages([]);
 
         setShowEdit(false);
+    }
+
+    const handleShowDelete =evt => {
+        setPostId((evt.target.nodeName !== 'A') ? evt.target.closest('a').dataset.targetPostId : evt.target.dataset.targetPostId);
+
+        setShowDelete(true);
+    }
+
+    const handleHideDelete =evt => {
+        setPostId('');
+
+        setShowDelete(false);
     }
 
     const focusField = evt => {
@@ -109,41 +121,29 @@ const Profile = () => {
         })
     }
 
+    const deleteUserPost = evt => {
+        evt.preventDefault();
+
+        console.log('del')
+
+        const deletePostForm = new FormData(evt.target);
+
+        axiosDef.post('http://localhost:8000/api/post/delete', deletePostForm)
+
+        .then (res => {
+            console.log('del res: ', res.data);
+        })
+
+        .catch (err => {
+            console.log('del err: ', err.response.data.errors);
+        })
+    }
+
     useEffect(() => {
         if (userPosts === null) {
             getUserPosts();
         }
     }, []);
-
-    // const chunkPosts = page => {
-    //     const minIndex = (page * 10) - 10;
-    //     const maxIndex = (page * 10);
-    //     const numPages = Math.ceil(userPosts.length / 10);
-
-    //     if (maxIndex > userPosts.length && (page === numPages)) {
-    //         setChunkedPosts(userPosts.slice(minIndex));
-    //     } else {
-    //         setChunkedPosts(userPosts.slice(minIndex, maxIndex));
-    //     }
-    // }
-
-    // const handlePreviousPage = evt => {
-    //     let prevPage = parseInt(evt.target.dataset.targetPage, 10);
-
-    //     if (!(prevPage <= 1) && userPosts) {
-    //         chunkPosts(--prevPage);
-    //         setCurrentPage(prevPage);
-    //     }
-    // }
-
-    // const handleNextPage = evt => {
-    //     let nextPage = parseInt(evt.target.dataset.targetPage, 10);
-
-    //     if (!(nextPage >= Math.ceil(userPosts.length / 10)) && userPosts) {
-    //         chunkPosts(++nextPage);
-    //         setCurrentPage(nextPage);
-    //     }
-    // }
 
     useEffect(() => {
         if (userPosts) {
@@ -210,6 +210,14 @@ const Profile = () => {
                                                     dataTargetBody={ userPostBody }
                                                     anchorOnclick={ handleShowEdit } 
                                                 />
+                                                <AnchorIdx
+                                                    type='modal' 
+                                                    text={ <FontAwesomeIcon icon={ faTrash } className='fa-2x'/> }
+                                                    anchorClass='' 
+                                                    dataTargetPostId={ userPostId } 
+                                                    dataTargetBody={ userPostBody }
+                                                    anchorOnclick={ handleShowDelete } 
+                                                />
                                             </ColIdx>
                                             <ColIdx columnClass='bg-primary' sm={ 12 }>
                                                 {
@@ -258,6 +266,40 @@ const Profile = () => {
                     </ColIdx>
                 </RowIdx>
             </ContainerIdx>
+            <ModalIdx 
+                type='regular' 
+                btnOnhide={ handleHideDelete } 
+                modalSize='md' 
+                isShown={ showDelete } 
+                modalHeader='Confirmation'
+            >
+                <ContainerIdx 
+                    type='regular' 
+                >
+                    <FormIdx
+                        action='#' 
+                        method='POST' 
+                        encType='multipart' 
+                        onSubmit={ evt => deleteUserPost(evt) }
+                    >
+                        <InputIdx 
+                            name='id'
+                            value={ userID } 
+                            hidden={ true }
+                        />
+                        <InputIdx 
+                            name='post_id'
+                            value={ postId } 
+                            hidden={ true }
+                        />
+                        <BtnIdx 
+                            type='submit' 
+                            text='Delete' 
+                            btnClass='' 
+                        />
+                    </FormIdx>
+                </ContainerIdx>
+            </ModalIdx>
             <ModalIdx 
                 type='regular' 
                 btnOnhide={ handleHideEdit } 
