@@ -203,6 +203,16 @@ a:hover, .pointer-cursor:hover {
     color: #fff;
 }
 
+.paginator-jumper {
+    border: 1px solid black;
+    padding: .5rem;
+}
+
+.paginator-page {
+    border: 1px solid black;
+    padding: .5rem;
+}
+
 /* .fade-in {
     opacity: 1;
     transition: opacity .5s;

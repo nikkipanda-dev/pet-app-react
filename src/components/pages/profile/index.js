@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosDef from '../../../util/Request';
 import Cookies from 'js-cookie';
 import { faEdit, faImages } from '@fortawesome/free-solid-svg-icons';
+import Pagination from '../../widgets/Pagination';
 
 import { ContainerIdx } from '../../core/Container';
 import { RowIdx } from '../../core/Row';
@@ -32,10 +33,6 @@ const Profile = () => {
     // pagination
     const [chunkedPosts, setChunkedPosts] = useState(null);
     const [currentPage, setCurrentPage] = useState(null);
-    const [minIndex, setMinIndex] = useState(null);
-    const [maxIndex, setMaxIndex] = useState(null);
-
-    // console.log('size: ', userPosts);
 
     const imageRef = createRef();
 
@@ -118,74 +115,46 @@ const Profile = () => {
         }
     }, []);
 
-    // const handlePageChange = evt => {
-    //     console.log('page: ', evt);
+    // const chunkPosts = page => {
+    //     const minIndex = (page * 10) - 10;
+    //     const maxIndex = (page * 10);
+    //     const numPages = Math.ceil(userPosts.length / 10);
 
-    //     if (chunkedPosts.length === 10) {
-    //         setChunkedPosts(userPosts.slice((evt * 10) - 10, (evt * 1) - 1));
-    //     } else if (chunkedPosts.length < 10) {
-    //         setChunkedPosts(userPosts.slice((evt * 10) - 10));
+    //     if (maxIndex > userPosts.length && (page === numPages)) {
+    //         setChunkedPosts(userPosts.slice(minIndex));
+    //     } else {
+    //         setChunkedPosts(userPosts.slice(minIndex, maxIndex));
     //     }
-    //     setCurrentPage(evt);
     // }
 
-    // console.log('chunked: ', chunkedPosts);
+    // const handlePreviousPage = evt => {
+    //     let prevPage = parseInt(evt.target.dataset.targetPage, 10);
 
-    console.log('len', userPosts && userPosts.length);
-    const chunkPosts = page => {
-        console.log('page: ', page);
-        const minIndex = (page * 10) - 10;
-        const maxIndex = (page * 10);
-        const numPages = Math.ceil(userPosts.length / 10);
+    //     if (!(prevPage <= 1) && userPosts) {
+    //         chunkPosts(--prevPage);
+    //         setCurrentPage(prevPage);
+    //     }
+    // }
 
-        if (maxIndex > userPosts.length && (page === numPages)) {
-            console.log('maxIndex > userPosts.length && (page === numPages)')
-            setChunkedPosts(userPosts.slice(minIndex));
-        } else {
-            console.log('else')
-            setChunkedPosts(userPosts.slice(minIndex, maxIndex));
-        }
-    }
+    // const handleNextPage = evt => {
+    //     let nextPage = parseInt(evt.target.dataset.targetPage, 10);
 
-    console.log('chunked: ', chunkedPosts);
-    const prev = evt => {
-        let prevPage = parseInt(evt.target.dataset.targetPage, 10);
-
-        if (!(prevPage <= 1) && userPosts) {
-            chunkPosts(--prevPage);
-            setCurrentPage(prevPage);
-        }
-    }
-
-    const next = evt => {
-        let nextPage = parseInt(evt.target.dataset.targetPage, 10);
-
-        if (!(nextPage >= Math.ceil(userPosts.length / 10)) && userPosts) {
-            chunkPosts(++nextPage);
-            setCurrentPage(nextPage);
-        }
-    }
+    //     if (!(nextPage >= Math.ceil(userPosts.length / 10)) && userPosts) {
+    //         chunkPosts(++nextPage);
+    //         setCurrentPage(nextPage);
+    //     }
+    // }
 
     useEffect(() => {
         if (userPosts) {
             setChunkedPosts(userPosts.slice(0, 10));
             setCurrentPage(1);
-            // setMinIndex(0);
-            // setMaxIndex(0);
         }
     }, [userPosts])
 
     return (
         <ContainerIdx fluid={ true } containerClass='pt-5'>
-            {
-                userPosts ? 
-                <div className='mt-5'>
-                    <span onClick={ (evt) => prev(evt) } className='me-2' data-target-page={ currentPage }>Prev</span>
-                    <span className='me-2'>{ currentPage }</span>
-                    <span onClick={ (evt) => next(evt) } data-target-page={ currentPage }>Next</span>
-                </div> : ''
-            }
-            {/* <ContainerIdx fluid='xl' containerClass='mt-5'>
+            <ContainerIdx fluid='xl' containerClass='mt-5'>
                 <RowIdx rowClass='flex-column flex-md-row'>
                     <ColIdx columnClass='' sm={ 4 }>
                         <ContainerIdx type='regular' containerClass=''>
@@ -219,7 +188,7 @@ const Profile = () => {
                         </ContainerIdx>
                         <ContainerIdx type='regular' containerClass=''>
                         {
-                            userPosts && userPosts.map(i => {
+                            chunkedPosts && chunkedPosts.map(i => {
                                 const userPostId = i['id'];
                                 const userPostCreated = i['created_at'];
                                 const userPostBody = i['body'];
@@ -278,6 +247,14 @@ const Profile = () => {
                             })
                         }
                         </ContainerIdx>
+                        <Pagination 
+                            total={ userPosts ? Object.keys(userPosts).length : '' } 
+                            currentPage={ currentPage } 
+                            setCurrentPage={ setCurrentPage } 
+                            pageSize={ 10 } 
+                            setChunkedPosts={ setChunkedPosts } 
+                            data={ userPosts }
+                        />
                     </ColIdx>
                 </RowIdx>
             </ContainerIdx>
@@ -340,7 +317,7 @@ const Profile = () => {
                         />
                     </FormIdx>
                 </ContainerIdx>
-            </ModalIdx> */}
+            </ModalIdx>
         </ContainerIdx>
     )
 };

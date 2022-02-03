@@ -1,27 +1,62 @@
 import { ContainerIdx } from "../../../core/Container";
-import { BtnIdx } from "../../../core/Button";
+import Span from "../../../core/Span";
 
-export const Pagination = ({ currentPage, setCurrentPage, pageSize, total, data, children }) => {
-    // console.log('pagesize: ', pageSize);
-    // console.log('total: ', total);
-    // console.log('data: ', data);
-    // console.log('children: ', children);
-    // console.log('currentPage: ', currentPage);
+export const Pagination = ({ paginationClass, paginationStyle, currentPage, setCurrentPage, setChunkedPosts, pageSize, total, data }) => {
+    try {
+        if (total !== 0) {
+            const chunkPosts = page => {
+                const minIndex = (page * pageSize) - pageSize;
+                const maxIndex = (page * pageSize);
+                const totalPages = Math.ceil(total / pageSize);
 
-    // const page
+                if (maxIndex > total && (page === totalPages)) {
+                    setChunkedPosts(data.slice(minIndex));
+                } else {
+                    setChunkedPosts(data.slice(minIndex, maxIndex));
+                }
+            }
 
-    // TODO: MIN: ( pageNum * 1 ) - 1;
-        // ( 2 * 10 ) - 1 = 19
-    // TODO: MAX: ( pageNum * pageSize ) - 1;
-        // ( 2 * 10 ) - 10 = 10
-    // TODO: num of pages
-    // if chunked.len < 10
+            const handlePreviousPage = evt => {
+                let prevPage = parseInt(evt.target.dataset.target, 10);
 
-    return (
-        <ContainerIdx className="py-5">
-            {/* Pagination { pageSize } { total } */}
-            { children }
-            <BtnIdx type='regular' text='pageNum' btnClass='mt-5'/>
-        </ContainerIdx>
-    )
+                if (!(prevPage <= 1)) {
+                    chunkPosts(--prevPage);
+                    setCurrentPage(prevPage);
+                }
+            }
+
+            const handleNextPage = evt => {
+                let nextPage = parseInt(evt.target.dataset.target, 10);
+
+                if (!(nextPage >= Math.ceil(total / pageSize))) {
+                    chunkPosts(++nextPage);
+                    setCurrentPage(nextPage);
+                }
+            }
+
+            return (
+                data ?
+                    <ContainerIdx
+                        type='regular'
+                        containerClass={paginationClass}
+                        containerStyle-={paginationStyle}>
+                        <Span
+                            type='regular'
+                            text='Prev'
+                            spanClass='paginator'
+                            spanOnclick={handlePreviousPage}
+                            dataTarget={currentPage} />
+                        <Span type='regular' text={currentPage} />
+                        <Span
+                            type='regular'
+                            text='Next'
+                            spanClass='paginator'
+                            spanOnclick={handleNextPage}
+                            dataTarget={currentPage} />
+                    </ContainerIdx> : ''
+            )
+        }
+    } catch (err) {
+        console.log('Err in pagination: ', err);
+    }
 };
