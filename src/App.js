@@ -22,16 +22,18 @@ import './css/style.css';
 import 'react-bootstrap/dist/react-bootstrap.min.js';
 
 export const App = () => {
+    const username = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['username'];
+
     return (
         <Router>
             <Navbar />
             <Routes>
                 <Route path='/' element={ Cookies.get('x_auth_secret_tk') ? <Redirect to='/home' /> : <LandingPage /> } />
                 <Route path='/home' element={ <Home /> } />
-                <Route path='/profile' element={ <Profile /> } />
-                <Route path='/settings' element={ <Settings /> } />
-                <Route path='/communities' element={ <Communities /> } />
-                <Route path='/stories' element={ <Stories /> } />
+                <Route path={ '/u/' + username } element={ Cookies.get('x_auth_secret_tk') ? <Profile /> : <Redirect to={ '/home' } /> }/>
+                <Route path='/settings' element={ Cookies.get('x_auth_secret_tk') ? <Settings /> : <Redirect to={ '/home' } /> }/>
+                <Route path='/communities' element={ Cookies.get('x_auth_secret_tk') ? <Communities /> : <Redirect to={ '/home' } /> }/>
+                <Route path='/stories' element={ Cookies.get('x_auth_secret_tk') ? <Stories /> : <Redirect to={ '/home' } /> }/>
             </Routes>
             <Footer />
         </Router>

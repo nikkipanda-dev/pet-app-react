@@ -2,7 +2,7 @@ import { AnchorReg } from './AnchorReg/AnchorReg';
 import { AnchorModal } from './AnchorModal/AnchorModal';
 import { AnchorToggleEl } from './AnchorToggleEl/AnchorToggleEl';
 
-export const AnchorIdx = ({ type, text, href, isTargetBlank, isShown, anchorOnclick, anchorClass }) => {
+export const AnchorIdx = ({ type, text, href, isTargetBlank, isShown, anchorOnclick, anchorClass, anchorStyle, dataTargetUserId, dataTargetPostId, dataTargetBody }) => {
     return (
         (type == 'regular') ? 
             <AnchorReg 
@@ -10,18 +10,24 @@ export const AnchorIdx = ({ type, text, href, isTargetBlank, isShown, anchorOncl
                 href={ href } 
                 isTargetBlank={ isTargetBlank } 
                 anchorClass={ anchorClass } 
+                anchorStyle={ anchorStyle }
             /> : 
         (type == 'modal') ? 
             <AnchorModal 
                 text={ text } 
                 anchorClass={ anchorClass } 
-                anchorOnclick={ anchorOnclick }
+                anchorOnclick={ anchorOnclick } 
+                dataTargetUserId={ dataTargetUserId ? dataTargetUserId : false }
+                dataTargetPostId={ dataTargetPostId ? dataTargetPostId : false } 
+                dataTargetBody={ dataTargetBody ? dataTargetBody : false } 
+                anchorStyle={ anchorStyle }
             /> :
             <AnchorToggleEl 
                 text={ text } 
                 anchorClass={ anchorClass } 
                 anchorOnclick={ anchorOnclick } 
-                isShown={ isShown }
+                isShown={ isShown } 
+                anchorStyle={ anchorStyle }
             />
     )
 };

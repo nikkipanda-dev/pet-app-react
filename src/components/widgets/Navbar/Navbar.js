@@ -18,7 +18,7 @@ export const Navbar = () => {
     // TODO: custom div
 
     const navigate = useNavigate();
-
+    
     const navbarStyle = {
         backgroundColor: '#4b507a',
         minHeight: '7vh',
@@ -99,7 +99,7 @@ export const Navbar = () => {
                         { Cookies.get('x_auth_secret_tk') ? 
                             <>
                                 <Link to='home' className='navbar-link me-3'>Home</Link>
-                                <Link to='profile' className='navbar-link me-3'>Profile</Link>
+                                <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] } className='navbar-link me-3'>Profile</Link>
                                 <Link to='settings' className='navbar-link me-3'>Settings</Link> 
                                 <a href='/' className='navbar-link'><FontAwesomeIcon icon={faSignOutAlt}/></a>
                             </> :

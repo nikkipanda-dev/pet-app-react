@@ -5,7 +5,7 @@ import { Textarea } from './Textarea/Textarea';
 import { InputFile } from './InputFile/InputFile';
 import { AlertIdx } from '../Alert';
 
-export const InputIdx = ({ validationType, fieldType, type, inputClass, inputStyle, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows, multiple, accept, hidden }) => { 
+export const InputIdx = ({ validationType, fieldType, type, inputClass, inputStyle, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows, multiple, accept, hidden, defaultValue }) => { 
     // TODO: Client-side validation
 
     // let thisErrorMsg = null;
@@ -35,7 +35,8 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, inputSty
                         refTarget={ refTarget } 
                         name={ name } 
                         onChange={ onChange } 
-                        value={ value }
+                        value={ value } 
+                        defaultValue={ defaultValue } 
                         hidden={ hidden }
                     />  : 
                     (fieldType === 'textarea') ? 
@@ -43,8 +44,9 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, inputSty
                             textareaClass={ inputClass } 
                             onChange={ onChange } 
                             rows={ rows } 
-                            name={ name }
-                            value={ value }
+                            name={ name } 
+                            value={ value } 
+                            defaultValue={ defaultValue }
                         /> :
                     <InputFile 
                         type={ type } 
@@ -54,6 +56,7 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, inputSty
                         accept={ accept }
                         onChange={ onChange } 
                         value={ value } 
+                        defaultValue={ defaultValue } 
                         inputStyle={ inputStyle } 
                         multiple={ multiple } 
                         hidden={ hidden }

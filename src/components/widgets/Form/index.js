@@ -19,7 +19,7 @@ export const FormIdx = ({ children, formClass, formStyle, action, method, encTyp
 
     return (
         <FormReg
-            onSubmit={ onSubmit }
+            onSubmit={ evt => onSubmit(evt) }
             formClass={ formClass } 
             formStyle={ formStyle }
             action={ action }
