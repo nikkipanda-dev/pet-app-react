@@ -21,6 +21,7 @@ import { ModalIdx } from '../../widgets/Modal';
 const Profile = () => {
     const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = useState(true);
     const userID = Cookies.get('x_auth_user') ? JSON.parse(Cookies.get('x_auth_user'))['id'] : navigate('/');
     const [userPosts, setUserPosts] = useState(null);
     const [postId, setPostId] = useState(null);
@@ -84,10 +85,9 @@ const Profile = () => {
         .then (res => {
             const userPostsRes = res.data;
 
-            console.log(userPostsRes)
-
             if (userPostsRes.isSuccess) {
                 setUserPosts([ ...userPostsRes.data ]);
+                setIsLoading(false);
             } else {
                 console.log('user err res: ', userPostsRes.data);
             }
@@ -110,7 +110,8 @@ const Profile = () => {
 
             if (updatePostRes.isSuccess) {
                 getUserPosts();
-                setShowEdit(false);
+                // setShowEdit(false);
+                handleHideEdit();
             } else {
                 console.log('err res', updatePostRes.data)
             }
@@ -131,7 +132,14 @@ const Profile = () => {
         axiosDef.post('http://localhost:8000/api/post/delete', deletePostForm)
 
         .then (res => {
-            console.log('del res: ', res.data);
+            const deletePostRes = res.data;
+
+            if (deletePostRes.isSuccess) {
+                getUserPosts();
+                handleHideDelete();   
+            } else {
+                console.log('del err: ', deletePostRes.data);
+            }
         })
 
         .catch (err => {
