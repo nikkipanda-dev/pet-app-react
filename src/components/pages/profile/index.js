@@ -17,10 +17,10 @@ import { BtnIdx } from '../../core/Button';
 import FormIdx from '../../widgets/Form';
 import { LabelIdx } from '../../core/Label';
 import { ModalIdx } from '../../widgets/Modal';
+import Comment from '../../sections/Comment';
 
 const Profile = () => {
     const navigate = useNavigate();
-
     const [isLoading, setIsLoading] = useState(true);
     const userID = Cookies.get('x_auth_user') ? JSON.parse(Cookies.get('x_auth_user'))['id'] : navigate('/');
     const [userPosts, setUserPosts] = useState(null);

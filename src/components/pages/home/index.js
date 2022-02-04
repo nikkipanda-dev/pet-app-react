@@ -1,4 +1,4 @@
-import { useState, createRef, useEffect } from 'react';
+import { useState, createRef, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axiosDef, { axiosAuthBearer } from '../../../util/Request';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,17 +37,19 @@ const Home = () => {
     const [body, setBody] = useState('');
     const [images, setImages] = useState([]);
 
-    const imageRef = createRef();
+    const imageRef = useRef();
 
     const focusField = evt => {
         evt.current.click();
     }
 
-    const inputFiles = evt => {
-        [ ...evt.target.files ].map(i => {
-            setImages([ ...images, i ]);
-        })
-    }
+    console.log('imagessss: ', images)
+
+    // const inputFiles = evt => {
+    //     [ ...evt.target.files ].map(i => {
+    //         setImages([ ...images, i ]);
+    //     })
+    // }
 
     const getPosts = async() => {
         await axiosDef.get('http://localhost:8000/api/posts')
@@ -89,25 +91,6 @@ const Home = () => {
         })
     }
 
-    // const getPostImages = (id) => {
-    //     axiosDef.get('http://localhost:8000/api/post/images/' + id)
-
-    //     .then (res => {
-    //         // console.log('images: ', res.data);
-    //         const postImagesRes = res.data;
-
-    //         if (postImagesRes.isSuccess) {
-    //             console.log('images res: ', postImagesRes.data);
-    //         } else {
-    //             console.log('err res: ', postImagesRes.data);
-    //         }
-    //     })
-
-    //     .catch (err => {
-    //         console.log('err img: ', err);
-    //     })
-    // }
-
     const postForm = evt => {
         evt.preventDefault();
 
@@ -124,8 +107,10 @@ const Home = () => {
             const postRes = res.data;
 
             if (postRes.isSuccess) {
-                console.log(postRes.data)
                 setBody('');
+
+                // clear file input
+                imageRef.current.value = '';
 
                 // refresh posts
                 getPosts();
@@ -140,10 +125,10 @@ const Home = () => {
     }
 
     useEffect(() => {
-        if(posts === null) {
+        if (posts === null) {
             getPosts();
         }
-    }, [posts]);
+    }, []);
 
     return (
         <ContainerIdx fluid={ true } containerClass='pt-5'>
@@ -202,9 +187,9 @@ const Home = () => {
                                         refTarget={ imageRef } 
                                         name='images[]' 
                                         inputClass='bg-purple-200' 
-                                        // value={ images } 
+                                        // defaultValue={ images } 
                                         accept='image/*' 
-                                        onChange={ inputFiles } 
+                                        // onChange={ inputFiles } 
                                         multiple={ true } 
                                         hidden={ true }
                                     />
