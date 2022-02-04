@@ -110,7 +110,6 @@ const Profile = () => {
 
             if (updatePostRes.isSuccess) {
                 getUserPosts();
-                // setShowEdit(false);
                 handleHideEdit();
             } else {
                 console.log('err res', updatePostRes.data)
@@ -148,7 +147,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        if (userPosts === null) {
+        if (userPosts === null && isLoading) {
             getUserPosts();
         }
     }, []);

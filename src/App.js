@@ -28,12 +28,12 @@ export const App = () => {
         <Router>
             <Navbar />
             <Routes>
-                <Route path='/' element={ Cookies.get('x_auth_secret_tk') ? <Redirect to='/home' /> : <LandingPage /> } />
-                <Route path='/home' element={ <Home /> } />
-                <Route path={ '/u/' + username } element={ Cookies.get('x_auth_secret_tk') ? <Profile /> : <Redirect to={ '/home' } /> }/>
-                <Route path='/settings' element={ Cookies.get('x_auth_secret_tk') ? <Settings /> : <Redirect to={ '/home' } /> }/>
-                <Route path='/communities' element={ Cookies.get('x_auth_secret_tk') ? <Communities /> : <Redirect to={ '/home' } /> }/>
-                <Route path='/stories' element={ Cookies.get('x_auth_secret_tk') ? <Stories /> : <Redirect to={ '/home' } /> }/>
+                <Route path='/' element={ Cookies.get('x_auth_secret_tk') ? <Redirect to='/home' /> : <LandingPage /> }/>
+                <Route path='/home' element={ Cookies.get('x_auth_secret_tk') ? <Home /> : <Redirect to={ '/' } />}/>
+                <Route path={ '/u/' + username } element={ Cookies.get('x_auth_secret_tk') ? <Profile /> : <Redirect to={ '/' } /> }/>
+                <Route path='/settings' element={ Cookies.get('x_auth_secret_tk') ? <Settings /> : <Redirect to={ '/' } /> }/>
+                <Route path='/communities' element={ Cookies.get('x_auth_secret_tk') ? <Communities /> : <Redirect to={ '/' } /> }/>
+                <Route path='/stories' element={ Cookies.get('x_auth_secret_tk') ? <Stories /> : <Redirect to={ '/' } /> }/>
             </Routes>
             <Footer />
         </Router>
