@@ -1,19 +1,23 @@
 import { ContainerIdx } from "../../../core/Container";
 import Span from "../../../core/Span";
 
-export const Pagination = ({ paginationClass, paginationStyle, currentPage, setCurrentPage, setChunkedPosts, pageSize, total, data }) => {
+export const Pagination = ({ paginationClass, paginationStyle, currentPage, setCurrentPage, setChunkedPosts, pageSize, total, data, scrollTop }) => {
     try {
         if (total !== 0) {
             const chunkPosts = page => {
+                scrollTop ? scrollTop.current.scrollIntoView() : window.scrollTo(0, 0);
+
                 const minIndex = (page * pageSize) - pageSize;
                 const maxIndex = (page * pageSize);
                 const totalPages = Math.ceil(total / pageSize);
 
-                if (maxIndex > total && (page === totalPages)) {
-                    setChunkedPosts(data.slice(minIndex));
-                } else {
-                    setChunkedPosts(data.slice(minIndex, maxIndex));
-                }
+                setTimeout(() => {
+                    if (maxIndex > total && (page === totalPages)) {
+                        setChunkedPosts(data.slice(minIndex));
+                    } else {
+                        setChunkedPosts(data.slice(minIndex, maxIndex));
+                    }
+                }, 700);
             }
 
             const handlePreviousPage = evt => {
@@ -23,6 +27,7 @@ export const Pagination = ({ paginationClass, paginationStyle, currentPage, setC
                     chunkPosts(--prevPage);
                     setCurrentPage(prevPage);
                 }
+
             }
 
             const handleNextPage = evt => {

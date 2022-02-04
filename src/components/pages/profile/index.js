@@ -34,8 +34,6 @@ const Profile = () => {
 
     const imageRef = useRef();
 
-    console.log('userposts: ', userPosts);
-
     const handleShowEdit = evt => {
         setPostId((evt.target.nodeName !== 'A') ? evt.target.closest('a').dataset.targetPostId : evt.target.dataset.targetPostId);
         setBody((evt.target.nodeName !== 'A') ? evt.target.closest('a').dataset.targetBody : evt.target.dataset.targetBody);
@@ -107,12 +105,17 @@ const Profile = () => {
             const updatePostRes = res.data;
 
             if (updatePostRes.isSuccess) {
+                // clear input file
                 imageRef.current.value = '';
+
+                // setsetUserPosts
                 const newPosts = userPosts.filter((i, val) => {
                     return i['id'] !== updatePostRes.data['id']
                 });
                 updatePostRes.data['updated'] = true;
                 setUserPosts([ updatePostRes.data, ...newPosts ])
+
+                // hide modal
                 handleHideEdit();
             } else {
                 console.log('err res', updatePostRes.data)
@@ -164,11 +167,7 @@ const Profile = () => {
             setChunkedPosts(userPosts.slice(0, 10));
             // setCurrentPage(1);
         }
-    }, [isLoading])
-
-    // useEffect(() => {
-
-    // }, [loading])
+    }, [userPosts]);
 
     return (
         <ContainerIdx fluid={ true } containerClass='pt-5'>
@@ -209,6 +208,8 @@ const Profile = () => {
                             chunkedPosts && chunkedPosts.map(i => {
                                 const userPostId = i['id'];
                                 const userPostCreated = i['created_at'];
+                                const userPostUpdated = i['updated_at'];
+                                const isUpdated = i['updated'];
                                 const userPostBody = i['body'];
                                 const userPostImages = i['post_images'];
 
@@ -216,7 +217,7 @@ const Profile = () => {
                                     <CardIdx key={ 'post' + userPostId } cardClass='bg-secondary mb-3'>
                                         <RowIdx>
                                             <ColIdx columnClass='bg-warning'>
-                                                photo thumbnail
+                                                { userPostCreated } // Updated { userPostUpdated }
                                             </ColIdx>
                                             <ColIdx columnClass='bg-secondary'>
                                                 { JSON.parse(Cookies.get('x_auth_user'))['username'] }
@@ -279,7 +280,7 @@ const Profile = () => {
                             setCurrentPage={ setCurrentPage } 
                             pageSize={ 10 } 
                             setChunkedPosts={ setChunkedPosts } 
-                            data={ userPosts }
+                            data={ userPosts } 
                         />
                     </ColIdx>
                 </RowIdx>
