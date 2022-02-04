@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef, } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosDef from '../../../util/Request';
 import Cookies from 'js-cookie';
@@ -22,7 +22,7 @@ import Comment from '../../sections/Comment';
 const Profile = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
-    const userID = Cookies.get('x_auth_user') ? JSON.parse(Cookies.get('x_auth_user'))['id'] : navigate('/');
+    const userId = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['id'];
     const [userPosts, setUserPosts] = useState(null);
     const [postId, setPostId] = useState(null);
     const [showComment, setShowComment] = useState(false);
@@ -35,7 +35,10 @@ const Profile = () => {
     const [chunkedPosts, setChunkedPosts] = useState(null);
     const [currentPage, setCurrentPage] = useState(null);
 
-    const imageRef = createRef();
+    const imageRef = useRef();
+
+    console.log('userid: ', userId);
+    console.log('postid: ', postId);
 
     const handleShowEdit = evt => {
         setPostId((evt.target.nodeName !== 'A') ? evt.target.closest('a').dataset.targetPostId : evt.target.dataset.targetPostId);
@@ -52,13 +55,13 @@ const Profile = () => {
         setShowEdit(false);
     }
 
-    const handleShowDelete =evt => {
+    const handleShowDelete = evt => {
         setPostId((evt.target.nodeName !== 'A') ? evt.target.closest('a').dataset.targetPostId : evt.target.dataset.targetPostId);
 
         setShowDelete(true);
     }
 
-    const handleHideDelete =evt => {
+    const handleHideDelete = evt => {
         setPostId('');
 
         setShowDelete(false);
@@ -103,12 +106,19 @@ const Profile = () => {
 
         const updatePostForm = new FormData(evt.target)
 
+        for (let [i, val] of updatePostForm) {
+            console.log('i: ', i);
+            console.log('val: ', val);
+        }
+
         axiosDef.post('http://localhost:8000/api/post/update', updatePostForm)
 
         .then (res => {
             const updatePostRes = res.data;
+            console.log('res: ', updatePostRes);
 
             if (updatePostRes.isSuccess) {
+                // console.log('img ref: ', imageRef);
                 getUserPosts();
                 handleHideEdit();
             } else {
@@ -117,7 +127,7 @@ const Profile = () => {
         })
 
         .catch (err => {
-            console.log('EERRRRRRRRRRRR: ', err);
+            console.log('EERRRRRRRRRRRR: ', err.response.data.errors);
         })
     }
 
@@ -291,7 +301,7 @@ const Profile = () => {
                     >
                         <InputIdx 
                             name='id'
-                            value={ userID } 
+                            value={ userId } 
                             hidden={ true }
                         />
                         <InputIdx 
@@ -324,11 +334,13 @@ const Profile = () => {
                         onSubmit={ evt => updateUserPost(evt) }
                     >
                         <InputIdx 
+                            fieldType='regular'
                             name='id'
-                            value={ userID } 
+                            value={ userId } 
                             hidden={ true }
                         />
                         <InputIdx 
+                            fieldType='regular'
                             name='post_id'
                             value={ postId } 
                             hidden={ true }
@@ -355,7 +367,7 @@ const Profile = () => {
                             inputClass='bg-purple-200' 
                             // defaultValue={[ ...images ]} 
                             accept='image/*' 
-                            onChange={ inputFiles } 
+                            // onChange={ inputFiles } 
                             multiple={ true } 
                             hidden={ true }
                         />

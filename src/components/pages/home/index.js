@@ -1,4 +1,4 @@
-import { useState, createRef, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axiosDef, { axiosAuthBearer } from '../../../util/Request';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,18 +32,14 @@ const Home = () => {
     // toggle comment
     const [showComment, setShowComment] = useState(false);
 
-    const [updateID, setUpdateID] = useState(null);
     const [posts, setPosts] = useState(null);
     const [body, setBody] = useState('');
-    const [images, setImages] = useState([]);
 
     const imageRef = useRef();
 
     const focusField = evt => {
         evt.current.click();
     }
-
-    console.log('imagessss: ', images)
 
     // const inputFiles = evt => {
     //     [ ...evt.target.files ].map(i => {
