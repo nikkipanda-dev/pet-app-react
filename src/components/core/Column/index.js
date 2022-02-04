@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { ColumnReg } from "./ColumnReg/ColumnReg";
 
-export const ColIdx = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl, xxl }) => {
+export const ColIdx = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl, xxl, refTarget }) => {
     return (
         <ColumnReg 
             columnClass={ columnClass } 
@@ -12,6 +12,7 @@ export const ColIdx = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl,
             lg={ lg } 
             xl={ xl } 
             xxl={ xxl } 
+            refTarget={ refTarget }
         >
             { children }
         </ColumnReg>

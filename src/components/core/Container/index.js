@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import { ContainerReg } from './ContainerReg/ContainerReg';
 import { Div } from './Div/Div';
 
-export const ContainerIdx = ({ type, children, fluid, containerStyle, containerClass, hidden }) => {
+export const ContainerIdx = ({ type, children, fluid, containerStyle, containerClass, hidden, refTarget }) => {
     return (
         (type === 'regular') ?
             <Div 
                 divClass={ containerClass } 
                 divStyle={ containerStyle } 
+                refTarget={ refTarget }
                 hidden={ hidden ? true : false }
             >
                 { children }

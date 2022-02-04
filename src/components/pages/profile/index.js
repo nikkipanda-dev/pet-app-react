@@ -1,5 +1,4 @@
-import { useState, useEffect, createRef, } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import axiosDef from '../../../util/Request';
 import Cookies from 'js-cookie';
 import { faEdit, faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -17,25 +16,23 @@ import { BtnIdx } from '../../core/Button';
 import FormIdx from '../../widgets/Form';
 import { LabelIdx } from '../../core/Label';
 import { ModalIdx } from '../../widgets/Modal';
+import Comment from '../../sections/Comment';
 
 const Profile = () => {
-    const navigate = useNavigate();
-
     const [isLoading, setIsLoading] = useState(true);
-    const userID = Cookies.get('x_auth_user') ? JSON.parse(Cookies.get('x_auth_user'))['id'] : navigate('/');
+    const userId = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['id'];
     const [userPosts, setUserPosts] = useState(null);
     const [postId, setPostId] = useState(null);
     const [showComment, setShowComment] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [body, setBody] = useState('');
-    const [images, setImages] = useState([]);
 
     // pagination
     const [chunkedPosts, setChunkedPosts] = useState(null);
-    const [currentPage, setCurrentPage] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
-    const imageRef = createRef();
+    const imageRef = useRef();
 
     const handleShowEdit = evt => {
         setPostId((evt.target.nodeName !== 'A') ? evt.target.closest('a').dataset.targetPostId : evt.target.dataset.targetPostId);
@@ -47,18 +44,17 @@ const Profile = () => {
     const handleHideEdit = evt => {
         setPostId('');
         setBody('');
-        setImages([]);
 
         setShowEdit(false);
     }
 
-    const handleShowDelete =evt => {
+    const handleShowDelete = evt => {
         setPostId((evt.target.nodeName !== 'A') ? evt.target.closest('a').dataset.targetPostId : evt.target.dataset.targetPostId);
 
         setShowDelete(true);
     }
 
-    const handleHideDelete =evt => {
+    const handleHideDelete = evt => {
         setPostId('');
 
         setShowDelete(false);
@@ -68,12 +64,12 @@ const Profile = () => {
         evt.current.click();
     }
 
-    const inputFiles = evt => {
-        [ ...evt.target.files ].map(i => {
-            console.log('img: ', i)
-            setImages([ ...images, i ]);
-        })
-    }
+    // const inputFiles = evt => {
+    //     [ ...evt.target.files ].map(i => {
+    //         console.log('img: ', i)
+    //         setImages([ ...images, i ]);
+    //     })
+    // }
 
     const getUserPosts = async() => {
         await axiosDef.get('http://localhost:8000/api/user/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/posts', {
@@ -109,7 +105,17 @@ const Profile = () => {
             const updatePostRes = res.data;
 
             if (updatePostRes.isSuccess) {
-                getUserPosts();
+                // clear input file
+                imageRef.current.value = '';
+
+                // setsetUserPosts
+                const newPosts = userPosts.filter((i, val) => {
+                    return i['id'] !== updatePostRes.data['id']
+                });
+                updatePostRes.data['updated'] = true;
+                setUserPosts([ updatePostRes.data, ...newPosts ])
+
+                // hide modal
                 handleHideEdit();
             } else {
                 console.log('err res', updatePostRes.data)
@@ -117,7 +123,7 @@ const Profile = () => {
         })
 
         .catch (err => {
-            console.log('EERRRRRRRRRRRR: ', err);
+            console.log('EERRRRRRRRRRRR: ', err.response.data.errors);
         })
     }
 
@@ -148,16 +154,20 @@ const Profile = () => {
 
     useEffect(() => {
         if (userPosts === null && isLoading) {
+            console.log('1st useeffect')
+
             getUserPosts();
         }
     }, []);
 
     useEffect(() => {
         if (userPosts) {
+            console.log('2nd useeffect')
+
             setChunkedPosts(userPosts.slice(0, 10));
-            setCurrentPage(1);
+            // setCurrentPage(1);
         }
-    }, [userPosts])
+    }, [userPosts]);
 
     return (
         <ContainerIdx fluid={ true } containerClass='pt-5'>
@@ -198,6 +208,8 @@ const Profile = () => {
                             chunkedPosts && chunkedPosts.map(i => {
                                 const userPostId = i['id'];
                                 const userPostCreated = i['created_at'];
+                                const userPostUpdated = i['updated_at'];
+                                const isUpdated = i['updated'];
                                 const userPostBody = i['body'];
                                 const userPostImages = i['post_images'];
 
@@ -205,7 +217,7 @@ const Profile = () => {
                                     <CardIdx key={ 'post' + userPostId } cardClass='bg-secondary mb-3'>
                                         <RowIdx>
                                             <ColIdx columnClass='bg-warning'>
-                                                photo thumbnail
+                                                { userPostCreated } // Updated { userPostUpdated }
                                             </ColIdx>
                                             <ColIdx columnClass='bg-secondary'>
                                                 { JSON.parse(Cookies.get('x_auth_user'))['username'] }
@@ -268,7 +280,7 @@ const Profile = () => {
                             setCurrentPage={ setCurrentPage } 
                             pageSize={ 10 } 
                             setChunkedPosts={ setChunkedPosts } 
-                            data={ userPosts }
+                            data={ userPosts } 
                         />
                     </ColIdx>
                 </RowIdx>
@@ -291,7 +303,7 @@ const Profile = () => {
                     >
                         <InputIdx 
                             name='id'
-                            value={ userID } 
+                            value={ userId } 
                             hidden={ true }
                         />
                         <InputIdx 
@@ -324,11 +336,13 @@ const Profile = () => {
                         onSubmit={ evt => updateUserPost(evt) }
                     >
                         <InputIdx 
+                            fieldType='regular'
                             name='id'
-                            value={ userID } 
+                            value={ userId } 
                             hidden={ true }
                         />
                         <InputIdx 
+                            fieldType='regular'
                             name='post_id'
                             value={ postId } 
                             hidden={ true }
@@ -353,9 +367,7 @@ const Profile = () => {
                             refTarget={ imageRef } 
                             name='images[]' 
                             inputClass='bg-purple-200' 
-                            // defaultValue={[ ...images ]} 
                             accept='image/*' 
-                            onChange={ inputFiles } 
                             multiple={ true } 
                             hidden={ true }
                         />

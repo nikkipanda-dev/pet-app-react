@@ -1,6 +1,6 @@
 import Col from 'react-bootstrap/Col';
 
-export const ColumnReg = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl, xxl }) => {
+export const ColumnReg = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl, xxl, refTarget }) => {
     return (
         <Col 
             xs={ xs } 
@@ -11,6 +11,7 @@ export const ColumnReg = ({ children, columnClass, columnStyle, xs, sm, md, lg, 
             xxl={ xxl } 
             className={ columnClass } 
             style={{ ...columnStyle }} 
+            { ...refTarget && { ref: refTarget }}
         >
             { children }
         </Col>
