@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axiosDef from '../../../util/Request';
 import Cookies from 'js-cookie';
 import { faEdit, faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +19,6 @@ import { ModalIdx } from '../../widgets/Modal';
 import Comment from '../../sections/Comment';
 
 const Profile = () => {
-    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const userId = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['id'];
     const [userPosts, setUserPosts] = useState(null);
@@ -29,16 +27,14 @@ const Profile = () => {
     const [showEdit, setShowEdit] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [body, setBody] = useState('');
-    const [images, setImages] = useState([]);
 
     // pagination
     const [chunkedPosts, setChunkedPosts] = useState(null);
-    const [currentPage, setCurrentPage] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const imageRef = useRef();
 
-    console.log('userid: ', userId);
-    console.log('postid: ', postId);
+    console.log('userposts: ', userPosts);
 
     const handleShowEdit = evt => {
         setPostId((evt.target.nodeName !== 'A') ? evt.target.closest('a').dataset.targetPostId : evt.target.dataset.targetPostId);
@@ -50,7 +46,6 @@ const Profile = () => {
     const handleHideEdit = evt => {
         setPostId('');
         setBody('');
-        setImages([]);
 
         setShowEdit(false);
     }
@@ -71,12 +66,12 @@ const Profile = () => {
         evt.current.click();
     }
 
-    const inputFiles = evt => {
-        [ ...evt.target.files ].map(i => {
-            console.log('img: ', i)
-            setImages([ ...images, i ]);
-        })
-    }
+    // const inputFiles = evt => {
+    //     [ ...evt.target.files ].map(i => {
+    //         console.log('img: ', i)
+    //         setImages([ ...images, i ]);
+    //     })
+    // }
 
     const getUserPosts = async() => {
         await axiosDef.get('http://localhost:8000/api/user/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/posts', {
@@ -106,20 +101,18 @@ const Profile = () => {
 
         const updatePostForm = new FormData(evt.target)
 
-        for (let [i, val] of updatePostForm) {
-            console.log('i: ', i);
-            console.log('val: ', val);
-        }
-
         axiosDef.post('http://localhost:8000/api/post/update', updatePostForm)
 
         .then (res => {
             const updatePostRes = res.data;
-            console.log('res: ', updatePostRes);
 
             if (updatePostRes.isSuccess) {
-                // console.log('img ref: ', imageRef);
-                getUserPosts();
+                imageRef.current.value = '';
+                const newPosts = userPosts.filter((i, val) => {
+                    return i['id'] !== updatePostRes.data['id']
+                });
+                updatePostRes.data['updated'] = true;
+                setUserPosts([ updatePostRes.data, ...newPosts ])
                 handleHideEdit();
             } else {
                 console.log('err res', updatePostRes.data)
@@ -158,16 +151,24 @@ const Profile = () => {
 
     useEffect(() => {
         if (userPosts === null && isLoading) {
+            console.log('1st useeffect')
+
             getUserPosts();
         }
     }, []);
 
     useEffect(() => {
         if (userPosts) {
+            console.log('2nd useeffect')
+
             setChunkedPosts(userPosts.slice(0, 10));
-            setCurrentPage(1);
+            // setCurrentPage(1);
         }
-    }, [userPosts])
+    }, [isLoading])
+
+    // useEffect(() => {
+
+    // }, [loading])
 
     return (
         <ContainerIdx fluid={ true } containerClass='pt-5'>
@@ -365,9 +366,7 @@ const Profile = () => {
                             refTarget={ imageRef } 
                             name='images[]' 
                             inputClass='bg-purple-200' 
-                            // defaultValue={[ ...images ]} 
                             accept='image/*' 
-                            // onChange={ inputFiles } 
                             multiple={ true } 
                             hidden={ true }
                         />

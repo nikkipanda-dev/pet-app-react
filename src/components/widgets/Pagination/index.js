@@ -5,7 +5,7 @@ export const Pagination = ({ currentPage, setCurrentPage, setChunkedPosts, pageS
         <Paginator 
             pageSize={ pageSize } 
             total={ total } 
-            currentPage={ currentPage } 
+            currentPage={ currentPage ? currentPage : 1} 
             setCurrentPage={ setCurrentPage } 
             setChunkedPosts={ setChunkedPosts }
             data={ data } />
