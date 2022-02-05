@@ -1,11 +1,11 @@
-import { AnchorReg } from './AnchorReg/AnchorReg';
-import { AnchorModal } from './AnchorModal/AnchorModal';
-import { AnchorToggleEl } from './AnchorToggleEl/AnchorToggleEl';
+import { Regular } from './Regular';
+import { Modal } from './Modal';
+import { Toggle } from './Toggle';
 
-export const AnchorIdx = ({ type, text, href, isTargetBlank, isShown, anchorOnclick, anchorClass, anchorStyle, dataTargetUserId, dataTargetPostId, dataTargetBody }) => {
+export const Anchor = ({ type, text, href, isTargetBlank, isShown, anchorOnclick, anchorClass, anchorStyle, dataTargetUserId, dataTargetPostId, dataTargetBody }) => {
     return (
         (type == 'regular') ? 
-            <AnchorReg 
+            <Regular 
                 text={ text } 
                 href={ href } 
                 isTargetBlank={ isTargetBlank } 
@@ -13,7 +13,7 @@ export const AnchorIdx = ({ type, text, href, isTargetBlank, isShown, anchorOncl
                 anchorStyle={ anchorStyle }
             /> : 
         (type == 'modal') ? 
-            <AnchorModal 
+            <Modal 
                 text={ text } 
                 anchorClass={ anchorClass } 
                 anchorOnclick={ anchorOnclick } 
@@ -22,7 +22,7 @@ export const AnchorIdx = ({ type, text, href, isTargetBlank, isShown, anchorOncl
                 dataTargetBody={ dataTargetBody ? dataTargetBody : false } 
                 anchorStyle={ anchorStyle }
             /> :
-            <AnchorToggleEl 
+            <Toggle 
                 text={ text } 
                 anchorClass={ anchorClass } 
                 anchorOnclick={ anchorOnclick } 
@@ -31,3 +31,5 @@ export const AnchorIdx = ({ type, text, href, isTargetBlank, isShown, anchorOncl
             />
     )
 };
+
+export default Anchor;

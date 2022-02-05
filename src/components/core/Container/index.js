@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import { ContainerReg } from './ContainerReg/ContainerReg';
-import { Div } from './Div/Div';
+import { ContainerDefault } from './ContainerDefault';
+import { Div } from './Div';
 
-export const ContainerIdx = ({ type, children, fluid, containerStyle, containerClass, hidden, refTarget }) => {
+export const Container = ({ type, children, fluid, containerStyle, containerClass, hidden, refTarget }) => {
     return (
         (type === 'regular') ?
             <Div 
@@ -13,18 +13,18 @@ export const ContainerIdx = ({ type, children, fluid, containerStyle, containerC
             >
                 { children }
             </Div> :
-            <ContainerReg 
+            <ContainerDefault 
                 fluid={ fluid } 
                 containerStyle={ containerStyle ? containerStyle : false } 
                 containerClass={ containerClass } 
                 hidden={ hidden ? true : false }
             >
                 { children }
-            </ContainerReg>
+            </ContainerDefault>
     )
 };
 
-ContainerIdx.propTypes = {
+Container.propTypes = {
     'fluid': PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.bool,
@@ -39,8 +39,10 @@ ContainerIdx.propTypes = {
     ])
 }
 
-ContainerIdx.defaultProps = {
+Container.defaultProps = {
     'fluid': false,
     'containerClass': '',
     'containerStyle': false,
 }
+
+export default Container;

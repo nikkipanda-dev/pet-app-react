@@ -37,6 +37,10 @@ a:hover, .pointer-cursor:hover {
     cursor: pointer;
 }
 
+.handle::before {
+    content: "@";
+}
+
 .btn-reg, .btn-reg:hover, .btn-reg:focus {
     outline: unset;
     border: none;

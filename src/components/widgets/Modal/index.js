@@ -1,20 +1,22 @@
-import { ModalReg } from './ModalReg/ModalReg';
-import { ModalStatic } from './ModalStatic/ModalStatic';
+import { Regular } from './Regular';
+import { Static } from './Static';
 
-export const ModalIdx = ({ children, type, modalSize, btnOnhide, isShown, modalHeader }) => {
+export const Modal = ({ children, type, modalSize, btnOnhide, isShown, modalHeader }) => {
     return (
-        (type === 'regular') ? <ModalReg 
+        (type === 'regular') ? <Regular 
             btnOnhide={ btnOnhide } 
             modalSize={ modalSize } 
             isShown={ isShown } 
             modalHeader={ modalHeader }
         >
             { children }
-        </ModalReg> :
-        <ModalStatic 
+        </Regular> :
+        <Static 
             modalSize={ modalSize } 
             btnOnhide={ btnOnhide } 
             isShown={ isShown }
         />
     )
 };
+
+export default Modal;

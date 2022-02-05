@@ -3,17 +3,17 @@ import { useState, createRef, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
-import { ContainerIdx } from '../../core/Container'
-import { JumbotronIdx } from '../../sections/Jumbotron'
-import { RowIdx } from '../../core/Row'
-import { ColIdx } from '../../core/Column'
-import FormIdx from '../../widgets/Form'
-import { LabelIdx } from '../../core/Label'
-import { InputIdx } from '../../core/Input'
-import { BtnIdx } from '../../core/Button'
-import { HeaderIdx } from '../../core/Header';
-import { CardIdx } from '../../widgets/Card';
-import { ModalIdx } from '../../widgets/Modal';
+import Container from '../../core/Container'
+import Jumbotron from '../../sections/Jumbotron'
+import Row from '../../core/Row'
+import Column from '../../core/Column'
+import Form from '../../widgets/Form'
+import Label from '../../core/Label'
+import Input from '../../core/Input'
+import Button from '../../core/Button'
+import Header from '../../core/Header';
+import Card from '../../widgets/Card';
+import Modal from '../../widgets/Modal';
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -29,9 +29,6 @@ const LandingPage = () => {
     const [validateRegister, setValidateRegister] = useState(false);
     const [isRegisterError, setIsRegisterError] = useState(false);
     const [registerErr, setRegisterErr] = useState({});
-
-    useEffect(() => {
-    }, [firstName, lastName, username, email, password, repeatPassword, registerErr, validateRegister]);
     
     // focus input
     const firstNameRef = createRef();
@@ -88,27 +85,25 @@ const LandingPage = () => {
         }
     }
 
-    // TODO: auth component
-
     return (
         <>
-            <ContainerIdx fluid={ true }>
-                <ContainerIdx fluid='md' containerClass='pt-5'>
-                    <JumbotronIdx jumbotronStyle={{ minHeight: '100vh', }}>
-                        <RowIdx rowClass='p-2' rowStyle={{ minHeight: 'inherit', }}>
-                            <ColIdx columnClass='mt-5 py-3' sm={ 6 } md={ 7 } lg={ 8 } columnStyle={{ height: '100%', }}>
-                                <HeaderIdx text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, dolorem necessitatibus!' headerClass='display-5'/>
-                            </ColIdx>
-                            <ColIdx columnClass='mt-5 py-3' sm={ 6 } md={ 5 } lg={ 4 } columnStyle={{ height: '100%', }}>
-                                <FormIdx action='#' method='post' encType='multipart' onSubmit={ register }>
+            <Container fluid={ true }>
+                <Container fluid='md' containerClass='pt-5'>
+                    <Jumbotron jumbotronStyle={{ minHeight: '100vh', }}>
+                        <Row rowClass='p-2' rowStyle={{ minHeight: 'inherit', }}>
+                            <Column columnClass='mt-5 py-3' sm={ 6 } md={ 7 } lg={ 8 } columnStyle={{ height: '100%', }}>
+                                <Header text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, dolorem necessitatibus!' headerClass='display-5'/>
+                            </Column>
+                            <Column columnClass='mt-5 py-3' sm={ 6 } md={ 5 } lg={ 4 } columnStyle={{ height: '100%', }}>
+                                <Form action='#' method='post' encType='multipart' onSubmit={ register }>
                                     <div>
-                                        <LabelIdx 
+                                        <Label 
                                             text='First name:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
                                             refTarget={ firstNameRef }
                                         />
-                                        <InputIdx 
+                                        <Input 
                                             validationType='name' 
                                             type='text' 
                                             inputClass='form-control' 
@@ -127,13 +122,13 @@ const LandingPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <LabelIdx 
+                                        <Label 
                                             text='Last name:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
                                             refTarget={ lastNameRef }
                                         />
-                                        <InputIdx 
+                                        <Input 
                                             validationType='name' 
                                             type='text' 
                                             inputClass='form-control' 
@@ -152,13 +147,13 @@ const LandingPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <LabelIdx 
+                                        <Label 
                                             text='Username:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
                                             refTarget={ usernameRef }
                                         />
-                                        <InputIdx 
+                                        <Input 
                                             validationType='name' 
                                             type='text' 
                                             inputClass='form-control' 
@@ -177,13 +172,13 @@ const LandingPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <LabelIdx 
+                                        <Label 
                                             text='Email:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
                                             refTarget={ emailRef }
                                         />
-                                        <InputIdx 
+                                        <Input 
                                             validationType='email' 
                                             type='email' 
                                             inputClass='form-control' 
@@ -202,13 +197,13 @@ const LandingPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <LabelIdx 
+                                        <Label 
                                             text='Password:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
                                             refTarget={ passwordRef }
                                         />
-                                        <InputIdx 
+                                        <Input 
                                             validationType='password' 
                                             type='password' 
                                             inputClass='form-control' 
@@ -227,13 +222,13 @@ const LandingPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <LabelIdx 
+                                        <Label 
                                             text='Repeat password:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
                                             refTarget={ repeatPasswordRef }
                                         />
-                                        <InputIdx 
+                                        <Input 
                                             validationType='repeatPassword' 
                                             type='password' 
                                             inputClass='form-control' 
@@ -252,60 +247,60 @@ const LandingPage = () => {
                                         />
                                     </div>
                                     <div className='d-grid gap-2 col-12 col-sm-6 mx-auto'>
-                                        <BtnIdx 
+                                        <Button 
                                             type='submit' 
                                             text='Register' 
                                             btnClass='btn btn-reg btn-purple'
                                         />
                                     </div>
-                                </FormIdx>
-                            </ColIdx>
-                        </RowIdx>
-                    </JumbotronIdx>
-                </ContainerIdx>
-            </ContainerIdx>
-            <ContainerIdx fluid={ true } containerClass='mt-5'>
-                <ContainerIdx fluid='md' containerClass=''>
-                    <RowIdx rowClass='g-5' xs={ 1 } md={ 2 }>
-                        <ColIdx>
-                            <CardIdx 
+                                </Form>
+                            </Column>
+                        </Row>
+                    </Jumbotron>
+                </Container>
+            </Container>
+            <Container fluid={ true } containerClass='mt-5'>
+                <Container fluid='md' containerClass=''>
+                    <Row rowClass='g-5' xs={ 1 } md={ 2 }>
+                        <Column>
+                            <Card 
                                 cardClass='curved-border p-3 fs-3' 
                                 cardStyle={{ border: 'none', }}
                             >
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat explicabo neque totam amet autem quasi iusto sequi non aspernatur accusantium, modi quas ab cupiditate, laboriosam magnam unde, laudantium vel sit.
-                                <BtnIdx btnClass='btn btn-purple' text='Browse Communities'/>
-                            </CardIdx>
-                        </ColIdx>
-                        <ColIdx>
-                            <CardIdx 
+                                <Button btnClass='btn btn-purple' text='Browse Communities'/>
+                            </Card>
+                        </Column>
+                        <Column>
+                            <Card 
                                 cardClass='curved-border p-3 fs-3' 
                                 cardStyle={{ border: 'none', }}
                             >
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae debitis dolorem eligendi natus laborum praesentium officia, repellat nobis. Voluptatum inventore tenetur vel cumque ab libero consequatur quam saepe accusantium necessitatibus.
-                                <BtnIdx btnClass='btn btn-purple' text='Browse Stories'/>
-                            </CardIdx>
-                        </ColIdx>
-                        <ColIdx>
-                            <CardIdx 
+                                <Button btnClass='btn btn-purple' text='Browse Stories'/>
+                            </Card>
+                        </Column>
+                        <Column>
+                            <Card 
                                 cardClass='curved-border p-3 fs-3' 
                                 cardStyle={{ border: 'none', }}
                             >
                                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem natus, odio labore nesciunt quis eaque nobis quod quaerat suscipit id quibusdam non quo rerum dolores excepturi provident in laborum asperiores.
-                                <BtnIdx btnClass='btn btn-purple' text='Browse Memes'/>
-                            </CardIdx>
-                        </ColIdx>
-                        <ColIdx>
-                            <CardIdx 
+                                <Button btnClass='btn btn-purple' text='Browse Memes'/>
+                            </Card>
+                        </Column>
+                        <Column>
+                            <Card 
                                 cardClass='curved-border p-3 fs-3' 
                                 cardStyle={{ border: 'none', }}
                             >
                                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore laudantium sunt quaerat quam! Tempora suscipit modi ipsa sint eaque similique voluptatem. Nobis id assumenda reprehenderit nemo fugit dolor aperiam. Animi.
-                                <BtnIdx btnClass='btn btn-purple' text='Browse DOFTD'/>
-                            </CardIdx>
-                        </ColIdx>
-                    </RowIdx>
-                </ContainerIdx>
-            </ContainerIdx>
+                                <Button btnClass='btn btn-purple' text='Browse DOFTD'/>
+                            </Card>
+                        </Column>
+                    </Row>
+                </Container>
+            </Container>
         </>
     )
 };

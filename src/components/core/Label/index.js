@@ -1,7 +1,9 @@
-import { LabelReg } from "./LabelReg/LabelReg";
+import { Regular } from "./Regular";
 
-export const LabelIdx = ({ text, labelClass, labelOnclick, refTarget }) => {
+export const Label = ({ text, labelClass, labelOnclick, refTarget }) => {
     return (
-        <LabelReg text={ text } labelClass={ labelClass } labelOnclick={ labelOnclick } refTarget={ refTarget }/>
+        <Regular text={ text } labelClass={ labelClass } labelOnclick={ labelOnclick } refTarget={ refTarget }/>
     )
 };
+
+export default Label;

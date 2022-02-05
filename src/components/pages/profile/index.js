@@ -1,22 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, Outlet, Link } from 'react-router-dom';
+import { useLocation, Outlet, Link, Navigate } from 'react-router-dom';
 import axiosDef from '../../../util/Request';
 import Cookies from 'js-cookie';
-import { faEdit, faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Pagination from '../../widgets/Pagination';
-
-import { ContainerIdx } from '../../core/Container';
-import { RowIdx } from '../../core/Row';
-import { ColIdx } from '../../core/Column';
-import { CardIdx } from '../../widgets/Card';
-import { ImgIdx } from '../../core/Image';
-import { AnchorIdx } from '../../core/Anchor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { InputIdx } from '../../core/Input';
-import { BtnIdx } from '../../core/Button';
-import FormIdx from '../../widgets/Form';
-import { LabelIdx } from '../../core/Label';
-import { ModalIdx } from '../../widgets/Modal';
+import { faEdit, faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+import Container from '../../core/Container';
+import Row from '../../core/Row';
+import Column from '../../core/Column';
+import Card from '../../widgets/Card';
+import Image from '../../core/Image';
+import Anchor from '../../core/Anchor';
+import Input from '../../core/Input';
+import Button from '../../core/Button';
+import Form from '../../widgets/Form';
+import Label from '../../core/Label';
+import Modal from '../../widgets/Modal';
 import Comment from '../../sections/Comment';
 
 const Profile = () => {
@@ -47,93 +46,76 @@ const Profile = () => {
         })
     }
 
-    // const getFriends = async() => {
-    //     await axiosDef.get('http://localhost:8000/api/user/' + currentPathname + '/friends')
-
-    //     .then (res => {
-    //         console.log('fre res: ', res.data);
-    //         const getFriendsRes = res.data;
-
-    //         if (getFriendsRes.isSuccess) {
-    //             setFriends(getFriends.data);
-    //             setIsLoading(false);
-    //         } else {
-    //             console.log('get friends err: ', getFriendsRes.data);
-    //         }
-    //     })
-
-    //     .catch (err => {
-    //         console.log('fre err: ', err);
-    //     })
-    // }
-
     return (
-        <ContainerIdx fluid={ true } containerClass='pt-5'>
-            <ContainerIdx fluid='xl' containerClass='mt-5'>
-                <RowIdx rowClass='flex-column flex-md-row'>
-                    <ColIdx columnClass='' sm={ 4 }>
-                        <ContainerIdx type='regular' containerClass='bg-purple-100'>
+        JSON.parse(Cookies.get('x_auth_user'))['username'] ? 
+        <Container fluid={ true } containerClass='pt-5'>
+            <Container fluid='xl' containerClass='mt-5'>
+                <Row>
+                    <Column columnClass='p-2 d-flex flex-column' xs={ 12 } sm={ 5 } md={ 4 }>
+                        <Container type='regular' containerClass='bg-purple-100'>
                             <img src='/pup_patrol_logo.png' style={{ objectFit: 'cover', width: '100%', maxWidth: '300px', maxHeight: '300px' }}/>
-                            <RowIdx xs={ 1 } sm={ 2 }>
+                            <Row>
+                                <Column>
                                 {
                                     (currentPathname !== JSON.parse(Cookies.get('x_auth_user'))['username']) ? 
-                                    <FormIdx
+                                    <Form
                                         action='#'
                                         method='POST'
                                         encType='multipart'
                                         onSubmit={ evt => addUser(evt) }>
-                                        <InputIdx 
+                                        <Input 
                                             fieldType='regular'
                                             name='id'
                                             value={ JSON.parse(Cookies.get('x_auth_user'))['id'] } 
                                             hidden={ true }/>
-                                        <InputIdx 
+                                        <Input 
                                             fieldType='regular'
                                             name='member_username'
                                             value={ currentPathname } 
                                             hidden={ true }/>
-                                        <BtnIdx 
+                                        <Button 
                                             type='submit'
                                             text='Send friend invitation'/>
-                                    </FormIdx> : ''
+                                    </Form> : ''
                                 }
-                                <ColIdx>
+                                </Column>
+                                <Column>
                                     message
-                                </ColIdx>
-                            </RowIdx>
-                        </ContainerIdx>
-                        <ContainerIdx type='regular' containerClass=''>
+                                </Column>
+                            </Row>
+                        </Container>
+                        <Container type='regular' containerClass=''>
                             badges
-                        </ContainerIdx>
-                        <ContainerIdx type='regular' containerClass=''>
+                        </Container>
+                        <Container type='regular' containerClass=''>
                             Friends
                             <Link to='friends'>See all</Link>
-                        </ContainerIdx>
-                        <ContainerIdx type='regular' containerClass=''>
+                        </Container>
+                        <Container type='regular' containerClass=''>
                             communities
-                        </ContainerIdx>
-                        <ContainerIdx type='regular' containerClass=''>
+                        </Container>
+                        <Container type='regular' containerClass=''>
                             memes
-                        </ContainerIdx>
-                        <ContainerIdx type='regular' containerClass=''>
+                        </Container>
+                        <Container type='regular' containerClass=''>
                             activities
-                        </ContainerIdx>
-                    </ColIdx>
-                    <ColIdx columnClass='' sm={ 8 }>
-                        <ContainerIdx type='regular' containerClass=''>
+                        </Container>
+                    </Column>
+                    <Column columnClass='' xs={ 12 } sm={ 7 } md={ 8 }>
+                        <Container type='regular' containerClass=''>
                             cover photo
-                        </ContainerIdx>
-                        <ContainerIdx type='regular' containerClass=''>
+                        </Container>
+                        <Container type='regular' containerClass=''>
                             featured stories
-                        </ContainerIdx>
-                        <ContainerIdx type='regular' containerClass=''>
+                        </Container>
+                        <Container type='regular' containerClass=''>
                             <Link to='posts'>Posts</Link>
-                        </ContainerIdx>
+                        </Container>
                         <Outlet />
-                    </ColIdx>
-                </RowIdx>
-            </ContainerIdx>
-        </ContainerIdx>
+                    </Column>
+                </Row>
+            </Container>
+        </Container> : <Navigate to='/'replace={true}/>
     )
 };
 

@@ -1,10 +1,10 @@
-import { ContainerIdx } from "../../core/Container";
+import Container from "../../core/Container";
 
 export const Comment = () => {
     return (
-        <ContainerIdx type='regular'>
+        <Container type='regular'>
             Comment
-        </ContainerIdx>
+        </Container>
     )
 };
 

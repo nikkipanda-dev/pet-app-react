@@ -1,9 +1,11 @@
-import { AlertReg } from "./AlertReg/AlertReg";
+import { Regular } from "./Regular";
 
-export const AlertIdx = ({ children, alertClass }) => {
+export const Alert = ({ children, alertClass }) => {
     return (
-        <AlertReg alertClass={ alertClass }>
+        <Regular alertClass={ alertClass }>
             { children }
-        </AlertReg>
+        </Regular>
     )
 };
+
+export default Alert;

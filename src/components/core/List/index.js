@@ -1,7 +1,9 @@
-import { ListReg } from './ListReg/ListReg';
+import { Regular } from './ListReg/ListReg';
 
-export const ListIdx = () => {
+export const List = () => {
     return (
-        <ListReg text='I am a list'/>
+        <Regular text='I am a list'/>
     )
 };
+
+export default List;

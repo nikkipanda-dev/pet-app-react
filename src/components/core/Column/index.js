@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { ColumnReg } from "./ColumnReg/ColumnReg";
+import { Regular } from "./Regular";
 
-export const ColIdx = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl, xxl, refTarget }) => {
+export const Column = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl, xxl, refTarget }) => {
     return (
-        <ColumnReg 
+        <Regular 
             columnClass={ columnClass } 
             columnStyle={ columnStyle } 
             xs={ xs } 
@@ -15,11 +15,11 @@ export const ColIdx = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl,
             refTarget={ refTarget }
         >
             { children }
-        </ColumnReg>
+        </Regular>
     )
 };
 
-ColIdx.propTypes = {
+Column.propTypes = {
     'columnClass': PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.bool,
@@ -52,9 +52,13 @@ ColIdx.propTypes = {
         PropTypes.number,
         PropTypes.bool,
     ]),
+    'refTarget': PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.bool,
+    ]),
 }
 
-ColIdx.defaultProps = {
+Column.defaultProps = {
     'columnClass': false,
     'columnStyle': false,
     'xs': false,
@@ -63,4 +67,7 @@ ColIdx.defaultProps = {
     'lg': false,
     'xl': false,
     'xxl': false,
+    'refTarget': false,
 }
+
+export default Column;

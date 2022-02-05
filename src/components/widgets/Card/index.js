@@ -1,13 +1,15 @@
-import { CardReg } from "./CardReg/CardReg";
+import { Regular } from "./Regular/CardReg";
 
-export const CardIdx = ({ children, keyID, cardClass, cardStyle }) => {
+export const Card = ({ children, keyID, cardClass, cardStyle }) => {
     return (
-        <CardReg 
+        <Regular 
             keyID={ keyID } 
             cardClass={ cardClass } 
             cardStyle={ cardStyle }
         >
             { children }
-        </CardReg>
+        </Regular>
     )
 };
+
+export default Card;

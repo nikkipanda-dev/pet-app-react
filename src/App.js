@@ -2,12 +2,10 @@ import {
     BrowserRouter as Router, Routes, Route, Navigate as Redirect
 } from "react-router-dom";
 import Cookies from "js-cookie";
-import Authentication from "./util/Authentication";
 
 // Widgets
-import { Navbar } from './components/widgets/Navbar/Navbar';
+import Navbar from './components/widgets/Navbar';
 import Footer from './components/widgets/Footer';
-import { ModalIdx } from "./components/widgets/Modal";
 
 // Pages
 import LandingPage from './components/pages/landing-page';
@@ -29,7 +27,6 @@ import 'react-bootstrap/dist/react-bootstrap.min.js';
 
 export const App = () => {
     const username = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['username'];
-    console.log(Cookies.get('x_auth_secret_tk'))
 
     return (
         <Router forceRefresh={ true }>
@@ -51,3 +48,5 @@ export const App = () => {
         </Router>
     );
 }
+
+export default App;

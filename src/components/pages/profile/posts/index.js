@@ -1,28 +1,24 @@
-import ReactPaginate from 'react-paginate';
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import axiosDef from '../../../../util/Request';
 import Cookies from 'js-cookie';
+import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { ContainerIdx } from '../../../core/Container';
-import { CardIdx } from '../../../widgets/Card';
-import { RowIdx } from '../../../core/Row';
-import { ColIdx } from '../../../core/Column';
-import { AnchorIdx } from '../../../core/Anchor';
-import { ImgIdx } from '../../../core/Image';
-import { ModalIdx } from '../../../widgets/Modal';
-import FormIdx from '../../../widgets/Form';
-import { LabelIdx } from '../../../core/Label';
-import { InputIdx } from '../../../core/Input';
-import { BtnIdx } from '../../../core/Button';
-import Pagination from '../../../widgets/Pagination';
-import { func } from 'prop-types';
+import Container from '../../../core/Container';
+import Card from '../../../widgets/Card';
+import Row from '../../../core/Row';
+import Column from '../../../core/Column';
+import Anchor from '../../../core/Anchor';
+import Image from '../../../core/Image';
+import Modal from '../../../widgets/Modal';
+import Form from '../../../widgets/Form';
+import Label from '../../../core/Label';
+import Input from '../../../core/Input';
+import Button from '../../../core/Button';
 
 export const Posts = ({ isDefault }) => {
-    // console.log(isDefault)
-
     const location = useLocation();
     const userId = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['id'];
     const [postId, setPostId] = useState(null);
@@ -40,11 +36,6 @@ export const Posts = ({ isDefault }) => {
 
     // pagination
     const [chunkedPosts, setChunkedPosts] = useState(null);
-
-    // console.log(postsPathname)
-    // console.log('asfASDf', postsPathname.slice(0, -6))
-    // console.log('posts ', userPosts)
-    // console.log('chunked: ', chunkedPosts)
 
     const focusField = evt => {
         evt.current.click();
@@ -154,30 +145,6 @@ export const Posts = ({ isDefault }) => {
         })
     }
 
-    console.log('chunked: ', chunkedPosts)
-    // const chunkPosts = (min, max) => {
-    //     console.log('min: ', min)
-    //     console.log('max: ', max)
-    // }
-
-    // if (userPosts) {
-    //     const chunkPosts = page => {
-    //         window.scrollTo(0, 0);
-
-    //         const minIndex = (page * pageSize) - pageSize;
-    //         const maxIndex = (page * pageSize);
-    //         const totalPages = Math.ceil(total / pageSize);
-
-    //         setTimeout(() => {
-    //             if (maxIndex > Object.keys(userPosts).length && (page === totalPages)) {
-    //                 setChunkedPosts(data.slice(minIndex));
-    //             } else {
-    //                 setChunkedPosts(data.slice(minIndex, maxIndex));
-    //             }
-    //         }, 700);
-    //     }
-    // }
-
     useEffect(() => {
         console.log('1st')
         if ((userPosts === null) && isPostsLoading) {
@@ -193,15 +160,11 @@ export const Posts = ({ isDefault }) => {
     }, [userPosts])
 
     const setPage = evt => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         const currentPage = parseInt(evt.selected) + 1;
-        console.log('currentPage ', currentPage)
 
         const minIndex = (currentPage * 10) - 10;
-        // ( 2 * 10 ) - 10 = 
         const maxIndex = (currentPage * 10);
-
-        console.log('min in', minIndex)
-        console.log('max in', maxIndex)
 
         setTimeout(() => {
             if (maxIndex > Object.keys(userPosts).length && (currentPage === pageSize)) {
@@ -213,29 +176,8 @@ export const Posts = ({ isDefault }) => {
     }
 
     return (
-        <ContainerIdx type='regular' containerClass=''>
-            { userPosts &&
-            <ReactPaginate
-            previousLabel="Previous"
-            nextLabel="Next"
-            // pageClassName="page-item"
-            // pageLinkClassName="page-link"
-            // previousClassName="page-item"
-            // previousLinkClassName="page-link"
-            // nextClassName="page-item"
-            // nextLinkClassName="page-link"
-            breakLabel="..."
-            // breakClassName="page-item"
-            // breakLinkClassName="page-link"
-            pageCount={ pageSize }
-            marginPagesDisplayed={ 2 }
-            pageRangeDisplayed={ 5 }
-            onPageChange={ setPage }
-            containerClassName="pagination"
-            activeClassName="active"/>
-            }
-
-        {/* {
+        <Container type='regular' containerClass='mt-3'>
+        {
             chunkedPosts && chunkedPosts.map(i => {
                 const userPostId = i['id'];
                 const authorPostId = i['user_id'];
@@ -245,128 +187,149 @@ export const Posts = ({ isDefault }) => {
                 const userPostBody = i['body'];
                 const userPostImages = i['post_images'];
 
-                // console.log('inside')
+                return (
+                    <Card key={ 'post' + userPostId } cardClass='mb-3'>
+                        <Row rowClass='m-1 g-0'>
+                            <Column columnClass='' sm={ 6 }>
+                                { userPostCreated } // Updated { userPostUpdated }
+                            </Column>
+                            <Column columnClass='' sm={ 6 }>
+                                {
+                                    (JSON.parse(Cookies.get('x_auth_user'))['username'] === postsPathname.slice(0, -6)) ? 
+                                    <>
+                                        <Anchor
+                                            type='modal' 
+                                            text={ <FontAwesomeIcon icon={ faEdit } className='fa-2x'/> }
+                                            anchorClass='' 
+                                            dataTargetPostId={ userPostId } 
+                                            dataTargetBody={ userPostBody }
+                                            anchorOnclick={ handleShowEdit }/>
+                                        <Anchor
+                                            type='modal' 
+                                            text={ <FontAwesomeIcon icon={ faTrash } className='fa-2x'/> }
+                                            anchorClass='' 
+                                            dataTargetPostId={ userPostId } 
+                                            dataTargetBody={ userPostBody }
+                                            anchorOnclick={ handleShowDelete }/>
+                                    </> : ''
+                                }
+                            </Column>
+                            <Column columnClass='' sm={ 12 }>
+                                {
+                                    userPostImages && userPostImages.map(i => {
+                                        const postImageURL = new URL(i['image_path'], 'http://localhost:8000/storage/posts/');
 
-                // <CardIdx key={ 'post' + userPostId } cardClass='bg-secondary mb-3'>
-                //     <RowIdx>
-                //         <ColIdx columnClass='bg-warning'>
-                //             { userPostCreated } // Updated { userPostUpdated }
-                //         </ColIdx>
-                //         <ColIdx columnClass='bg-secondary'>
-                //             {
-                //                 (JSON.parse(Cookies.get('x_auth_user'))['username'] === postsPathname.slice(0, -6)) ? 
-                //                 <>
-                //                     <AnchorIdx
-                //                         type='modal' 
-                //                         text={ <FontAwesomeIcon icon={ faEdit } className='fa-2x'/> }
-                //                         anchorClass='' 
-                //                         dataTargetPostId={ userPostId } 
-                //                         dataTargetBody={ userPostBody }
-                //                         anchorOnclick={ handleShowEdit }/>
-                //                     <AnchorIdx
-                //                         type='modal' 
-                //                         text={ <FontAwesomeIcon icon={ faTrash } className='fa-2x'/> }
-                //                         anchorClass='' 
-                //                         dataTargetPostId={ userPostId } 
-                //                         dataTargetBody={ userPostBody }
-                //                         anchorOnclick={ handleShowDelete }/>
-                //                 </> : ''
-                //             }
-                //         </ColIdx>
-                //         <ColIdx columnClass='bg-primary' sm={ 12 }>
-                //             {
-                //                 userPostImages && userPostImages.map(i => {
-                //                     const postImageURL = new URL(i['image_path'], 'http://localhost:8000/storage/posts/');
-
-                //                     return (
-                //                         <ImgIdx 
-                //                             key={ 'post' + userPostId + 'img' + i['id'] } 
-                //                             src={ postImageURL } 
-                //                             imgClass='img-fluid img-thumbnail curved-border' 
-                //                             imgStyle={{ objectFit: 'cover', width: '100px', height: '100px' }}/>
-                //                     )
-                //                 })
-                //             }
-                //         </ColIdx>
-                //         <ColIdx columnClass='bg-success' sm={ 12 }>
-                //             <p>{ userPostBody }</p> post ID: { userPostId } author ID: { JSON.parse(Cookies.get('x_auth_user'))['id'] }
-                //         </ColIdx>
-                //         <ColIdx columnClass='bg-danger' sm={ 12 }>
-                //             <AnchorIdx 
-                //                     type='toggle' 
-                //                     text='Comment' 
-                //                     isShown={ showComment }
-                //                     anchorOnclick= { setShowComment }/>
-                //                 <ContainerIdx type='regular' containerClass={ showComment ? 'd-block' : 'd-none' }>
-                //                     helo comment here
-                //                 </ContainerIdx>
-                //         </ColIdx>
-                //     </RowIdx>
-                // </CardIdx>
+                                        return (
+                                            <Image 
+                                                key={ 'post' + userPostId + 'img' + i['id'] } 
+                                                src={ postImageURL } 
+                                                imgClass='img-fluid img-thumbnail curved-border' 
+                                                imgStyle={{ objectFit: 'cover', width: '100px', height: '100px' }}/>
+                                        )
+                                    })
+                                }
+                            </Column>
+                            <Column columnClass='' sm={ 12 }>
+                                <p>{ userPostBody }</p> post ID: { userPostId } author ID: { JSON.parse(Cookies.get('x_auth_user'))['id'] }
+                            </Column>
+                            <Column columnClass='' sm={ 12 }>
+                                <Anchor 
+                                        type='toggle' 
+                                        text='Comment' 
+                                        isShown={ showComment }
+                                        anchorOnclick= { setShowComment }/>
+                                    <Container type='regular' containerClass={ showComment ? 'd-block' : 'd-none' }>
+                                        helo comment here
+                                    </Container>
+                            </Column>
+                        </Row>
+                    </Card>
+                )
             })
-        } */}
-            <ModalIdx 
+        }
+        {
+            chunkedPosts && 
+            <ReactPaginate
+                previousLabel="Previous"
+                nextLabel="Next"
+                // pageClassName="page-item"
+                // pageLinkClassName="page-link"
+                // previousClassName="page-item"
+                // previousLinkClassName="page-link"
+                // nextClassName="page-item"
+                // nextLinkClassName="page-link"
+                breakLabel="..."
+                // breakClassName="page-item"
+                // breakLinkClassName="page-link"
+                pageCount={ pageSize }
+                marginPagesDisplayed={ 2 }
+                pageRangeDisplayed={ 5 }
+                onPageChange={ setPage }
+                containerClassName="pagination"
+                activeClassName="active"/>
+        }
+            <Modal 
                 type='regular' 
                 btnOnhide={ handleHideDelete } 
                 modalSize='md' 
                 isShown={ showDelete } 
                 modalHeader='Confirmation'>
-                <ContainerIdx type='regular'>
-                    <FormIdx
+                <Container type='regular'>
+                    <Form
                         action='#' 
                         method='POST' 
                         encType='multipart' 
                         onSubmit={ evt => deleteUserPost(evt) }>
-                        <InputIdx 
+                        <Input 
                             name='id'
                             value={ userId } 
                             hidden={ true }/>
-                        <InputIdx 
+                        <Input 
                             name='post_id'
                             value={ postId } 
                             hidden={ true }/>
-                        <BtnIdx 
+                        <Button 
                             type='submit' 
                             text='Delete' 
                             btnClass='' />
-                    </FormIdx>
-                </ContainerIdx>
-            </ModalIdx>
-            <ModalIdx 
+                    </Form>
+                </Container>
+            </Modal>
+            <Modal 
                 type='regular' 
                 btnOnhide={ handleHideEdit } 
                 modalSize='md' 
                 isShown={ showEdit } 
                 modalHeader='test'>
-                <ContainerIdx type='regular' >
-                    <FormIdx
+                <Container type='regular' >
+                    <Form
                         action='#' 
                         method='POST' 
                         encType='multipart' 
                         onSubmit={ evt => updateUserPost(evt) }>
-                        <InputIdx 
+                        <Input 
                             fieldType='regular'
                             name='id'
                             value={ userId } 
                             hidden={ true }/>
-                        <InputIdx 
+                        <Input 
                             fieldType='regular'
                             name='post_id'
                             value={ postId } 
                             hidden={ true }/>
-                        <InputIdx 
+                        <Input 
                             fieldType='textarea'
                             textareaClass='' 
                             onChange={ setBody } 
                             rows={ 3 } 
                             name='body'
                             defaultValue={ body }/>
-                        <LabelIdx 
+                        <Label 
                             text={ <FontAwesomeIcon icon={ faImages } className='fa-2x'/> } 
                             refTarget={ imageRef } 
                             labelOnclick={ focusField } 
                             labelClass='pointer-cursor mt-3 mt-sm-0 align-self-center'/>
-                        <InputIdx 
+                        <Input 
                             fieldType='file' 
                             type='file' 
                             refTarget={ imageRef } 
@@ -375,14 +338,14 @@ export const Posts = ({ isDefault }) => {
                             accept='image/*' 
                             multiple={ true } 
                             hidden={ true }/>
-                        <BtnIdx 
+                        <Button 
                             type='submit' 
                             text='Save' 
                             btnClass=''/>
-                    </FormIdx>
-                </ContainerIdx>
-            </ModalIdx>
-        </ContainerIdx>
+                    </Form>
+                </Container>
+            </Modal>
+        </Container>
     )
 };
 

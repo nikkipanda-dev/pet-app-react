@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { FormReg } from "./FormReg/FormReg";
+import { Regular } from "./Regular";
 
 let formMethod;
 let formEncType;
@@ -11,14 +11,14 @@ const sanitizeFormProp = ({ ...props}) => {
     (props.formEncType === 'multipart') ? 'multipart/form-data' : undefined;
 }
 
-export const FormIdx = ({ children, formClass, formStyle, action, method, encType, onSubmit }) => {
+export const Form = ({ children, formClass, formStyle, action, method, encType, onSubmit }) => {
     formMethod = method;
     formEncType = encType;
 
     sanitizeFormProp({formMethod, formEncType});
 
     return (
-        <FormReg
+        <Regular
             onSubmit={ evt => onSubmit(evt) }
             formClass={ formClass } 
             formStyle={ formStyle }
@@ -27,11 +27,11 @@ export const FormIdx = ({ children, formClass, formStyle, action, method, encTyp
             encType={ formEncType }    
         >
             { children }
-        </FormReg>
+        </Regular>
     )
 };
 
-FormIdx.propTypes = {
+Form.propTypes = {
     'formClass': PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.bool,
@@ -52,10 +52,10 @@ FormIdx.propTypes = {
     ]),
 }
 
-FormIdx.defaultProps = {
+Form.defaultProps = {
     'formClass': false,
     'formStyle': false,
     'onSubmit': false,
 }
 
-export default FormIdx;
+export default Form;
