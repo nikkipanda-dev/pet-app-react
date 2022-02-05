@@ -41,12 +41,6 @@ const Home = () => {
         evt.current.click();
     }
 
-    // const inputFiles = evt => {
-    //     [ ...evt.target.files ].map(i => {
-    //         setImages([ ...images, i ]);
-    //     })
-    // }
-
     const getPosts = async() => {
         await axiosDef.get('http://localhost:8000/api/posts')
 
@@ -183,9 +177,7 @@ const Home = () => {
                                         refTarget={ imageRef } 
                                         name='images[]' 
                                         inputClass='bg-purple-200' 
-                                        // defaultValue={ images } 
                                         accept='image/*' 
-                                        // onChange={ inputFiles } 
                                         multiple={ true } 
                                         hidden={ true }
                                     />

@@ -1,5 +1,5 @@
 import { useState, createRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import axiosDef from "../../../util/Request";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -61,7 +61,6 @@ export const Navbar = () => {
                         Cookies.set('x_auth_user', JSON.stringify(loginRes.data), { sameSite: 'strict', secure: true });
                         Cookies.set('x_auth_secret_tk', loginRes.secret, { sameSite: 'strict', secure: true });
 
-                        // console.log(Cookies.get('x_auth_user'));
                         hideNavModal(false);
 
                         return (
@@ -99,7 +98,8 @@ export const Navbar = () => {
                         { Cookies.get('x_auth_secret_tk') ? 
                             <>
                                 <Link to='home' className='navbar-link me-3'>Home</Link>
-                                <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] } className='navbar-link me-3'>Profile</Link>
+                                {/* <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] } className='navbar-link me-3'>Profile</Link> */}
+                                <AnchorIdx type='regular' text='Profile' href={ new URL('u/' + JSON.parse(Cookies.get('x_auth_user'))['username'], 'http://localhost:3000') } anchorClass='navbar-link me-3' isTargetBlank={ false } />
                                 <Link to='settings' className='navbar-link me-3'>Settings</Link> 
                                 <a href='/' className='navbar-link'><FontAwesomeIcon icon={faSignOutAlt}/></a>
                             </> :

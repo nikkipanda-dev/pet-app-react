@@ -1,5 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, Navigate as Redirect } from "react-router-dom";
+import {
+    BrowserRouter as Router, Routes, Route, Navigate as Redirect
+} from "react-router-dom";
 import Cookies from "js-cookie";
+import Authentication from "./util/Authentication";
 
 // Widgets
 import { Navbar } from './components/widgets/Navbar/Navbar';
@@ -21,19 +24,22 @@ import './css/style.css';
 // Bootstrap bundle
 import 'react-bootstrap/dist/react-bootstrap.min.js';
 
+
+
 export const App = () => {
     const username = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['username'];
+    console.log(Cookies.get('x_auth_secret_tk'))
 
     return (
-        <Router>
+        <Router forceRefresh={ true }>
             <Navbar />
             <Routes>
-                <Route path='/' element={ Cookies.get('x_auth_secret_tk') ? <Redirect to='/home' /> : <LandingPage /> }/>
-                <Route path='/home' element={ Cookies.get('x_auth_secret_tk') ? <Home /> : <Redirect to={ '/' } />}/>
-                <Route path={ '/u/' + username } element={ Cookies.get('x_auth_secret_tk') ? <Profile /> : <Redirect to={ '/' } /> }/>
-                <Route path='/settings' element={ Cookies.get('x_auth_secret_tk') ? <Settings /> : <Redirect to={ '/' } /> }/>
-                <Route path='/communities' element={ Cookies.get('x_auth_secret_tk') ? <Communities /> : <Redirect to={ '/' } /> }/>
-                <Route path='/stories' element={ Cookies.get('x_auth_secret_tk') ? <Stories /> : <Redirect to={ '/' } /> }/>
+                <Route exact path='/' element={<LandingPage />} />
+                <Route exact path='/home' element={<Home />} />
+                <Route exact path={'/u/:' + username} element={<Profile />} />
+                <Route exact path='/settings' element={<Settings />} />
+                <Route exact path='/communities' element={<Communities />} />
+                <Route exact path='/stories' element={<Stories />} />
             </Routes>
             <Footer />
         </Router>
