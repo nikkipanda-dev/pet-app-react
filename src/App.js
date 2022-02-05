@@ -15,6 +15,9 @@ import Home from './components/pages/home';
 import Communities from "./components/pages/communities";
 import Stories from "./components/pages/stories";
 import Profile from './components/pages/profile';
+import Posts from "./components/pages/profile/posts";
+import Friends from "./components/pages/profile/friends";
+import FriendsPost from "./components/pages/profile/friends-post";
 import Settings from './components/pages/settings';
 
 // Styling
@@ -23,8 +26,6 @@ import './css/style.css';
 
 // Bootstrap bundle
 import 'react-bootstrap/dist/react-bootstrap.min.js';
-
-
 
 export const App = () => {
     const username = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['username'];
@@ -36,7 +37,12 @@ export const App = () => {
             <Routes>
                 <Route exact path='/' element={<LandingPage />} />
                 <Route exact path='/home' element={<Home />} />
-                <Route exact path={'/u/:' + username} element={<Profile />} />
+                <Route exact path={'/u/:' + username} element={<Profile />}>
+                    <Route index element={ <Posts isDefault={ true }/> }/>
+                    <Route exact path={ 'friends' } element={ <Friends /> }/>
+                    <Route exact path={ 'posts' } element={ <Posts /> }/>
+                    <Route exact path={ 'posts/friends' } element={ <FriendsPost /> }/>
+                </Route>
                 <Route exact path='/settings' element={<Settings />} />
                 <Route exact path='/communities' element={<Communities />} />
                 <Route exact path='/stories' element={<Stories />} />
