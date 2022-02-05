@@ -1,11 +1,13 @@
-import { ImageThumbnail } from './ImageThumbnail/ImageThumbnail';
+import { Thumbnail } from './Thumbnail';
 
-export const ImgIdx = ({ src, imgClass, imgStyle }) => {
+export const Image = ({ src, imgClass, imgStyle }) => {
     return (
-        <ImageThumbnail 
+        <Thumbnail 
             src={ src } 
             imgClass={ imgClass } 
             imgStyle={ imgStyle }
         />
     )
 };
+
+export default Image;

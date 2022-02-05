@@ -1,9 +1,11 @@
-import { BadgeReg } from "./BadgeReg.js/BadgeReg";
+import Regular from "./Regular";
 
-export const BadgeIdx = ({ badgeContext }) => {
+export const Badge = ({ badgeContext }) => {
     return (
         <>
             <BadgeReg badgeContext={ badgeContext }/>
         </>
     )
 };
+
+export default Badge;

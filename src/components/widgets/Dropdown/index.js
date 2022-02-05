@@ -1,9 +1,9 @@
-import { DropdownReg } from './DropdownReg/DropdownReg';
+import { Regular } from './DropdownReg/DropdownReg';
 
-export const DropdownIdx = ({ children, dropdownClass, dropdownStyle }) => {
+export const Dropdown = ({ children, dropdownClass, dropdownStyle }) => {
     return (
-        <DropdownReg />
+        <Regular />
     )
 };
 
-export default DropdownIdx;
+export default Dropdown;

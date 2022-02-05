@@ -1,16 +1,16 @@
-import { ButtonReg } from './ButtonReg/ButtonReg';
-import { ButtonModal } from './ButtonModal/ButtonModal';
+import { Regular } from './Regular';
+import { Modal } from './Modal';
 
-export const BtnIdx = ({ text, type, btnClass, btnStyle, btnOnclick, btnOnhide, targetID }) => {
+export const Button = ({ text, type, btnClass, btnStyle, btnOnclick, btnOnhide, targetID }) => {
     return (
-        (type === 'modal') ? <ButtonModal 
+        (type === 'modal') ? <Modal 
             text={ text } 
             btnClass={ btnClass } 
             btnStyle={ btnStyle } 
             btnOnclick={ btnOnclick ? btnOnclick : btnOnhide } 
             targetID={ targetID ? targetID : '' }
         /> : 
-        <ButtonReg 
+        <Regular 
             type={ type } 
             text={ text } 
             btnClass={ btnClass } 
@@ -18,3 +18,5 @@ export const BtnIdx = ({ text, type, btnClass, btnStyle, btnOnclick, btnOnhide, 
         />
     )
 };
+
+export default Button;

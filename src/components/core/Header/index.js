@@ -1,7 +1,9 @@
-import { HeaderReg } from "./HeaderReg/HeaderReg";
+import { HeaderDefault } from "./HeaderDefault";
 
-export const HeaderIdx = ({ text, headerClass }) => {
+export const Header = ({ text, headerClass }) => {
     return (
-        <HeaderReg text={ text } headerClass={ headerClass }/>
+        <HeaderDefault text={ text } headerClass={ headerClass }/>
     )
 };
+
+export default Header;

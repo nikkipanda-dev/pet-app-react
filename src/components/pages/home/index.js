@@ -6,17 +6,17 @@ import { faImages } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
 
-import { ContainerIdx } from '../../core/Container';
-import { RowIdx } from '../../core/Row';
-import { ColIdx } from '../../core/Column';
-import { CardIdx } from '../../widgets/Card';
-import { ModalIdx } from '../../widgets/Modal';
-import FormIdx from '../../widgets/Form';
-import { LabelIdx } from '../../core/Label';
-import { InputIdx } from '../../core/Input';
-import { BtnIdx } from '../../core/Button';
-import { ImgIdx } from '../../core/Image';
-import { AnchorIdx } from '../../core/Anchor';
+import Container from '../../core/Container';
+import Row from '../../core/Row';
+import Column from '../../core/Column';
+import Card from '../../widgets/Card';
+import Modal from '../../widgets/Modal';
+import Form from '../../widgets/Form';
+import Label from '../../core/Label';
+import Input from '../../core/Input';
+import Button from '../../core/Button';
+import Image from '../../core/Image';
+import Anchor from '../../core/Anchor';
 // import { BtnIdx } from '../../core/Button';
 
 const Home = () => {
@@ -121,42 +121,42 @@ const Home = () => {
     }, []);
 
     return (
-        <ContainerIdx fluid={ true } containerClass='pt-5'>
-            <ContainerIdx fluid='xl' containerClass='mt-5'>
-                <RowIdx rowClass='flex-column flex-md-row'>
-                    <ColIdx columnClass='d-none d-md-flex flex-column p-2' md={ 3 }>
-                        <CardIdx cardClass='p-2 fine-print'>
+        <Container fluid={ true } containerClass='pt-5'>
+            <Container fluid='xl' containerClass='mt-5'>
+                <Row rowClass='flex-column flex-md-row'>
+                    <Column columnClass='d-none d-md-flex flex-column p-2' md={ 3 }>
+                        <Card cardClass='p-2 fine-print'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.
-                        </CardIdx>
-                        <CardIdx cardClass='mt-3 p-2 fine-print'>
+                        </Card>
+                        <Card cardClass='mt-3 p-2 fine-print'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.
-                        </CardIdx>
-                        <CardIdx cardClass='mt-3 p-2 fine-print'>
+                        </Card>
+                        <Card cardClass='mt-3 p-2 fine-print'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.
-                        </CardIdx>
-                        <CardIdx cardClass='mt-3 p-2 fine-print'>
+                        </Card>
+                        <Card cardClass='mt-3 p-2 fine-print'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.
-                        </CardIdx>
-                        <CardIdx cardClass='mt-3 p-2 fine-print'>
+                        </Card>
+                        <Card cardClass='mt-3 p-2 fine-print'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.
-                        </CardIdx>
-                        <CardIdx cardClass='mt-3 p-2 fine-print'>
+                        </Card>
+                        <Card cardClass='mt-3 p-2 fine-print'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.
-                        </CardIdx>
-                        <CardIdx cardClass='mt-3 p-2 fine-print'>
+                        </Card>
+                        <Card cardClass='mt-3 p-2 fine-print'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.
-                        </CardIdx>
-                    </ColIdx>
-                    <ColIdx columnClass='py-2' md={ 6 }>
-                        <ContainerIdx fluid={ true } containerClass='px-0'>
-                            <FormIdx 
+                        </Card>
+                    </Column>
+                    <Column columnClass='py-2' md={ 6 }>
+                        <Container fluid={ true } containerClass='px-0'>
+                            <Form 
                                 action='#' 
                                 method='POST' 
                                 encType='multipart' 
                                 onSubmit={ postForm } 
                                 formStyle={{ width: '100%', }}
                             >
-                                <InputIdx
+                                <Input
                                     inputClass='form-control' 
                                     fieldType='textarea' 
                                     value={ body } 
@@ -165,13 +165,13 @@ const Home = () => {
                                     rows={ 4 }
                                 />
                                 <div className='mt-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-between align-items-sm-center'>
-                                    <LabelIdx 
+                                    <Label 
                                         text={ <FontAwesomeIcon icon={ faImages } className='fa-2x'/> } 
                                         refTarget={ imageRef } 
                                         labelOnclick={ focusField } 
                                         labelClass='pointer-cursor mt-3 mt-sm-0 align-self-center'
                                     />
-                                    <InputIdx 
+                                    <Input 
                                         fieldType='file' 
                                         type='file' 
                                         refTarget={ imageRef } 
@@ -181,15 +181,15 @@ const Home = () => {
                                         multiple={ true } 
                                         hidden={ true }
                                     />
-                                    <BtnIdx 
+                                    <Button 
                                         type='submit' 
                                         text='post' 
                                         btnClass='btn btn-purple mt-3 mt-sm-0'
                                     />
                                 </div>
-                            </FormIdx>
-                        </ContainerIdx>
-                        <ContainerIdx fluid={ true } containerClass='mt-5'>
+                            </Form>
+                        </Container>
+                        <Container fluid={ true } containerClass='mt-5'>
                             {
                                 posts && Object.keys(posts).map(i => {
                                     const postID = Object.values(posts)[i]['id'];
@@ -203,25 +203,25 @@ const Home = () => {
                                     const postImages = Object.values(posts)[i]['post_images'];
 
                                     return (
-                                        <CardIdx key={ 'post' + postID } cardClass='mb-5 border-0'>
-                                            <RowIdx rowClass='bg-secondary'>
-                                                <ColIdx 
+                                        <Card key={ 'post' + postID } cardClass='mb-5 border-0'>
+                                            <Row rowClass='bg-secondary'>
+                                                <Column 
                                                     columnClass='bg-purple-100 d-flex flex-column justify-content-center align-items-center py-1 bg-yellow-100' 
                                                     sm={ 4 }
                                                 >
-                                                    <ImgIdx 
+                                                    <Image 
                                                         src='/pup_patrol_logo.png'
                                                         imgStyle={{ objectFit: 'cover', width: '70px', height: '70px' }}
                                                     />
                                                     <span className='mt-3'>{ postAuthor['username'] }</span>
-                                                </ColIdx>
-                                                <ColIdx 
+                                                </Column>
+                                                <Column 
                                                     columnClass='bg-warning text-end d-flex flex-column align-items-end' 
                                                     sm={ 8 }
                                                 >
                                                     <span>{ postCreated }</span>
-                                                </ColIdx>
-                                                <ColIdx 
+                                                </Column>
+                                                <Column 
                                                     columnClass='bg-primary' 
                                                     sm={ 12 }
                                                 >
@@ -230,7 +230,7 @@ const Home = () => {
                                                             const postImageURL = new URL(i['image_path'], 'http://localhost:8000/storage/posts/');
 
                                                             return (
-                                                                <ImgIdx 
+                                                                <Image 
                                                                     key={ 'post' + postID + 'img' + i['id'] } 
                                                                     src={ postImageURL } 
                                                                     imgClass='img-fluid img-thumbnail curved-border' 
@@ -239,29 +239,29 @@ const Home = () => {
                                                             )
                                                         })
                                                     }
-                                                </ColIdx>
-                                                <ColIdx 
+                                                </Column>
+                                                <Column 
                                                     columnClass='bg-secondary' 
                                                     sm={ 12 }
                                                 >
                                                     <p>{ postBody }</p>
-                                                </ColIdx>
-                                                <ColIdx columnClass='bg-dark' sm={ 12 }>
-                                                    <AnchorIdx 
+                                                </Column>
+                                                <Column columnClass='bg-dark' sm={ 12 }>
+                                                    <Anchor 
                                                         type='toggle' 
                                                         text='Comment' 
                                                         isShown={ showComment }
                                                         anchorOnclick= { setShowComment }
                                                     />
-                                                    <ContainerIdx containerClass={ showComment ? 'd-block' : 'd-none' }>
-                                                        <FormIdx 
+                                                    <Container containerClass={ showComment ? 'd-block' : 'd-none' }>
+                                                        <Form 
                                                             action='#' 
                                                             method='POST' 
                                                             encType='multipart' 
                                                             onSubmit={ postForm } 
                                                             formStyle={{ width: '100%', }}
                                                         >
-                                                            <InputIdx
+                                                            <Input
                                                                 inputClass='form-control' 
                                                                 fieldType='textarea' 
                                                                 value={ body } 
@@ -269,34 +269,34 @@ const Home = () => {
                                                                 onChange={ setBody } 
                                                                 rows={ 4 }
                                                             />
-                                                            <BtnIdx 
+                                                            <Button 
                                                                 type='submit' 
                                                                 text='post' 
                                                                 btnClass='btn btn-purple mt-3 mt-sm-0'
                                                             />
-                                                        </FormIdx>
-                                                    </ContainerIdx>
-                                                </ColIdx>
-                                            </RowIdx>
-                                        </CardIdx>
+                                                        </Form>
+                                                    </Container>
+                                                </Column>
+                                            </Row>
+                                        </Card>
                                     )
                                 })
                             }
-                        </ContainerIdx>
-                    </ColIdx>
-                    <ColIdx columnClass='p-1 p-md-2' md={ 3 }>
-                        <CardIdx cardClass='d-flex flex-column justify-content-center align-items-center'>
+                        </Container>
+                    </Column>
+                    <Column columnClass='p-1 p-md-2' md={ 3 }>
+                        <Card cardClass='d-flex flex-column justify-content-center align-items-center'>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Est fugit obcaecati placeat ratione facilis, expedita ea enim aperiam magnam ex voluptate repellendus eius repudiandae similique dicta eveniet quas ut accusamus?
                             <Link to='/communities' className='mt-3'>Read more</Link>
-                        </CardIdx>
-                        <ContainerIdx fluid={ true } containerClass='mt-5 d-flex flex-column justify-content-center align-items-center'>
+                        </Card>
+                        <Container fluid={ true } containerClass='mt-5 d-flex flex-column justify-content-center align-items-center'>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet sequi voluptate necessitatibus consequatur quibusdam obcaecati at tenetur quasi accusantium corrupti culpa earum, sint dolorum odit nesciunt ad asperiores nisi porro.
                             <Link to='/stories' className='mt-3'>Read more</Link>
-                        </ContainerIdx>
-                    </ColIdx>
-                </RowIdx>
-            </ContainerIdx>
-        </ContainerIdx>
+                        </Container>
+                    </Column>
+                </Row>
+            </Container>
+        </Container>
     )
 };
 

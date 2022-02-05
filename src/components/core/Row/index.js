@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { RowReg } from "./RowReg/RowReg";
+import { Regular } from "./RowReg";
 
-export const RowIdx = ({ children, rowClass, rowStyle, xs, sm, md, lg, xl, xxl }) => {
+export const Row = ({ children, rowClass, rowStyle, xs, sm, md, lg, xl, xxl }) => {
     return (
-        <RowReg 
+        <Regular 
             rowClass={ rowClass ? rowClass : '' } 
             rowStyle={ rowStyle } 
             xs={ xs } 
@@ -14,11 +14,11 @@ export const RowIdx = ({ children, rowClass, rowStyle, xs, sm, md, lg, xl, xxl }
             xxl={ xxl } 
         >
             { children }
-        </RowReg>
+        </Regular>
     )
 };
 
-RowIdx.propTypes = {
+Row.propTypes = {
     'xs': PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.bool,
@@ -45,7 +45,7 @@ RowIdx.propTypes = {
     ]),
 }
 
-RowIdx.defaultProps = {
+Row.defaultProps = {
     'xs': false,
     'sm': false,
     'md': false,
@@ -53,3 +53,5 @@ RowIdx.defaultProps = {
     'xl': false,
     'xxl': false,
 }
+
+export default Row;

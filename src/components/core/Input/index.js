@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
+import { Regular } from './Regular';
+import { Textarea } from './Textarea';
+import { File } from './File';
+import Alert from '../Alert';
 
-import { InputReg } from './InputReg/InputReg';
-import { Textarea } from './Textarea/Textarea';
-import { InputFile } from './InputFile/InputFile';
-import { AlertIdx } from '../Alert';
-
-export const InputIdx = ({ validationType, fieldType, type, inputClass, inputStyle, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows, multiple, accept, hidden, defaultValue }) => { 
+export const Input = ({ validationType, fieldType, type, inputClass, inputStyle, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows, multiple, accept, hidden, defaultValue }) => { 
     // TODO: Client-side validation
 
     // let thisErrorMsg = null;
@@ -29,7 +27,7 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, inputSty
         <>
             {
                 (fieldType === 'regular') ? 
-                    <InputReg
+                    <Regular
                         type={ type } 
                         inputClass={ inputClass } 
                         refTarget={ refTarget } 
@@ -48,7 +46,7 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, inputSty
                             value={ value } 
                             defaultValue={ defaultValue }
                         /> :
-                    <InputFile 
+                    <File 
                         type={ type } 
                         inputClass={ inputClass } 
                         refTarget={ refTarget } 
@@ -61,13 +59,15 @@ export const InputIdx = ({ validationType, fieldType, type, inputClass, inputSty
                     />
             }
 
-            <AlertIdx alertClass={ alertClass }>
+            <Alert alertClass={ alertClass }>
                 {                    
                     // thisErrorMsg ? thisErrorMsg : 
                     errorMsg && errorMsg[name] ? (!errorMsg['password_confirmation'] ? errorMsg[name] : errorMsg[name]) :
                     null
                 }
-            </AlertIdx>
+            </Alert>
         </>
     )
 };
+
+export default Input;
