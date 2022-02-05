@@ -18,6 +18,7 @@ import { ModalIdx } from '../../widgets/Modal';
 const LandingPage = () => {
     const navigate = useNavigate();
 
+    // if registered true
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -86,6 +87,8 @@ const LandingPage = () => {
             console.log('react err');
         }
     }
+
+    // TODO: auth component
 
     return (
         <>
