@@ -85,7 +85,7 @@ export const Friends = ({ isDefault }) => {
             console.log('val: ', val)
         }
 
-        axiosDef.post('http://localhost:8000/api/user/accept', acceptFriendForm)
+        axiosDef.post('http://localhost:8000/api/user/friend/accept', acceptFriendForm)
 
         .then (res => {
             console.log('res accept: ', res.data);
@@ -103,6 +103,35 @@ export const Friends = ({ isDefault }) => {
         })
     }
 
+    const declineRequest = evt => {
+        evt.preventDefault();
+
+        console.log('evt ', evt.target);
+
+        const declineFriendForm = new FormData(evt.target);
+
+        for (let [i, val] of declineFriendForm.entries()) {
+            console.log('i: ', i)
+            console.log('val: ', val)
+        }
+
+        axiosDef.post('http://localhost:8000/api/user/friend/decline', declineFriendForm)
+
+        .then (res => {
+            console.log('res decline: ', res.data);
+            const declineRequestRes = res.data;
+            
+            if (declineRequestRes.isSuccess) {
+                console.log('success decline');
+            } else {
+                console.log('res err decline ', declineRequestRes.data)
+            }
+        })
+
+        .catch (err => {
+            console.log('decline err ', err)
+        })
+    }
 
     const setRequestsPage = evt => {
         console.log('pending: ', pendingFriends)
@@ -211,7 +240,24 @@ export const Friends = ({ isDefault }) => {
                                             hidden={ true }/>
                                             <Button type='submit' text='Accept'/>
                                         </Form>
-                                        <Button type='regular' text='Decline'/>
+                                        <Form 
+                                        action='#'
+                                        method='POST'
+                                        encType='multipart'
+                                        onSubmit={ declineRequest }
+                                        formClass='d-inline-block'>
+                                            <Input
+                                            fieldType='regular'
+                                            name='member_id'
+                                            value={ i['user_id'] }
+                                            hidden={ true }/>
+                                            <Input
+                                            fieldType='regular'
+                                            name='id'
+                                            value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
+                                            hidden={ true }/>
+                                            <Button type='submit' text='Decline'/>
+                                        </Form>
                                     </Container>
                                 </Column>
                             </Row>
