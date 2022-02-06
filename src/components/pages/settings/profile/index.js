@@ -78,6 +78,31 @@ export const ProfileSettings = () => {
         })
     }
 
+    const removeDisplayPhoto = evt => {
+        evt.preventDefault();
+
+        const removePhotoForm = new FormData(evt.target)
+        removePhotoForm.append('id', JSON.parse(Cookies.get('x_auth_user'))['id']);
+
+        axiosDef.post('http://localhost:8000/api/user/' + username + '/settings/display-photo/destroy', removePhotoForm)
+
+        .then (res => {
+            const removePhotoRes = res.data;
+
+            if (removePhotoRes) {
+                Cookies.remove('x_auth_user_display_photo');
+
+                setDisplayPhotoPath('');
+            } else {
+                console.log('err change:" ', removePhotoRes.data);
+            }
+        })
+
+        .catch (err => {
+            console.log('err upd ', err)
+        })
+    }
+
     useEffect(() => {
         if (displayPhotoPath === null) {
             Cookies.get('x_auth_user_display_photo') && setDisplayPhotoPath(JSON.parse(Cookies.get('x_auth_user_display_photo')));
@@ -90,10 +115,13 @@ export const ProfileSettings = () => {
             <Row rowClass='bg-success mt-3'>
                 <Column columnClass='bg-secondary p-3'>
                     <Span type='regular' text='Display photo:'/>
-                    <Image 
-                    src={ new URL(displayPhotoPath, 'http://localhost:8000/storage/display_photos/') }
-                    imgClass='bg-purple-100'
-                    imgStyle={{ objectFit: 'cover', width: '100%', height: '100%', maxWidth: '400px', maxHeight: '400px', }}/>
+                    {
+                        displayPhotoPath ? 
+                        <Image 
+                        src={ new URL(displayPhotoPath, 'http://localhost:8000/storage/display_photos/') }
+                        imgClass='bg-purple-100'
+                        imgStyle={{ objectFit: 'cover', width: '100%', height: '100%', maxWidth: '400px', maxHeight: '400px', }}/> : 'none'
+                    }
                 </Column>
                 <Column>
                 {
@@ -134,6 +162,13 @@ export const ProfileSettings = () => {
                         accept='image/*'
                         hidden={ true }/>
                         <Button type='submit' text='Change display photo'/>
+                    </Form>
+                    <Form
+                        action='#'
+                        method='POST'
+                        encType='multipart'
+                        onSubmit={ removeDisplayPhoto }>
+                        <Button type='submit' text='Remove display photo'/>
                     </Form>
                     </>
                 }
