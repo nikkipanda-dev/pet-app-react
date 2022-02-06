@@ -22,9 +22,13 @@ export const Settings = () => {
             <Container fluid='xl' containerClass='mt-5'>
                 <Row rowClass='m-1'>
                     <Column 
-                    columnClass='d-none d-sm-flex p-3 flex-row flex-wrap flex-sm-nowrap flex-sm-column justify-content-center justify-content-sm-start align-items-center align-items-sm-stretch' 
+                    columnClass='bg-purple-100 d-none d-sm-inline-block p-3' 
+                    columnStyle={{ minHeight: '25vh', }}
                     sm={ 4 } 
                     md={ 3 }>
+                        <Container 
+                        type='regular' 
+                        containerClass='position-fixed d-flex flex-row flex-wrap flex-sm-nowrap flex-sm-column justify-content-center justify-content-sm-start align-items-center align-items-sm-stretch'>
                         {
                             settingsLinks && Object.keys(settingsLinks).map((i, val) => {
 
@@ -33,8 +37,9 @@ export const Settings = () => {
                                 )
                             })
                         }
+                        </Container>
                     </Column>
-                    <Column columnClass='p-3 bg-primary' sm={ 8 } md={ 9 }>
+                    <Column columnClass='ms-auto p-3 bg-primary' sm={ 8 } md={ 9 }>
                         <Container type='regular' containerClass='d-flex d-sm-none flex-row flex-wrap flex-sm-nowrap flex-sm-column justify-content-center justify-content-sm-start align-items-center align-items-sm-stretch'>
                         {
                             settingsLinks && Object.keys(settingsLinks).map((i, val) => {
