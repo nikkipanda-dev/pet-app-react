@@ -4,7 +4,7 @@ export const Regular = ({ text, spanClass, spanStyle, spanOnclick, dataTarget })
             className={spanClass}
             style={{ ...spanStyle }}
             { ...spanOnclick && { onClick: evt => spanOnclick(evt) }}
-            data-target={ dataTarget }>
+            { ...dataTarget && { dataTarget: dataTarget }}>
             
             {text}
         </span>
