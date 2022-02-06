@@ -32,9 +32,9 @@ export const Input = ({ validationType, fieldType, type, inputClass, inputStyle,
                         inputClass={ inputClass } 
                         refTarget={ refTarget } 
                         name={ name } 
-                        onChange={ onChange } 
-                        value={ value } 
-                        defaultValue={ defaultValue } 
+                        // onChange={ onChange } 
+                        // value={ value }
+                        defaultValue={ defaultValue ? defaultValue : '' } 
                         hidden={ hidden }
                     />  : 
                     (fieldType === 'textarea') ? 

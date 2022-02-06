@@ -8,23 +8,21 @@ import Column from "../../core/Column";
 export const Settings = () => {
     const username = JSON.parse(Cookies.get('x_auth_user'))['username'];
 
-    console.log(username)
-
-    // const settingsLinks = {
-    //     'account': { text: 'Account' },
-    //     profile: { text: 'Profile' },
-    //     privacy: { text: 'Privacy' },
-    //     messaging: { text: 'Messaging' },
-    //     notifications: { text: 'Notifications' },
-    //     beta: { text: 'Beta Tests' },
-    // }
+    const settingsLinks = {
+        account: { text: 'Account' },
+        profile: { text: 'Profile' },
+        privacy: { text: 'Privacy' },
+        messaging: { text: 'Messaging' },
+        notifications: { text: 'Notifications' },
+        beta: { text: 'Beta Tests' },
+    }
 
     return (
         <Container fluid={ true } containerClass='pt-5'>
             <Container fluid='xl' containerClass='mt-5'>
                 <Row rowClass='m-1'>
-                    {/* <Column 
-                    columnClass='p-3 d-flex flex-row flex-wrap flex-sm-nowrap flex-sm-column justify-content-center align-items-center align-items-sm-stretch' 
+                    <Column 
+                    columnClass='p-3 d-flex flex-row flex-wrap flex-sm-nowrap flex-sm-column justify-content-center justify-content-sm-start align-items-center align-items-sm-stretch' 
                     sm={ 4 } 
                     md={ 3 }>
                         {
@@ -35,7 +33,7 @@ export const Settings = () => {
                                 )
                             })
                         }
-                    </Column> */}
+                    </Column>
                     <Column columnClass='p-3 bg-primary' sm={ 8 } md={ 9 }>
                         <Outlet />
                     </Column>
