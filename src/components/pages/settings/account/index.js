@@ -18,16 +18,29 @@ export const AccountSettings = ({ isDefault }) => {
     const [email, setEmail] = useState(null);
 
     const [isEmailShown, setIsEmailShown] = useState(false);
+    const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [emailText, setEmailText] = useState('Update');
+    const [passwordText, setPasswordText] = useState('update');
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const emailRef = useRef();
     const passwordRef = useRef();
+    const oldPasswordRef = useRef();
+    const newPasswordRef = useRef();
+    const confirmNewPasswordRef = useRef();
 
-    const toggleEmail = evt => {
+    const toggleEmail = () => {
         isEmailShown ? setEmailText('Update') : setEmailText('Cancel');
 
         setIsEmailShown(!isEmailShown);
+        setIsSubmitted(false);
+    }
+
+    const togglePassword = () => {
+        isPasswordShown ? setPasswordText('Update') : setPasswordText('Cancel');
+
+        setIsPasswordShown(!isPasswordShown);
+        setIsSubmitted(false);
     }
 
     const updateEmail = evt => {
@@ -48,8 +61,41 @@ export const AccountSettings = ({ isDefault }) => {
                 toggleEmail();
                 emailRef.current.value = '';
                 passwordRef.current.value= '';
+
+                setIsSubmitted(true);
             } else {
                 console.log('update email res err: ', updateEmailRes.data);
+            }
+        })
+    
+        .catch (err => {
+            console.log('err update email: ', err.response.data.errors)
+        })
+    }
+    
+    const updatePassword = evt => {
+        evt.preventDefault();
+
+        const updatePasswordForm = new FormData(evt.target);
+        updatePasswordForm.append('id', parseInt(JSON.parse(Cookies.get('x_auth_user'))['id'], 10));
+
+        axiosDef.post('http://localhost:8000/api/user/' + username + '/settings/password/update', updatePasswordForm)
+
+        .then (res => {
+            const updatePasswordRes = res.data;
+
+            if (updatePasswordRes.isSuccess) {
+                Cookies.set('x_auth_user', JSON.stringify(updatePasswordRes.data), { sameSite: 'strict', secure: true });
+                setEmail(updatePasswordRes.data['email']);
+
+                togglePassword();
+                oldPasswordRef.current.value = '';
+                newPasswordRef.current.value = '';
+                confirmNewPasswordRef.current.value = '';
+
+                setIsSubmitted(true);
+            } else {
+                console.log('update email res err: ', updatePasswordRes.data);
             }
         })
     
@@ -62,7 +108,7 @@ export const AccountSettings = ({ isDefault }) => {
         if ((email === null) && isLoading) {
             setEmail(JSON.parse(Cookies.get('x_auth_user'))['email']);
         }
-    }, [email])
+    }, [email]);
 
     return (
        <Container fluid={ true } containerClass='bg-warning'>
@@ -102,21 +148,49 @@ export const AccountSettings = ({ isDefault }) => {
                </Column>
            </Row>
            <Row rowClass='bg-success mt-3'>
-               <Column>
-                    Password
-               </Column>
-               <Column columnClass='bg-secondary'>
-                    Update
-               </Column>
-           </Row>
-           <Row rowClass='bg-success mt-3'>
-               <Column columnClass='bg-secondary'>
+                <Column>
+                {
+                    !(isSubmitted) ? 
+                    <Form
+                    action='#'
+                    method='POST'
+                    encType='multipart'
+                    onSubmit={ updatePassword }
+                    hidden={ isPasswordShown ? false : true }>
+                        <Input
+                        fieldType='regular' 
+                        type='password'
+                        name='old_password' 
+                        refTarget={ oldPasswordRef }
+                        defaultValue=''/>
+                        <Input
+                        fieldType='regular' 
+                        type='password'
+                        name='new_password' 
+                        refTarget={ newPasswordRef }
+                        defaultValue=''/>
+                        <Input
+                        fieldType='regular' 
+                        type='password'
+                        name='new_password_confirmation' 
+                        refTarget={ confirmNewPasswordRef }
+                        defaultValue=''/>
+                        <Button type='regular' text='Save'/>
+                    </Form> : 'submitted'
+                }
+                </Column>
+                <Column columnClass='bg-secondary'>
+                    <Button type='regular' text={ passwordText } btnOnclick={ togglePassword }/>
+                </Column>
+            </Row>
+            <Row rowClass='bg-success mt-3'>
+                <Column columnClass='bg-secondary'>
                     Delete account
-               </Column>
-               <Column>
+                </Column>
+                <Column>
                     Request
-               </Column>
-           </Row>
+                </Column>
+            </Row>
        </Container>
     )
 };
