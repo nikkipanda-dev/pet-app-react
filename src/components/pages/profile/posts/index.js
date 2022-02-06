@@ -91,6 +91,8 @@ export const Posts = ({ isDefault }) => {
         evt.preventDefault();
 
         const updatePostForm = new FormData(evt.target)
+        updatePostForm.append('id', parseInt(JSON.parse(Cookies.get('x_auth_user'))['id'], 10));
+        updatePostForm.append('post_id', parseInt(postId));
 
         axiosDef.post('http://localhost:8000/api/post/update', updatePostForm)
 
@@ -119,13 +121,13 @@ export const Posts = ({ isDefault }) => {
             console.log('EERRRRRRRRRRRR: ', err.response.data.errors);
         })
     }
-
+    
     const deleteUserPost = evt => {
         evt.preventDefault();
 
-        // console.log('del')
-
         const deletePostForm = new FormData(evt.target);
+        deletePostForm.append('id', parseInt(JSON.parse(Cookies.get('x_auth_user'))['id'], 10));
+        deletePostForm.append('post_id', parseInt(postId));
 
         axiosDef.post('http://localhost:8000/api/post/delete', deletePostForm)
 
@@ -133,7 +135,9 @@ export const Posts = ({ isDefault }) => {
             const deletePostRes = res.data;
 
             if (deletePostRes.isSuccess) {
-                // getUserPosts();
+                setUserPosts(userPosts && userPosts.filter(i => {
+                    return (i['id'] !== parseInt(postId)) && i
+                }));
                 handleHideDelete();   
             } else {
                 console.log('del err: ', deletePostRes.data);
@@ -306,17 +310,7 @@ export const Posts = ({ isDefault }) => {
                         action='#' 
                         method='POST' 
                         encType='multipart' 
-                        onSubmit={ evt => updateUserPost(evt) }>
-                        <Input 
-                            fieldType='regular'
-                            name='id'
-                            value={ userId } 
-                            hidden={ true }/>
-                        <Input 
-                            fieldType='regular'
-                            name='post_id'
-                            value={ postId } 
-                            hidden={ true }/>
+                        onSubmit={ updateUserPost }>
                         <Input 
                             fieldType='textarea'
                             textareaClass='' 
