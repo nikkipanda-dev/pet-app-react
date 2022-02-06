@@ -28,19 +28,20 @@ export const Friends = ({ isDefault }) => {
     const [chunkedPendingPosts, setChunkedPendingPosts] = useState(null);
     const [chunkedFriendsPosts, setChunkedFriendsPosts] = useState(null);
 
-    console.log('friendsPathname.slice(0, -8): ', friendsPathname.slice(0, -8));
-    console.log('pending: ', chunkedPendingPosts);
-    console.log('friends: ', chunkedFriendsPosts);
+    // console.log('friendsPathname.slice(0, -8): ', friendsPathname.slice(0, -8));
+    // console.log('pending: ', chunkedPendingPosts);
+    // console.log('friends: ', chunkedFriendsPosts);
 
     const getFriends = async() => {
         await axiosDef.get('http://localhost:8000/api/user/' + friendsPathname)
 
         .then (res => {
-            console.log('fre res: ', res.data);
+            // console.log('fre res: ', res.data);
             const getFriendsRes = res.data;
 
             if (getFriendsRes.isSuccess) {
-                setFriends(getFriends.data);
+                // console.log('get friends success', getFriendsRes.data);
+                setFriends(getFriendsRes.data);
                 setIsLoading(false);
             } else {
                 console.log('get friends err: ', getFriendsRes.data);
@@ -93,6 +94,7 @@ export const Friends = ({ isDefault }) => {
             
             if (acceptRequestRes) {
                 console.log('success accept');
+                getFriends();
             } else {
                 console.log('res err accept ', acceptRequestRes.data)
             }
@@ -168,12 +170,12 @@ export const Friends = ({ isDefault }) => {
 
     useEffect(() => {
         if ((friends === null) && isLoading) {
-            console.log('hel')
+            // console.log('effect get friends')
             getFriends();
         }
 
         if ((friendsPathname.slice(0, -8) === JSON.parse(Cookies.get('x_auth_user'))['username']) && isLoading) {
-            console.log('pendinggg')
+            // console.log('pendinggg')
             getPendingFriends();
         }
     }, [])
@@ -197,100 +199,222 @@ export const Friends = ({ isDefault }) => {
             <Container type='regular' containerClass='mt-3'>
                 <Container type='regular' containerClass='d-flex flex-column flex-md-row'>
                 {
-                    pendingFriends && pendingFriends.map(i => {
-                        console.log('id: ', JSON.parse(Cookies.get('x_auth_user'))['id'])
-                        console.log('id member: ', i['id'])
+                    // pending requests
+                    chunkedPendingPosts && chunkedPendingPosts.map(i => {
 
-                    return (
-                        <Card key={ 'pending' + i['id'] } cardClass='mb-3 me-sm-2' cardStyle={{ flex: '33.33%', height: '100px' }}>
-                            <Row rowClass='m-1 py-3' rowClass='' rowStyle={{ height: '100%' }}>
-                                <Column columnClass='' sm={ 5 }>
-                                    User's pic here
-                                    { i['id'] }
-                                </Column>
-                                <Column columnClass='d-flex flex-column justify-content-around' sm={ 7 }>
-                                    <Container type='regular' containerClass='d-flex flex-column'>
-                                        <Span 
-                                        type='regular' 
-                                        text={ i['users'][0]['username'] } 
-                                        spanClass='handle'/>
-                                        <Span 
-                                        type='regular' 
-                                        text={ i['users'][0]['first_name'] }/>
-                                        <Span 
-                                        type='regular' 
-                                        text={ i['users'][0]['last_name'] }/>
-                                    </Container>
-                                    <Container type='regular d-flex flex-column flex-sm-row' containerClass=''>
-                                        <Form 
-                                        action='#'
-                                        method='POST'
-                                        encType='multipart'
-                                        onSubmit={ acceptRequest }
-                                        formClass='d-inline-block'>
-                                            <Input
-                                            fieldType='regular'
-                                            name='member_id'
-                                            value={ i['user_id'] }
-                                            hidden={ true }/>
-                                            <Input
-                                            fieldType='regular'
-                                            name='id'
-                                            value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
-                                            hidden={ true }/>
-                                            <Button type='submit' text='Accept'/>
-                                        </Form>
-                                        <Form 
-                                        action='#'
-                                        method='POST'
-                                        encType='multipart'
-                                        onSubmit={ declineRequest }
-                                        formClass='d-inline-block'>
-                                            <Input
-                                            fieldType='regular'
-                                            name='member_id'
-                                            value={ i['user_id'] }
-                                            hidden={ true }/>
-                                            <Input
-                                            fieldType='regular'
-                                            name='id'
-                                            value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
-                                            hidden={ true }/>
-                                            <Button type='submit' text='Decline'/>
-                                        </Form>
-                                    </Container>
-                                </Column>
-                            </Row>
-                        </Card>
-                    )
-                })
-            }
+                        return (
+                            <Card 
+                            key={ 'pending' + i['id'] } 
+                            cardClass='mb-3 me-sm-2' 
+                            cardStyle={{ flex: '33.33%', height: '100px' }}>
+                                <Row 
+                                rowClass='m-1 py-3' 
+                                rowClass='' 
+                                rowStyle={{ height: '100%' }}>
+                                    <Column columnClass='' sm={ 5 }>
+                                        User's pic here
+                                        { i['id'] }
+                                    </Column>
+                                    <Column columnClass='d-flex flex-column justify-content-around' sm={ 7 }>
+                                        <Container type='regular' containerClass='d-flex flex-column'>
+                                            <Span 
+                                            type='regular' 
+                                            text={ i['users'][0]['username'] } 
+                                            spanClass='handle'/>
+                                            <Span 
+                                            type='regular' 
+                                            text={ i['users'][0]['first_name'] }/>
+                                            <Span 
+                                            type='regular' 
+                                            text={ i['users'][0]['last_name'] }/>
+                                        </Container>
+                                        <Container type='regular d-flex flex-column flex-sm-row' containerClass=''>
+                                            <Form 
+                                            action='#'
+                                            method='POST'
+                                            encType='multipart'
+                                            onSubmit={ acceptRequest }
+                                            formClass='d-inline-block'>
+                                                <Input
+                                                fieldType='regular'
+                                                name='member_id'
+                                                value={ i['user_id'] }
+                                                hidden={ true }/>
+                                                <Input
+                                                fieldType='regular'
+                                                name='id'
+                                                value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
+                                                hidden={ true }/>
+                                                <Button type='submit' text='Accept'/>
+                                            </Form>
+                                            <Form 
+                                            action='#'
+                                            method='POST'
+                                            encType='multipart'
+                                            onSubmit={ declineRequest }
+                                            formClass='d-inline-block'>
+                                                <Input
+                                                fieldType='regular'
+                                                name='member_id'
+                                                value={ i['user_id'] }
+                                                hidden={ true }/>
+                                                <Input
+                                                fieldType='regular'
+                                                name='id'
+                                                value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
+                                                hidden={ true }/>
+                                                <Button type='submit' text='Decline'/>
+                                            </Form>
+                                        </Container>
+                                    </Column>
+                                </Row>
+                            </Card>
+                        )
+                    })
+                }
+                {
+                    // No pending requests message
+                    !(chunkedPendingPosts) &&  
+                    <Card cardClass='mb-3 me-sm-2' cardStyle={{ flex: '33.33%', height: '100px' }}>
+                        <Row 
+                        rowClass='m-1 py-3' 
+                        rowClass='' 
+                        rowStyle={{ height: '100%' }}>
+                            <Column>
+                                No pending requests
+                            </Column>
+                        </Row>
+                    </Card>
+                }
                 </Container>
-            {
-                pendingFriends && 
-                <ReactPaginate
-                    previousLabel="Previous"
-                    nextLabel="Next"
-                    // pageClassName="page-item"
-                    // pageLinkClassName="page-link"
-                    // previousClassName="page-item"
-                    // previousLinkClassName="page-link"
-                    // nextClassName="page-item"
-                    // nextLinkClassName="page-link"
-                    breakLabel="..."
-                    // breakClassName="page-item"
-                    // breakLinkClassName="page-link"
-                    pageCount={ pageRequestSize }
-                    marginPagesDisplayed={ 2 }
-                    pageRangeDisplayed={ 5 }
-                    onPageChange={ setRequestsPage }
-                    containerClassName="pagination"/>
-            }
+                {
+                    // pending requests pagination
+                    chunkedPendingPosts && 
+                    <ReactPaginate
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        // pageClassName="page-item"
+                        // pageLinkClassName="page-link"
+                        // previousClassName="page-item"
+                        // previousLinkClassName="page-link"
+                        // nextClassName="page-item"
+                        // nextLinkClassName="page-link"
+                        breakLabel="..."
+                        // breakClassName="page-item"
+                        // breakLinkClassName="page-link"
+                        pageCount={ pageRequestSize }
+                        marginPagesDisplayed={ 2 }
+                        pageRangeDisplayed={ 5 }
+                        onPageChange={ setRequestsPage }
+                        containerClassName="pagination"/>
+                }
             </Container>
             <Container fluid={ true }>
-                <Card>
-                    Friends here
-                </Card>
+                <Container type='regular' containerClass='d-flex flex-column flex-md-row'>
+                {
+                    chunkedFriendsPosts && chunkedFriendsPosts.map(i => {
+                        // console.log('i: ', i)
+
+                        return (
+                            <Card key={ 'pending' + i['id'] } cardClass='mb-3 me-sm-2' cardStyle={{ flex: '33.33%', height: '100px' }}>
+                                <Row rowClass='m-1 py-3' rowClass='' rowStyle={{ height: '100%' }}>
+                                    <Column columnClass='' sm={ 5 }>
+                                        User's pic here
+                                        { i['id'] }
+                                    </Column>
+                                    <Column columnClass='d-flex flex-column justify-content-around' sm={ 7 }>
+                                        <Container type='regular' containerClass='d-flex flex-column'>
+                                            <Span 
+                                            type='regular' 
+                                            text={ i['users'][0]['username'] } 
+                                            spanClass='handle'/>
+                                            <Span 
+                                            type='regular' 
+                                            text={ i['users'][0]['first_name'] }/>
+                                            <Span 
+                                            type='regular' 
+                                            text={ i['users'][0]['last_name'] }/>
+                                        </Container>
+                                        <Container type='regular d-flex flex-column flex-sm-row' containerClass=''>
+                                            Remove || Send message
+                                            {/* <Form 
+                                            action='#'
+                                            method='POST'
+                                            encType='multipart'
+                                            onSubmit={ acceptRequest }
+                                            formClass='d-inline-block'>
+                                                <Input
+                                                fieldType='regular'
+                                                name='member_id'
+                                                value={ i['user_id'] }
+                                                hidden={ true }/>
+                                                <Input
+                                                fieldType='regular'
+                                                name='id'
+                                                value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
+                                                hidden={ true }/>
+                                                <Button type='submit' text='Accept'/>
+                                            </Form>
+                                            <Form 
+                                            action='#'
+                                            method='POST'
+                                            encType='multipart'
+                                            onSubmit={ declineRequest }
+                                            formClass='d-inline-block'>
+                                                <Input
+                                                fieldType='regular'
+                                                name='member_id'
+                                                value={ i['user_id'] }
+                                                hidden={ true }/>
+                                                <Input
+                                                fieldType='regular'
+                                                name='id'
+                                                value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
+                                                hidden={ true }/>
+                                                <Button type='submit' text='Decline'/>
+                                            </Form> */}
+                                        </Container>
+                                    </Column>
+                                </Row>
+                            </Card>
+                        )
+                    })
+                }
+                {
+                    // No friends message
+                    !(chunkedFriendsPosts) &&  
+                    <Card cardClass='mb-3 me-sm-2' cardStyle={{ flex: '33.33%', height: '100px' }}>
+                        <Row 
+                        rowClass='m-1 py-3' 
+                        rowClass='' 
+                        rowStyle={{ height: '100%' }}>
+                            <Column>
+                                No friends :(
+                            </Column>
+                        </Row>
+                    </Card>
+                }
+                </Container>
+                {
+                    chunkedFriendsPosts && 
+                    <ReactPaginate
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        // pageClassName="page-item"
+                        // pageLinkClassName="page-link"
+                        // previousClassName="page-item"
+                        // previousLinkClassName="page-link"
+                        // nextClassName="page-item"
+                        // nextLinkClassName="page-link"
+                        breakLabel="..."
+                        // breakClassName="page-item"
+                        // breakLinkClassName="page-link"
+                        pageCount={ pageFriendSize }
+                        marginPagesDisplayed={ 2 }
+                        pageRangeDisplayed={ 5 }
+                        onPageChange={ setFriendsPage }
+                        containerClassName="pagination"/>
+                }
             </Container>
         </>
     )
