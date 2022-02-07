@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
 
-export const Regular = ({ children, formClass, formStyle, action, method, encType, onSubmit, hidden }) => {
+export const Regular = ({ children, formClass, formStyle, action, method, encType, onSubmit, hidden, refTarget, dataTarget }) => {
     return (
         <Form
             onSubmit={ (evt) => onSubmit(evt) }
@@ -9,8 +9,9 @@ export const Regular = ({ children, formClass, formStyle, action, method, encTyp
             encType={ encType } 
             className={ formClass } 
             style={{ formStyle }} 
-            hidden={ hidden }
-        >
+            hidden={ hidden } 
+            { ...refTarget && { ref: refTarget }}
+            data-target={ dataTarget }>
             { children }
         </Form>
     )

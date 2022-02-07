@@ -17,20 +17,16 @@ import Input from '../../core/Input';
 import Button from '../../core/Button';
 import Image from '../../core/Image';
 import Anchor from '../../core/Anchor';
+import Span from '../../core/Span';
 // import { BtnIdx } from '../../core/Button';
 
 const Home = () => {
     //TODO sanitize textarea, submits if empty
 
-    // console.log('user: ', user);
-
     // // toggle
     // const [show, setShow] = useState(false);
     // const handleShow = () => { setShow(true) };
     // const handleClose = () => { setShow(false) };
-    
-    // toggle comment
-    const [showComment, setShowComment] = useState(false);
 
     const [posts, setPosts] = useState(null);
     const [body, setBody] = useState('');
@@ -56,28 +52,6 @@ const Home = () => {
 
         .catch (err => {
             console.log('err: ', err);
-        })
-    }
-
-    const updatePostID = evt => {
-        console.log('evt: ', evt);
-    }
-
-    const updatePost = evt => {
-        evt.preventDefault();
-
-        console.log('evt');
-
-        const updateForm = new FormData(evt.target);
-
-        axiosDef.post('http://localhost:8000/api/post/update', updateForm)
-
-        .then (res => {
-            console.log('res: ', res.data);
-        })
-
-        .catch (err => {
-            console.log('errrr: ', err);
         })
     }
 
@@ -111,6 +85,31 @@ const Home = () => {
 
         .catch(err => {
             console.log('err: ', err.response);
+        })
+    }
+
+    const commentForm = evt => {
+        evt.preventDefault();
+
+        const postCommentForm = new FormData(evt.target);
+        postCommentForm.append('id', JSON.parse(Cookies.get('x_auth_user'))['id']);
+        postCommentForm.append('post_id', parseInt(evt.target.dataset.target, 10));
+
+        axiosDef.post('http://localhost:8000/api/post/' + evt.target.dataset.target + '/comment/store', postCommentForm)
+        
+        .then (res => {
+            const addCommentRes = res.data;
+
+            if(addCommentRes.isSuccess) {
+                // clear textarea
+                document.querySelector("textarea[data-target=comment-" + evt.target.dataset.target + "]").value='';
+            } else {
+                console.log('err comment add ', addCommentRes.data);
+            }
+        })
+
+        .catch (err => {
+            console.log('err comment', err.response && err.response.data.errors);
         })
     }
 
@@ -150,42 +149,37 @@ const Home = () => {
                     <Column columnClass='py-2' md={ 6 }>
                         <Container fluid={ true } containerClass='px-0'>
                             <Form 
-                                action='#' 
-                                method='POST' 
-                                encType='multipart' 
-                                onSubmit={ postForm } 
-                                formStyle={{ width: '100%', }}
-                            >
+                            action='#' 
+                            method='POST' 
+                            encType='multipart' 
+                            onSubmit={ postForm } 
+                            formStyle={{ width: '100%', }}>
                                 <Input
-                                    inputClass='form-control' 
-                                    fieldType='textarea' 
-                                    value={ body } 
-                                    name='body' 
-                                    onChange={ setBody } 
-                                    rows={ 4 }
-                                />
+                                fieldType='textarea' 
+                                inputClass='form-control' 
+                                value={ body } 
+                                name='body' 
+                                onChange={ setBody } 
+                                rows={ 4 }/>
                                 <div className='mt-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-between align-items-sm-center'>
                                     <Label 
-                                        text={ <FontAwesomeIcon icon={ faImages } className='fa-2x'/> } 
-                                        refTarget={ imageRef } 
-                                        labelOnclick={ focusField } 
-                                        labelClass='pointer-cursor mt-3 mt-sm-0 align-self-center'
-                                    />
+                                    text={ <FontAwesomeIcon icon={ faImages } className='fa-2x'/> } 
+                                    refTarget={ imageRef } 
+                                    labelOnclick={ focusField } 
+                                    labelClass='pointer-cursor mt-3 mt-sm-0 align-self-center'/>
                                     <Input 
-                                        fieldType='file' 
-                                        type='file' 
-                                        refTarget={ imageRef } 
-                                        name='images[]' 
-                                        inputClass='bg-purple-200' 
-                                        accept='image/*' 
-                                        multiple={ true } 
-                                        hidden={ true }
-                                    />
-                                    <Button 
-                                        type='submit' 
-                                        text='post' 
-                                        btnClass='btn btn-purple mt-3 mt-sm-0'
-                                    />
+                                    fieldType='file' 
+                                    type='file' 
+                                    refTarget={ imageRef } 
+                                    name='images[]' 
+                                    inputClass='bg-purple-200' 
+                                    accept='image/*' 
+                                    multiple={ true } 
+                                    hidden={ true }/>
+                                    <Button
+                                    type='submit'
+                                    text='post'
+                                    btnClass='btn btn-purple mt-3 mt-sm-0'/>
                                 </div>
                             </Form>
                         </Container>
@@ -206,74 +200,61 @@ const Home = () => {
                                         <Card key={ 'post' + postID } cardClass='mb-5 border-0'>
                                             <Row rowClass='bg-secondary'>
                                                 <Column 
-                                                    columnClass='bg-purple-100 d-flex flex-column justify-content-center align-items-center py-1 bg-yellow-100' 
-                                                    sm={ 4 }
-                                                >
+                                                columnClass='bg-purple-100 d-flex flex-column justify-content-center align-items-center py-1 bg-yellow-100' 
+                                                sm={ 4 }>
                                                     <Image 
-                                                        src='/pup_patrol_logo.png'
-                                                        imgStyle={{ objectFit: 'cover', width: '70px', height: '70px' }}
-                                                    />
+                                                    src='/pup_patrol_logo.png'
+                                                    imgStyle={{ objectFit: 'cover', width: '70px', height: '70px' }}/>
                                                     <span className='mt-3'>{ postAuthor['username'] }</span>
                                                 </Column>
                                                 <Column 
-                                                    columnClass='bg-warning text-end d-flex flex-column align-items-end' 
-                                                    sm={ 8 }
-                                                >
+                                                columnClass='bg-warning text-end d-flex flex-column align-items-end' 
+                                                sm={ 8 }>
                                                     <span>{ postCreated }</span>
                                                 </Column>
                                                 <Column 
-                                                    columnClass='bg-primary' 
-                                                    sm={ 12 }
-                                                >
-                                                    {
-                                                        postImages && postImages.map(i => {
-                                                            const postImageURL = new URL(i['image_path'], 'http://localhost:8000/storage/posts/');
+                                                columnClass='bg-primary' 
+                                                sm={ 12 }>
+                                                {
+                                                    postImages && postImages.map(i => {
+                                                        const postImageURL = new URL(i['image_path'], 'http://localhost:8000/storage/posts/');
 
-                                                            return (
-                                                                <Image 
-                                                                    key={ 'post' + postID + 'img' + i['id'] } 
-                                                                    src={ postImageURL } 
-                                                                    imgClass='img-fluid img-thumbnail curved-border' 
-                                                                    imgStyle={{ objectFit: 'cover', width: '100px', height: '100px' }}
-                                                                />
-                                                            )
-                                                        })
-                                                    }
+                                                        return (
+                                                            <Image 
+                                                            key={ 'post' + postID + 'img' + i['id'] } 
+                                                            src={ postImageURL } 
+                                                            imgClass='img-fluid img-thumbnail curved-border' 
+                                                            imgStyle={{ objectFit: 'cover', width: '100px', height: '100px' }}/>
+                                                        )
+                                                    })
+                                                }
                                                 </Column>
                                                 <Column 
-                                                    columnClass='bg-secondary' 
-                                                    sm={ 12 }
-                                                >
-                                                    <p>{ postBody }</p>
+                                                columnClass='bg-secondary' 
+                                                sm={ 12 }>
+                                                    <p>{ postBody }</p> { postID }
                                                 </Column>
                                                 <Column columnClass='bg-dark' sm={ 12 }>
-                                                    <Anchor 
-                                                        type='toggle' 
-                                                        text='Comment' 
-                                                        isShown={ showComment }
-                                                        anchorOnclick= { setShowComment }
-                                                    />
-                                                    <Container containerClass={ showComment ? 'd-block' : 'd-none' }>
+                                                    <Span type='regular' text='Comment'/>
+                                                    <Container type='regular'>
                                                         <Form 
-                                                            action='#' 
-                                                            method='POST' 
-                                                            encType='multipart' 
-                                                            onSubmit={ postForm } 
-                                                            formStyle={{ width: '100%', }}
-                                                        >
+                                                        action='#' 
+                                                        method='POST' 
+                                                        encType='multipart' 
+                                                        onSubmit={ commentForm } 
+                                                        formStyle={{ width: '100%', }}
+                                                        dataTarget={ postID }>
                                                             <Input
-                                                                inputClass='form-control' 
-                                                                fieldType='textarea' 
-                                                                value={ body } 
-                                                                name='body' 
-                                                                onChange={ setBody } 
-                                                                rows={ 4 }
-                                                            />
+                                                            fieldType='textarea' 
+                                                            inputClass='form-control' 
+                                                            defaultValue='' 
+                                                            name='body' 
+                                                            rows={ 1 }
+                                                            dataTarget={ 'comment-' + postID }/>
                                                             <Button 
-                                                                type='submit' 
-                                                                text='post' 
-                                                                btnClass='btn btn-purple mt-3 mt-sm-0'
-                                                            />
+                                                            type='submit' 
+                                                            text='post' 
+                                                            btnClass='btn btn-purple mt-3 mt-sm-0'/>
                                                         </Form>
                                                     </Container>
                                                 </Column>

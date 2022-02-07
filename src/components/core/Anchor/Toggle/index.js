@@ -1,10 +1,10 @@
-export const Toggle = ({ text, anchorOnclick, isShown, anchorClass, anchorStyle }) => {
+export const Toggle = ({ text, anchorOnclick, isShown, anchorClass, anchorStyle, dataTarget }) => {
     return (
         <a 
-            onClick={ evt => anchorOnclick(!isShown) } 
+            onClick={ evt => anchorOnclick(evt) } 
             className={ anchorClass } 
-            style={{ ...anchorStyle }}
-        >
+            style={{ ...anchorStyle }} 
+            data-target={ dataTarget }>
             { text }
         </a>
     )

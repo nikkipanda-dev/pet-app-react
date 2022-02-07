@@ -3,25 +3,8 @@ import { Textarea } from './Textarea';
 import { File } from './File';
 import Alert from '../Alert';
 
-export const Input = ({ validationType, fieldType, type, inputClass, inputStyle, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows, multiple, accept, hidden, defaultValue }) => { 
+export const Input = ({ validationType, fieldType, type, inputClass, inputStyle, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows, multiple, accept, hidden, defaultValue, dataTarget, onFocus }) => { 
     // TODO: Client-side validation
-
-    // let thisErrorMsg = null;
-
-    // const charLen = (validationType === 'name') ? '2' :
-    // (validationType === 'email') ? '5' : 
-    // (validationType === 'password') ? '8' : '';
-
-    // const blankAndLenError = `The ${ alertAttr } field cannot be blank and must be at least ${ charLen } characters.`;
-    // const requiredField = `The ${ alertAttr } field is required.`;
-
-    // if (validateInput) {
-    //     if ((name !== 'password' && name !== 'password_confirmation') && value.length < 2) {
-    //         thisErrorMsg = blankAndLenError;
-    //     } else if (((name === 'password' || name === 'password_confirmation') && value.length < 8)) {
-    //         thisErrorMsg = requiredField;
-    //     }
-    // }
 
     return (
         <>
@@ -41,10 +24,12 @@ export const Input = ({ validationType, fieldType, type, inputClass, inputStyle,
                         <Textarea 
                             textareaClass={ inputClass } 
                             onChange={ onChange } 
+                            onFocus={ onFocus }
                             rows={ rows } 
                             name={ name } 
                             value={ value } 
-                            defaultValue={ defaultValue }
+                            defaultValue={ defaultValue } 
+                            dataTarget={ dataTarget }
                         /> :
                     <File 
                         type={ type } 
