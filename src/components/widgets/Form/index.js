@@ -11,7 +11,7 @@ const sanitizeFormProp = ({ ...props}) => {
     (props.formEncType === 'multipart') ? 'multipart/form-data' : undefined;
 }
 
-export const Form = ({ children, formClass, formStyle, action, method, encType, onSubmit, hidden }) => {
+export const Form = ({ children, formClass, formStyle, action, method, encType, onSubmit, hidden, refTarget, dataTarget }) => {
     formMethod = method;
     formEncType = encType;
 
@@ -25,7 +25,9 @@ export const Form = ({ children, formClass, formStyle, action, method, encType, 
             action={ action }
             method={ formMethod }
             encType={ formEncType } 
-            hidden={ hidden }
+            hidden={ hidden } 
+            refTarget={ refTarget } 
+            dataTarget={ dataTarget }
         >
             { children }
         </Regular>

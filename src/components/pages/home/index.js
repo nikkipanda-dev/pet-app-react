@@ -17,20 +17,16 @@ import Input from '../../core/Input';
 import Button from '../../core/Button';
 import Image from '../../core/Image';
 import Anchor from '../../core/Anchor';
+import Span from '../../core/Span';
 // import { BtnIdx } from '../../core/Button';
 
 const Home = () => {
     //TODO sanitize textarea, submits if empty
 
-    // console.log('user: ', user);
-
     // // toggle
     // const [show, setShow] = useState(false);
     // const handleShow = () => { setShow(true) };
     // const handleClose = () => { setShow(false) };
-    
-    // toggle comment
-    const [showComment, setShowComment] = useState(false);
 
     const [posts, setPosts] = useState(null);
     const [body, setBody] = useState('');
@@ -56,28 +52,6 @@ const Home = () => {
 
         .catch (err => {
             console.log('err: ', err);
-        })
-    }
-
-    const updatePostID = evt => {
-        console.log('evt: ', evt);
-    }
-
-    const updatePost = evt => {
-        evt.preventDefault();
-
-        console.log('evt');
-
-        const updateForm = new FormData(evt.target);
-
-        axiosDef.post('http://localhost:8000/api/post/update', updateForm)
-
-        .then (res => {
-            console.log('res: ', res.data);
-        })
-
-        .catch (err => {
-            console.log('errrr: ', err);
         })
     }
 
@@ -111,6 +85,31 @@ const Home = () => {
 
         .catch(err => {
             console.log('err: ', err.response);
+        })
+    }
+
+    const commentForm = evt => {
+        evt.preventDefault();
+
+        const postCommentForm = new FormData(evt.target);
+        postCommentForm.append('id', JSON.parse(Cookies.get('x_auth_user'))['id']);
+        postCommentForm.append('post_id', parseInt(evt.target.dataset.target, 10));
+
+        axiosDef.post('http://localhost:8000/api/post/' + evt.target.dataset.target + '/comment/store', postCommentForm)
+        
+        .then (res => {
+            const addCommentRes = res.data;
+
+            if(addCommentRes.isSuccess) {
+                // clear textarea
+                document.querySelector("textarea[data-target=comment-" + evt.target.dataset.target + "]").value='';
+            } else {
+                console.log('err comment add ', addCommentRes.data);
+            }
+        })
+
+        .catch (err => {
+            console.log('err comment', err.response && err.response.data.errors);
         })
     }
 
@@ -233,28 +232,25 @@ const Home = () => {
                                                 <Column 
                                                 columnClass='bg-secondary' 
                                                 sm={ 12 }>
-                                                    <p>{ postBody }</p>
+                                                    <p>{ postBody }</p> { postID }
                                                 </Column>
                                                 <Column columnClass='bg-dark' sm={ 12 }>
-                                                    <Anchor 
-                                                    type='toggle' 
-                                                    text='Comment' 
-                                                    isShown={ showComment }
-                                                    anchorOnclick= { setShowComment }/>
-                                                    <Container containerClass={ showComment ? 'd-block' : 'd-none' }>
+                                                    <Span type='regular' text='Comment'/>
+                                                    <Container type='regular'>
                                                         <Form 
                                                         action='#' 
                                                         method='POST' 
                                                         encType='multipart' 
-                                                        onSubmit={ postForm } 
-                                                        formStyle={{ width: '100%', }}>
+                                                        onSubmit={ commentForm } 
+                                                        formStyle={{ width: '100%', }}
+                                                        dataTarget={ postID }>
                                                             <Input
-                                                            inputClass='form-control' 
                                                             fieldType='textarea' 
-                                                            value={ body } 
+                                                            inputClass='form-control' 
+                                                            defaultValue='' 
                                                             name='body' 
-                                                            onChange={ setBody } 
-                                                            rows={ 4 }/>
+                                                            rows={ 1 }
+                                                            dataTarget={ 'comment-' + postID }/>
                                                             <Button 
                                                             type='submit' 
                                                             text='post' 

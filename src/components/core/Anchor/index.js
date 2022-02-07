@@ -2,7 +2,7 @@ import { Regular } from './Regular';
 import { Modal } from './Modal';
 import { Toggle } from './Toggle';
 
-export const Anchor = ({ type, text, href, isTargetBlank, isShown, anchorOnclick, anchorClass, anchorStyle, dataTargetUserId, dataTargetPostId, dataTargetBody }) => {
+export const Anchor = ({ type, text, href, isTargetBlank, isShown, anchorOnclick, anchorClass, anchorStyle, dataTargetUserId, dataTargetPostId, dataTargetBody, dataTarget }) => {
     return (
         (type == 'regular') ? 
             <Regular 
@@ -27,7 +27,8 @@ export const Anchor = ({ type, text, href, isTargetBlank, isShown, anchorOnclick
                 anchorClass={ anchorClass } 
                 anchorOnclick={ anchorOnclick } 
                 isShown={ isShown } 
-                anchorStyle={ anchorStyle }
+                anchorStyle={ anchorStyle } 
+                dataTarget={ dataTarget }
             />
     )
 };
