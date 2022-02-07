@@ -38,12 +38,14 @@ const Home = () => {
     }
 
     const getPosts = async() => {
-        await axiosDef.get('http://localhost:8000/api/posts')
+        await axiosDef.get('http://localhost:8000/api/user/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/friends/posts')
 
         .then (res => {
             const getPostsRes = res.data;
+            console.log('res ', res.data.data)
 
             if (getPostsRes.isSuccess) {
+                console.log('res: ', getPostsRes);
                 setPosts({ ...getPostsRes.data });
             } else {
                 console.log('err res: ', getPostsRes.data);
@@ -101,6 +103,7 @@ const Home = () => {
             const addCommentRes = res.data;
 
             if(addCommentRes.isSuccess) {
+                console.log('success comment ', addCommentRes.data);
                 // clear textarea
                 document.querySelector("textarea[data-target=comment-" + evt.target.dataset.target + "]").value='';
             } else {
@@ -185,16 +188,17 @@ const Home = () => {
                         </Container>
                         <Container fluid={ true } containerClass='mt-5'>
                             {
-                                posts && Object.keys(posts).map(i => {
-                                    const postID = Object.values(posts)[i]['id'];
-                                    const postBody = Object.values(posts)[i]['body'];
-                                    const postCreated = Object.values(posts)[i]['created_at'];
+                                posts && Object.keys(posts).map((i, val) => {
+                                    const postID = Object.values(posts)[val]['post_id'];
+                                    const postBody = Object.values(posts)[val]['body'];
+                                    const postCreated = Object.values(posts)[val]['date_posted'];
+                                    const postAuthor = Object.values(posts)[val]['username'];
+                                    const postComments = Object.values(posts)[val]['comments'];
 
-                                    // loop this
-                                    const postAuthor = Object.values(posts)[i]['user'];
+                                    // console.log('comments ', postComments)
 
-                                    // loop this
-                                    const postImages = Object.values(posts)[i]['post_images'];
+                                    // // loop this
+                                    // const postImages = Object.values(posts)[i]['post_images'];
 
                                     return (
                                         <Card key={ 'post' + postID } cardClass='mb-5 border-0'>
@@ -212,7 +216,7 @@ const Home = () => {
                                                 sm={ 8 }>
                                                     <span>{ postCreated }</span>
                                                 </Column>
-                                                <Column 
+                                                {/* <Column 
                                                 columnClass='bg-primary' 
                                                 sm={ 12 }>
                                                 {
@@ -228,7 +232,7 @@ const Home = () => {
                                                         )
                                                     })
                                                 }
-                                                </Column>
+                                                </Column> */}
                                                 <Column 
                                                 columnClass='bg-secondary' 
                                                 sm={ 12 }>
@@ -236,7 +240,31 @@ const Home = () => {
                                                 </Column>
                                                 <Column columnClass='bg-dark' sm={ 12 }>
                                                     <Span type='regular' text='Comment'/>
-                                                    <Container type='regular'>
+                                                    <Container type='regular' containerClass='bg-purple-100'>
+                                                    {
+                                                        postComments && postComments[0].map((a, b) => {
+                                                            const commentID = Object.values(postComments)[0][b]['id'];
+                                                            const commentBody = Object.values(postComments)[0][b]['body'];
+                                                            const commentDate = Object.values(postComments)[0][b]['created_at'];
+                                                            const commentAuthor = Object.values(postComments)[0][b]['user']['username'];
+
+                                                            return (
+                                                                <Card key={ 'comment-' + commentID }>
+                                                                    <Row>
+                                                                        <Column xs={ 12 } sm={ 6 } columnClass='bg-secondary'>
+                                                                            { commentAuthor }
+                                                                        </Column>
+                                                                        <Column xs={ 12 } columnClass='bg-warning'>
+                                                                            { commentBody }
+                                                                        </Column>
+                                                                        <Column xs={ 12 } sm={ 6 } columnClass='ms-auto text-end bg-success'>
+                                                                            { commentDate }
+                                                                        </Column>
+                                                                    </Row>
+                                                                </Card>
+                                                            )
+                                                        })
+                                                    }
                                                         <Form 
                                                         action='#' 
                                                         method='POST' 
