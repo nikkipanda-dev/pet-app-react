@@ -30,6 +30,9 @@ const Home = () => {
 
     const [posts, setPosts] = useState(null);
     const [body, setBody] = useState('');
+    // let newComment = null;
+
+    console.log('posts: ', posts);
 
     const imageRef = useRef();
 
@@ -90,7 +93,7 @@ const Home = () => {
         })
     }
 
-    const commentForm = evt => {
+    const addComment = evt => {
         evt.preventDefault();
 
         const postCommentForm = new FormData(evt.target);
@@ -103,8 +106,12 @@ const Home = () => {
             const addCommentRes = res.data;
 
             if(addCommentRes.isSuccess) {
-                console.log('success comment ', addCommentRes.data);
-                // clear textarea
+                // const postIndex = Object.keys(posts).findIndex((i, val) => {
+                //     return (Object.values(posts)[val]['post_id'] === parseInt(evt.target.dataset.target, 10)) && Object.values(posts)[val]
+                // });
+
+                getPosts();
+                //clear textarea
                 document.querySelector("textarea[data-target=comment-" + evt.target.dataset.target + "]").value='';
             } else {
                 console.log('err comment add ', addCommentRes.data);
@@ -115,6 +122,25 @@ const Home = () => {
             console.log('err comment', err.response && err.response.data.errors);
         })
     }
+
+    // const getComments = postId => {
+    //     axiosDef.get('http://localhost:8000/api/post/' + postId + '/comments/get')
+
+    //     .then (res => {
+    //         console.log('get comment success ', res.data);
+    //         const getCommentsRes = res.data;
+
+    //         if (getCommentsRes.isSuccess) {
+    //             console.log('success get comments ', getCommentsRes.data)
+    //         } else {
+    //             console.log('err get comments ', getCommentsRes.data)
+    //         }
+    //     })
+
+    //     .catch (err => {
+    //         console.log('get comm err' , err)
+    //     })
+    // }
 
     useEffect(() => {
         if (posts === null) {
@@ -192,7 +218,7 @@ const Home = () => {
                                     const postID = Object.values(posts)[val]['post_id'];
                                     const postBody = Object.values(posts)[val]['body'];
                                     const postCreated = Object.values(posts)[val]['date_posted'];
-                                    const postAuthor = Object.values(posts)[val]['username'];
+                                    // const postAuthor = Object.values(posts)[val]['username'];
                                     const postComments = Object.values(posts)[val]['comments'];
 
                                     // console.log('comments ', postComments)
@@ -209,7 +235,7 @@ const Home = () => {
                                                     <Image 
                                                     src='/pup_patrol_logo.png'
                                                     imgStyle={{ objectFit: 'cover', width: '70px', height: '70px' }}/>
-                                                    <span className='mt-3'>{ postAuthor['username'] }</span>
+                                                    {/* <span className='mt-3'>{ postAuthor['username'] }</span> */}
                                                 </Column>
                                                 <Column 
                                                 columnClass='bg-warning text-end d-flex flex-column align-items-end' 
@@ -269,7 +295,7 @@ const Home = () => {
                                                         action='#' 
                                                         method='POST' 
                                                         encType='multipart' 
-                                                        onSubmit={ commentForm } 
+                                                        onSubmit={ addComment } 
                                                         formStyle={{ width: '100%', }}
                                                         dataTarget={ postID }>
                                                             <Input
