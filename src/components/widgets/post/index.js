@@ -58,11 +58,6 @@ export const Post = ({ data }) => {
         postCommentForm.append('id', JSON.parse(Cookies.get('x_auth_user'))['id']);
         postCommentForm.append('post_id', parseInt(postId, 10));
 
-        // for(let [c, d] of postCommentForm.entries()) {
-        //     console.log('c ', c)
-        //     console.log('d ', d)
-        // }
-
         axiosDef.post('http://localhost:8000/api/post/' + postId + '/comment/store', postCommentForm)
         
         .then (res => {
@@ -127,7 +122,7 @@ export const Post = ({ data }) => {
             </Row>
             <Row>
                 <Column>
-                    <Span type='regular' spanOnclick={ getComments }/>
+                    <Span type='regular' text='Load more' spanOnclick={ getComments }/>
                     <Form
                     action='#'
                     method='POST'
