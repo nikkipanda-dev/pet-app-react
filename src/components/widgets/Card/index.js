@@ -1,9 +1,9 @@
 import { Regular } from "./Regular/CardReg";
 
-export const Card = ({ children, keyID, cardClass, cardStyle }) => {
+export const Card = ({ children, cardClass, cardStyle }) => {
     return (
         <Regular 
-            keyID={ keyID } 
+            // keyID={ keyID } 
             cardClass={ cardClass } 
             cardStyle={ cardStyle }
         >

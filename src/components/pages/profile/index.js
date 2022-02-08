@@ -16,7 +16,6 @@ import Button from '../../core/Button';
 import Form from '../../widgets/Form';
 import Label from '../../core/Label';
 import Modal from '../../widgets/Modal';
-import Comment from '../../sections/Comment';
 
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
