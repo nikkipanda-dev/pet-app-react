@@ -25,6 +25,8 @@ export const Posts = ({ isDefault }) => {
     const [isPostsLoading, setIsPostLoading] = useState(true);
     const postsPathname = isDefault ? location.pathname.slice(3) + '/posts' : location.pathname.slice(3); // current username and action
 
+    console.log(postsPathname.slice(0, -6))
+
     const [userPosts, setUserPosts] = useState(null);
     const [pageSize, setPageSize] = useState(0);
     const [showComment, setShowComment] = useState(false);
@@ -67,7 +69,7 @@ export const Posts = ({ isDefault }) => {
         setShowDelete(false);
     }
 
-    const getUserPosts = async(user) => {
+    const getUserPosts = async() => {
         await axiosDef.get('http://localhost:8000/api/user/' + postsPathname)
 
         .then (res => {
@@ -153,7 +155,7 @@ export const Posts = ({ isDefault }) => {
         console.log('1st')
         if ((userPosts === null) && isPostsLoading) {
             console.log('1st effect')
-            getUserPosts(postsPathname.slice(0, -6));
+            getUserPosts();
         }
     }, []);
     
