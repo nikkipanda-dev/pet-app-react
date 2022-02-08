@@ -7,7 +7,7 @@ import Row from "../../core/Row";
 import Column from "../../core/Column";
 
 export const Comment = ({ data }) => {
-    console.log(data)
+    console.log('COMMENT', data)
     const [isLoading, setIsLoading] = useState(true);
     const [commentBody, setCommentBody] = useState(null);
     const [commentDate, setCommentDate] = useState(null);
@@ -15,8 +15,8 @@ export const Comment = ({ data }) => {
 
     useEffect(() => {
         !(commentBody) && (data && setCommentBody(data['body']));
-        !(commentDate) && (data && setCommentDate(data['body']));
-        !(commentAuthor) && (data && setCommentAuthor(data['body']));
+        !(commentDate) && (data && setCommentDate(data['date_posted']));
+        !(commentAuthor) && (data && setCommentAuthor(data['username']));
     }, [])
 
     return (
@@ -37,7 +37,7 @@ export const Comment = ({ data }) => {
                 <Column
                 columnClass='bg-primary'
                 xs={ 12 }>
-                    { commentBody }
+                    { commentBody } BODy
                 </Column>
                 <Column
                 columnClass='bg-primary'
