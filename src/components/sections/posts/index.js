@@ -12,11 +12,9 @@ export const Posts = () => {
         await axiosDef.get('http://localhost:8000/api/user/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/friends/posts')
 
         .then (res => {
-            // console.log('get comments posts ', res.data)
             const getPostsRes = res.data;
 
             if (getPostsRes.isSuccess) {
-                // console.log('res success get comments ', getPostsRes.data);
                 setPosts(getPostsRes.data);
             } else {
                 console.log('res error get comments ', getPostsRes.data);
