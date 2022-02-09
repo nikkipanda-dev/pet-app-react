@@ -13,6 +13,7 @@ import Span from "../../core/Span";
 import Image from "../../core/Image";
 
 export const Post = ({ isDefault, data, userThumbnail }) => {
+    console.log('data ', data)
     const [isLoading, setIsLoading] = useState(true);
     const [postId, setPostId] = useState(null);
     const [postAuthor, setPostAuthor] = useState(null);
@@ -23,9 +24,11 @@ export const Post = ({ isDefault, data, userThumbnail }) => {
     const [limit, setLimit] = useState(5);
     const [postDisplayPhotoPath, setPostDisplayPhotoPath] = useState('');
 
+    console.log('postId ', postId)
+
     const getComments = async() => {
         setIsLoading(false);
-
+        
         await axiosDef.get('http://localhost:8000/api/post/' + postId + '/comments/get', {
             params: {
                 'limit': limit,
@@ -34,18 +37,17 @@ export const Post = ({ isDefault, data, userThumbnail }) => {
         })
 
         .then(res => {
-            console.log('res get comment ', res.data)
             const getCommentsRes = res.data;
 
             if (getCommentsRes.isSuccess) {
                 setComments(getCommentsRes.data);
             } else {
-                console.log('res err');
+                console.log('res err', getCommentsRes.data);
             }
         })
 
         .catch (err => {
-            console.log('err comment', err.response.data.errors)
+            console.log('err comment get', err)
         })
     }
 
@@ -75,13 +77,13 @@ export const Post = ({ isDefault, data, userThumbnail }) => {
         })
 
         .catch (err => {
-            console.log('err comment', err.response && err.response.data.errors);
+            console.log('err comment add', err.response.data.errors);
         })
     }
 
     useEffect(() => {
         if (isLoading) {
-            !(postId) && (data && setPostId(data['post_id']));
+            !(postId) && (data && setPostId(data['post_id'] ? data['post_id'] : data['id']));
             !(postBody) && (data && setPostBody(data['body']));
             !(postAuthor) && (data && setPostAuthor(data['username']));
             !(postDate) && (data && setPostDate(data['date_posted']));

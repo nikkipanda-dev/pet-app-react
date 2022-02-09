@@ -120,14 +120,13 @@ export const Posts = ({ isDefault, showUserPosts }) => {
                 const data = Object.values(chunkedPosts)[val];
                 const postId = Object.values(chunkedPosts)[val]['id'] ? Object.values(chunkedPosts)[val]['id'] : Object.values(chunkedPosts)[val]['post_id'];
                 const userThumbnail = posts['display_photo'] ? posts['display_photo']['image_path'] : '';
-                // const authorThumbnail = posts;
                 
                 console.log('data', data)
 
                 return (
                     <PostSection 
                     key={ 'post-' + postId }
-                    data={ data }
+                    data={ data } 
                     showUserPosts={ showUserPosts }
                     userThumbnail={ userThumbnail }/>
                 )
