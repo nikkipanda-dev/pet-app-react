@@ -13,7 +13,6 @@ import Span from "../../core/Span";
 import Image from "../../core/Image";
 
 export const Post = ({ isDefault, data, userThumbnail }) => {
-    console.log('data ', data)
     const [isLoading, setIsLoading] = useState(true);
     const [postId, setPostId] = useState(null);
     const [postAuthor, setPostAuthor] = useState(null);
@@ -23,8 +22,6 @@ export const Post = ({ isDefault, data, userThumbnail }) => {
     const [commentBody, setCommentBody] = useState('');
     const [limit, setLimit] = useState(5);
     const [postDisplayPhotoPath, setPostDisplayPhotoPath] = useState('');
-
-    console.log('postId ', postId)
 
     const getComments = async() => {
         setIsLoading(false);

@@ -34,8 +34,6 @@ const Home = () => {
     const [posts, setPosts] = useState(null);
     const [body, setBody] = useState('');
 
-    console.log('posts: ', posts);
-
     const imageRef = useRef();
 
     const focusField = evt => {
@@ -76,8 +74,8 @@ const Home = () => {
     // }
 
     const getComments = async(postId, length, limit) => {
-        console.log('length: ', length)
-        console.log('getcomments limit ', limit);
+        // console.log('length: ', length)
+        // console.log('getcomments limit ', limit);
         let getCommentsData = {};
 
         await axiosDef.get('http://localhost:8000/api/post/' + postId + '/comments/get', {

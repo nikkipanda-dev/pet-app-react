@@ -23,8 +23,6 @@ const Profile = () => {
     const currentPathname =  location.pathname.slice(3);
     const [displayPhoto, setDisplayPhoto] = useState(null);
 
-    console.log('currentPathname ', currentPathname)
-
     const addUser = evt => {
         evt.preventDefault();
 

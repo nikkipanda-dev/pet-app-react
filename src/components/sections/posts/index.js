@@ -14,8 +14,6 @@ export const Posts = ({ isDefault, showUserPosts }) => {
     const location = useLocation();
     const currentPathname = isDefault ? location.pathname.slice(3) + '/posts' : location.pathname.slice(3);
 
-    // console.log('posts ', posts)
-
     const getUserPosts = async(evt) => {
         const userPosts = []
         
@@ -120,8 +118,6 @@ export const Posts = ({ isDefault, showUserPosts }) => {
                 const data = Object.values(chunkedPosts)[val];
                 const postId = Object.values(chunkedPosts)[val]['id'] ? Object.values(chunkedPosts)[val]['id'] : Object.values(chunkedPosts)[val]['post_id'];
                 const userThumbnail = posts['display_photo'] ? posts['display_photo']['image_path'] : '';
-                
-                console.log('data', data)
 
                 return (
                     <PostSection 
