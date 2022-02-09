@@ -10,10 +10,9 @@ import Form from "../Form";
 import Input from "../../core/Input";
 import Button from "../../core/Button";
 import Span from "../../core/Span";
+import Image from "../../core/Image";
 
-export const Post = ({ data }) => {
-    // console.log('data ', data)
-
+export const Post = ({ isDefault, data, userThumbnail }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [postId, setPostId] = useState(null);
     const [postAuthor, setPostAuthor] = useState(null);
@@ -22,8 +21,7 @@ export const Post = ({ data }) => {
     const [comments, setComments] = useState(null);
     const [commentBody, setCommentBody] = useState('');
     const [limit, setLimit] = useState(5);
-
-    // console.log('postId ', postId)
+    const [postDisplayPhotoPath, setPostDisplayPhotoPath] = useState('');
 
     const getComments = async() => {
         setIsLoading(false);
@@ -87,6 +85,8 @@ export const Post = ({ data }) => {
             !(postBody) && (data && setPostBody(data['body']));
             !(postAuthor) && (data && setPostAuthor(data['username']));
             !(postDate) && (data && setPostDate(data['date_posted']));
+            !(postDisplayPhotoPath) && (userThumbnail && setPostDisplayPhotoPath(userThumbnail));
+            !(postDisplayPhotoPath) && (data && data['display_photo']) && setPostDisplayPhotoPath(userThumbnail['image_path']);
         }
     }, []);
 
@@ -98,15 +98,21 @@ export const Post = ({ data }) => {
         <Card cardClass='bg-purple-100 mb-3 py-3'>
             <Row rowClass=''>
                 <Column 
-                columnClass='bg-secondary' 
+                columnClass='bg-secondary d-flex flex-column' 
                 xs={ 12 }
-                sm={ 6 }>
+                sm={ 3 }>
+                    {
+                        postDisplayPhotoPath && 
+                        <Image 
+                        src={ new URL(postDisplayPhotoPath, 'http://localhost:8000/storage/display_photos/') }
+                        imgStyle={{ objectFit: 'cover', width: '70px', height: '70px', maxHeight: '100%', }}/>
+                    }
                     { postAuthor }
                 </Column>
                 <Column 
                 columnClass='bg-warning'
                 xs={ 12 }
-                sm={ 6 }>
+                sm={ 9 }>
                     paw
                 </Column>
                 <Column 
