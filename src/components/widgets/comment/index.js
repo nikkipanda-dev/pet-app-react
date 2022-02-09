@@ -7,7 +7,7 @@ import Row from "../../core/Row";
 import Column from "../../core/Column";
 
 export const Comment = ({ data }) => {
-    console.log('COMMENT', data)
+    // console.log('COMMENT', data)
     const [isLoading, setIsLoading] = useState(true);
     const [commentBody, setCommentBody] = useState(null);
     const [commentDate, setCommentDate] = useState(null);

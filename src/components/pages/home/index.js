@@ -41,24 +41,6 @@ const Home = () => {
         evt.current.click();
     }
 
-    // const getPosts = async() => {
-    //     await axiosDef.get('http://localhost:8000/api/user/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/friends/posts')
-
-    //     .then (res => {
-    //         const getPostsRes = res.data;
-
-    //         if (getPostsRes.isSuccess) {
-    //             setPosts({ ...getPostsRes.data });
-    //         } else {
-    //             console.log('err res: ', getPostsRes.data);
-    //         }
-    //     })
-
-    //     .catch (err => {
-    //         console.log('err: ', err);
-    //     })
-    // }
-
     // const postForm = evt => {
     //     evt.preventDefault();
 
@@ -92,36 +74,6 @@ const Home = () => {
     //     })
     // }
 
-    // const addComment = evt => {
-    //     evt.preventDefault();
-
-    //     const postCommentForm = new FormData(evt.target);
-    //     postCommentForm.append('id', JSON.parse(Cookies.get('x_auth_user'))['id']);
-    //     postCommentForm.append('post_id', parseInt(evt.target.dataset.target, 10));
-
-    //     axiosDef.post('http://localhost:8000/api/post/' + evt.target.dataset.target + '/comment/store', postCommentForm)
-        
-    //     .then (res => {
-    //         const addCommentRes = res.data;
-
-    //         if(addCommentRes.isSuccess) {
-    //             // const postIndex = Object.keys(posts).findIndex((i, val) => {
-    //             //     return (Object.values(posts)[val]['post_id'] === parseInt(evt.target.dataset.target, 10)) && Object.values(posts)[val]
-    //             // });
-
-    //             getPosts();
-    //             //clear textarea
-    //             document.querySelector("textarea[data-target=comment-" + evt.target.dataset.target + "]").value='';
-    //         } else {
-    //             console.log('err comment add ', addCommentRes.data);
-    //         }
-    //     })
-
-    //     .catch (err => {
-    //         console.log('err comment', err.response && err.response.data.errors);
-    //     })
-    // }
-
     const getComments = async(postId, length, limit) => {
         console.log('length: ', length)
         console.log('getcomments limit ', limit);
@@ -144,11 +96,7 @@ const Home = () => {
 
         return getCommentsData;
     }
-
-    const handleChunkComments = evt => {
-        console.log('evt', evt.selected);
-    }
-
+    
     // useEffect(() => {
     //     if (posts === null) {
     //         getPosts();

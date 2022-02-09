@@ -20,7 +20,6 @@ import Modal from '../../widgets/Modal';
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
-    const currentPathname = location.pathname.startsWith('/u/') && location.pathname.replace('/u/', ''); // current username
 
     const addUser = evt => {
         evt.preventDefault();
@@ -53,7 +52,7 @@ const Profile = () => {
                     <Column columnClass='p-2 d-flex flex-column' xs={ 12 } sm={ 5 } md={ 4 }>
                         <Container type='regular' containerClass='bg-purple-100'>
                             <img src='/pup_patrol_logo.png' style={{ objectFit: 'cover', width: '100%', maxWidth: '300px', maxHeight: '300px' }}/>
-                            <Row>
+                            {/* <Row>
                                 <Column>
                                 {
                                     (currentPathname !== JSON.parse(Cookies.get('x_auth_user'))['username']) ? 
@@ -81,7 +80,7 @@ const Profile = () => {
                                 <Column>
                                     message
                                 </Column>
-                            </Row>
+                            </Row> */}
                         </Container>
                         <Container type='regular' containerClass=''>
                             badges
