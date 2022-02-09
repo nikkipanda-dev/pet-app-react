@@ -23,7 +23,7 @@ export const Post = ({ data }) => {
     const [commentBody, setCommentBody] = useState('');
     const [limit, setLimit] = useState(5);
 
-    console.log('postId ', postId)
+    // console.log('postId ', postId)
 
     const getComments = async() => {
         setIsLoading(false);

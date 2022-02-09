@@ -9,12 +9,12 @@ import { Post as PostSection } from '../../widgets/post'
 
 export const Posts = ({ isDefault, showUserPosts }) => {
     const [posts, setPosts] = useState(null);
-    const [pageSize, setPageSize] = useState(null);
+    const [pageSize, setPageSize] = useState(0);
     const [chunkedPosts, setChunkedPosts] = useState(5);
     const location = useLocation();
     const currentPathname = isDefault ? location.pathname.slice(3) + '/posts' : location.pathname.slice(3);
 
-    console.log('chunkedPosts ', chunkedPosts)
+    console.log('pageSize ', pageSize)
 
     const getUserPosts = async(evt) => {
         const userPosts = []
@@ -106,8 +106,10 @@ export const Posts = ({ isDefault, showUserPosts }) => {
     }, [currentPathname])
 
     useEffect(() => {
-        posts && setChunkedPosts(posts.slice(0, 5));
-        posts && setPageSize(Math.ceil(posts.length / 10));
+        if (posts) {
+            setChunkedPosts(posts.slice(0, 5));
+            setPageSize(Math.ceil(posts.length / 10));
+        }
     }, [posts])
 
     return (
@@ -115,7 +117,10 @@ export const Posts = ({ isDefault, showUserPosts }) => {
         {
             chunkedPosts && Object.keys(chunkedPosts).map((i, val) => {
                 const data = Object.values(chunkedPosts)[val];
-                const postId = Object.values(chunkedPosts)[val]['id'];
+                const postId = Object.values(chunkedPosts)[val]['id'] ? Object.values(chunkedPosts)[val]['id'] : Object.values(chunkedPosts)[val]['post_id'];
+
+                console.log('data POSTS ', data)
+                console.log('postId POSTS', postId)
 
                 return (
                     <PostSection 
@@ -125,7 +130,7 @@ export const Posts = ({ isDefault, showUserPosts }) => {
             })
         }
         {
-            posts && 
+            chunkedPosts && 
             <ReactPaginate
             previousLabel="Previous"
             nextLabel="Next"

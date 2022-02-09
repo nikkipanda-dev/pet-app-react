@@ -21,10 +21,6 @@ const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
 
-    // console.log('showUserPosts ', showUserPosts)
-    // console.log('currentPathname ', currentPathname.slice(0, -6))
-    // console.log('show user posts? ', currentPathname.slice(0, -6) === JSON.parse(Cookies.get('x_auth_user'))['username'])
-
     const addUser = evt => {
         evt.preventDefault();
 
