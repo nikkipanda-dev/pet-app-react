@@ -20,6 +20,10 @@ import Modal from '../../widgets/Modal';
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
+    const currentPathname =  location.pathname.slice(3);
+    const [displayPhoto, setDisplayPhoto] = useState(null);
+
+    console.log('currentPathname ', currentPathname)
 
     const addUser = evt => {
         evt.preventDefault();
@@ -44,6 +48,32 @@ const Profile = () => {
         })
     }
 
+    const getDisplayPhoto = () => {
+        axiosDef.get('http://localhost:8000/api/user/' + currentPathname + '/display-photo/get')
+
+        .then (res => {
+            const getDisplayPhotoRes = res.data;
+
+            if (getDisplayPhotoRes.isSuccess) {
+                setDisplayPhoto(getDisplayPhotoRes.data['image_path']);
+            } else {
+                console.log('get dp res err ', getDisplayPhotoRes.data)
+            }
+        })
+
+        .catch (err => {
+            console.log('err dp ', err)
+        })
+    }
+
+    useEffect(() => {
+        isLoading && (!(displayPhoto) && getDisplayPhoto());
+        return () => {
+            setIsLoading(false);
+        } 
+    }, [])
+    
+
     return (
         JSON.parse(Cookies.get('x_auth_user'))['username'] ? 
         <Container fluid={ true } containerClass='pt-5'>
@@ -51,7 +81,9 @@ const Profile = () => {
                 <Row>
                     <Column columnClass='p-2 d-flex flex-column' xs={ 12 } sm={ 5 } md={ 4 }>
                         <Container type='regular' containerClass='bg-purple-100'>
-                            <img src='/pup_patrol_logo.png' style={{ objectFit: 'cover', width: '100%', maxWidth: '300px', maxHeight: '300px' }}/>
+                            <img 
+                            src={ new URL(displayPhoto, 'http://localhost:8000/storage/display_photos/') } 
+                            style={{ objectFit: 'cover', width: '300px', height: '300px', maxHeight: '100%', }}/>
                             {/* <Row>
                                 <Column>
                                 {
