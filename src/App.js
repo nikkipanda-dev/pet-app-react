@@ -13,7 +13,7 @@ import Home from './components/pages/home';
 import Communities from "./components/pages/communities";
 import Stories from "./components/pages/stories";
 import Profile from './components/pages/profile';
-import Posts from "./components/pages/profile/posts";
+import Posts from "./components/sections/posts";
 import Friends from "./components/pages/profile/friends";
 import FriendsPost from "./components/pages/profile/friends-post";
 import Settings from './components/pages/settings';
@@ -41,7 +41,7 @@ export const App = () => {
                 <Route exact path='/' element={<LandingPage />} />
                 <Route exact path='/home' element={<Home />} />
                 <Route exact path={'/u/:username'} element={<Profile />}>
-                    <Route index element={ <Posts isDefault={ true }/> }/>
+                    <Route index element={ <Posts isDefault={ true } showUserPosts={ true }/> }/>
                     <Route exact path={ 'friends' } element={ <Friends /> }/>
                     <Route exact path={ 'posts' } element={ <Posts /> }/>
                     <Route exact path={ 'posts/friends' } element={ <FriendsPost /> }/>

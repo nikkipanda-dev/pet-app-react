@@ -12,7 +12,7 @@ import Button from "../../core/Button";
 import Span from "../../core/Span";
 
 export const Post = ({ data }) => {
-    console.log('data ', data)
+    // console.log('data ', data)
 
     const [isLoading, setIsLoading] = useState(true);
     const [postId, setPostId] = useState(null);

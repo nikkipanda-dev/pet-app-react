@@ -1,51 +1,150 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axiosDef from "../../../util/Request";
+import ReactPaginate from 'react-paginate';
 
 import Container from "../../core/Container";
-import Post from "../../widgets/post";
+import { Post as PostSection } from '../../widgets/post'
 
-export const Posts = () => {
+export const Posts = ({ isDefault, showUserPosts }) => {
     const [posts, setPosts] = useState(null);
+    const [pageSize, setPageSize] = useState(null);
+    const [chunkedPosts, setChunkedPosts] = useState(5);
+    const location = useLocation();
+    const currentPathname = isDefault ? location.pathname.slice(3) + '/posts' : location.pathname.slice(3);
 
-    const getFriendsPosts = async(evt) => {
-        await axiosDef.get('http://localhost:8000/api/user/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/friends/posts')
+    console.log('chunkedPosts ', chunkedPosts)
+
+    const getUserPosts = async(evt) => {
+        const userPosts = []
+        
+        await axiosDef.get('http://localhost:8000/api/user/' + currentPathname.slice(0, -6) + '/posts')
 
         .then (res => {
-            const getPostsRes = res.data;
+            const userPostsRes = res.data;
 
-            if (getPostsRes.isSuccess) {
-                setPosts(getPostsRes.data);
+            if (userPostsRes.isSuccess) {
+                userPosts.push(userPostsRes.data);
             } else {
-                console.log('res error get comments ', getPostsRes.data);
+                console.log('res error get comments ', userPostsRes.data);
             }
         })
 
         .catch (err => {
             console.log('err get comments ', err);
         })
+
+        return userPosts;
+    }
+
+    const getFriendsPosts = async(evt) => {
+        const friendsPosts = []
+
+        await axiosDef.get('http://localhost:8000/api/user/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/friends/posts')
+
+        .then (res => {
+            const friendsPostsRes = res.data;
+
+            if (friendsPostsRes.isSuccess) {
+                friendsPosts.push(friendsPostsRes.data)
+            } else {
+                console.log('res error get comments ', friendsPostsRes.data);
+            }
+        })
+
+        .catch (err => {
+            console.log('err get comments ', err);
+        })
+
+        return friendsPosts;
+    }
+
+    const handlePosts = () => {
+        if (showUserPosts) {
+            const userPostsRes = getUserPosts();
+
+            userPostsRes.then(res => {
+                setPosts(res[0]);
+            })
+    
+            .catch (err => {
+                console.log('err user ', err)
+            })
+        } else {
+            const friendsPostsRes = getFriendsPosts();
+
+            friendsPostsRes.then(res => {
+                setPosts(res[0]);
+            })
+    
+            .catch (err => {
+                console.log('err user ', err)
+            })
+        }
+    }
+
+    const setPage = evt => {
+        console.log('page ', evt.selected)
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+        const currentPage = parseInt(evt.selected) + 1;
+
+        const minIndex = (currentPage * 10) - 10;
+        const maxIndex = (currentPage * 10);
+
+        setTimeout(() => {
+            if (maxIndex > Object.keys(posts).length && (currentPage === pageSize)) {
+                setChunkedPosts(posts.slice(minIndex));
+            } else {
+                setChunkedPosts(posts.slice(minIndex, maxIndex));
+            }
+        }, 700);
     }
 
     useEffect(() => {
-        if (posts === null) {
-            getFriendsPosts();
-        }
-    }, []);
+        handlePosts();
+    }, [currentPathname])
+
+    useEffect(() => {
+        posts && setChunkedPosts(posts.slice(0, 5));
+        posts && setPageSize(Math.ceil(posts.length / 10));
+    }, [posts])
 
     return (
         <Container type='regular'>
-            {
-                posts && Object.keys(posts).map((i, val) => {
-                    const data = Object.values(posts)[val];
-                    const postId = Object.values(posts)[val]['post_id'];
+        {
+            chunkedPosts && Object.keys(chunkedPosts).map((i, val) => {
+                const data = Object.values(chunkedPosts)[val];
+                const postId = Object.values(chunkedPosts)[val]['id'];
 
-                    return (
-                        <Post 
-                        key={ 'post-' + postId }
-                        data={ data }/>
-                    )
-                })
-            }
+                return (
+                    <PostSection 
+                    key={ 'post-' + postId }
+                    data={ data }/>
+                )
+            })
+        }
+        {
+            posts && 
+            <ReactPaginate
+            previousLabel="Previous"
+            nextLabel="Next"
+            // pageClassName="page-item"
+            // pageLinkClassName="page-link"
+            // previousClassName="page-item"
+            // previousLinkClassName="page-link"
+            // nextClassName="page-item"
+            // nextLinkClassName="page-link"
+            breakLabel="..."
+            // breakClassName="page-item"
+            // breakLinkClassName="page-link"
+            pageCount={ pageSize }
+            marginPagesDisplayed={ 2 }
+            pageRangeDisplayed={ 5 }
+            onPageChange={ setPage }
+            containerClassName="pagination"
+            activeClassName="active"/>
+        }
         </Container>
     )
 };
