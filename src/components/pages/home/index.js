@@ -30,6 +30,7 @@ const Home = () => {
     // const handleShow = () => { setShow(true) };
     // const handleClose = () => { setShow(false) };
 
+    const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState(null);
     const [body, setBody] = useState('');
 
