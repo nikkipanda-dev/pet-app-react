@@ -14,7 +14,7 @@ export const Posts = ({ isDefault, showUserPosts }) => {
     const location = useLocation();
     const currentPathname = isDefault ? location.pathname.slice(3) + '/posts' : location.pathname.slice(3);
 
-    console.log('pageSize ', pageSize)
+    // console.log('posts ', posts)
 
     const getUserPosts = async(evt) => {
         const userPosts = []
@@ -25,6 +25,7 @@ export const Posts = ({ isDefault, showUserPosts }) => {
             const userPostsRes = res.data;
 
             if (userPostsRes.isSuccess) {
+                // console.log(userPostsRes.data)
                 userPosts.push(userPostsRes.data);
             } else {
                 console.log('res error get comments ', userPostsRes.data);
@@ -85,8 +86,8 @@ export const Posts = ({ isDefault, showUserPosts }) => {
     }
 
     const setPage = evt => {
-        console.log('page ', evt.selected)
-        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+
         const currentPage = parseInt(evt.selected) + 1;
 
         const minIndex = (currentPage * 10) - 10;
@@ -94,9 +95,9 @@ export const Posts = ({ isDefault, showUserPosts }) => {
 
         setTimeout(() => {
             if (maxIndex > Object.keys(posts).length && (currentPage === pageSize)) {
-                setChunkedPosts(posts.slice(minIndex));
+                setChunkedPosts(posts['posts'] ? posts['posts'].slice(minIndex) : posts.slice(minIndex));
             } else {
-                setChunkedPosts(posts.slice(minIndex, maxIndex));
+                setChunkedPosts(posts['posts'] ? posts['posts'].slice(minIndex, maxIndex) : posts.slice(minIndex, maxIndex));
             }
         }, 700);
     }
@@ -107,8 +108,8 @@ export const Posts = ({ isDefault, showUserPosts }) => {
 
     useEffect(() => {
         if (posts) {
-            setChunkedPosts(posts.slice(0, 5));
-            setPageSize(Math.ceil(posts.length / 10));
+            setChunkedPosts(posts['posts'] ? posts['posts'].slice(0, 5) : posts.slice(0, 5));
+            setPageSize(Math.ceil(posts['posts'] ? posts['posts'].length / 10 : posts.length / 10));
         }
     }, [posts])
 
@@ -118,14 +119,17 @@ export const Posts = ({ isDefault, showUserPosts }) => {
             chunkedPosts && Object.keys(chunkedPosts).map((i, val) => {
                 const data = Object.values(chunkedPosts)[val];
                 const postId = Object.values(chunkedPosts)[val]['id'] ? Object.values(chunkedPosts)[val]['id'] : Object.values(chunkedPosts)[val]['post_id'];
-
-                console.log('data POSTS ', data)
-                console.log('postId POSTS', postId)
+                const userThumbnail = posts['display_photo'] ? posts['display_photo']['image_path'] : '';
+                // const authorThumbnail = posts;
+                
+                console.log('data', data)
 
                 return (
                     <PostSection 
                     key={ 'post-' + postId }
-                    data={ data }/>
+                    data={ data }
+                    showUserPosts={ showUserPosts }
+                    userThumbnail={ userThumbnail }/>
                 )
             })
         }

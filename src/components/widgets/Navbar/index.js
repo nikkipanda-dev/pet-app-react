@@ -98,8 +98,6 @@ export const Navbar = () => {
                         { Cookies.get('x_auth_secret_tk') ? 
                             <>
                                 <Link to='home' className='navbar-link me-3'>Home</Link>
-                                {/* <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] } className='navbar-link me-3'>Profile</Link>
-                                <Link to={'u/dummyacct'} >Profile</Link> */}
                                 <Anchor type='regular' text='Profile' href={ new URL('u/' + JSON.parse(Cookies.get('x_auth_user'))['username'], 'http://localhost:3000') } anchorClass='navbar-link me-3' isTargetBlank={ false } />
                                 <Link to={ '/u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/settings' } className='navbar-link me-3'>Settings</Link> 
                                 <a href='/' className='navbar-link'><FontAwesomeIcon icon={faSignOutAlt}/></a>
