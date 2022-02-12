@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { Regular } from "./Regular";
 
-export const Column = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl, xxl, refTarget }) => {
+export const Column = ({ children, className, style, xs, sm, md, lg, xl, xxl, refTarget }) => {
     return (
         <Regular 
-            columnClass={ columnClass } 
-            columnStyle={ columnStyle } 
+            className={ className } 
+            style={ style } 
             xs={ xs } 
             sm={ sm } 
             md={ md } 
@@ -20,11 +20,11 @@ export const Column = ({ children, columnClass, columnStyle, xs, sm, md, lg, xl,
 };
 
 Column.propTypes = {
-    'columnClass': PropTypes.oneOfType([
+    'className': PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.bool,
     ]),
-    'columnStyle': PropTypes.oneOfType([
+    'style': PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.bool,
     ]),
@@ -59,8 +59,8 @@ Column.propTypes = {
 }
 
 Column.defaultProps = {
-    'columnClass': false,
-    'columnStyle': false,
+    'className': false,
+    'style': false,
     'xs': false,
     'sm': false,
     'md': false,

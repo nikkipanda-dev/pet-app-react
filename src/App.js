@@ -2,6 +2,7 @@ import {
     BrowserRouter as Router, Routes, Route, Navigate as Redirect
 } from "react-router-dom";
 import Cookies from "js-cookie";
+import { globalStyles } from "./css/stitches.config";
 
 // Widgets
 import Navbar from './components/widgets/Navbar';
@@ -23,15 +24,18 @@ import BetaSettings from './components/pages/settings/beta';
 import MessagingSettings from './components/pages/settings/messaging';
 import NotificationSettings from './components/pages/settings/notifications';
 import ProfileSettings from './components/pages/settings/profile';
+import Test from "./components/pages/test";
 
 // Styling
 import './css/bootstrap.css';
-import './css/style.css';
+// import './css/style.css';
 
 // Bootstrap bundle
 import 'react-bootstrap/dist/react-bootstrap.min.js';
 
 export const App = () => {
+    globalStyles();
+
     const username = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['username'];
 
     return (
@@ -57,6 +61,7 @@ export const App = () => {
                 </Route>
                 <Route exact path='/communities' element={<Communities />} />
                 <Route exact path='/stories' element={<Stories />} />
+                <Route exact path='/test' element={<Test />} />
             </Routes>
             <Footer />
         </Router>

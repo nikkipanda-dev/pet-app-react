@@ -1,6 +1,6 @@
 import Row from 'react-bootstrap/Row';
 
-export const Regular = ({ children, rowClass, rowStyle, xs, sm, md, lg, xl, xxl }) => {
+export const Regular = ({ children, className, style, xs, sm, md, lg, xl, xxl }) => {
     return (
         <Row 
             xs={ xs } 
@@ -9,8 +9,8 @@ export const Regular = ({ children, rowClass, rowStyle, xs, sm, md, lg, xl, xxl 
             lg={ lg } 
             xl={ xl } 
             xxl={ xxl } 
-            className={ rowClass } 
-            style={{ ...rowStyle }}
+            className={ className } 
+            style={{ ...style }}
         >
             { children }
         </Row>

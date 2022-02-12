@@ -3,7 +3,27 @@ import { Textarea } from './Textarea';
 import { File } from './File';
 import Alert from '../Alert';
 
-export const Input = ({ validationType, fieldType, type, inputClass, inputStyle, refTarget, name, onChange, value, alertAttr, validateInput, isError, alertClass, errorMsg, rows, multiple, accept, hidden, defaultValue, dataTarget, onFocus }) => { 
+export const Input = (
+    { 
+        fieldType, 
+        type, 
+        inputClass, 
+        inputStyle, 
+        refTarget, 
+        name, 
+        onChange, 
+        value, 
+        alertClass, 
+        errorMsg, 
+        rows, 
+        multiple, 
+        accept, 
+        hidden, 
+        defaultValue, 
+        dataTarget, 
+        onFocus 
+    }
+) => { 
     // TODO: Client-side validation
 
     return (

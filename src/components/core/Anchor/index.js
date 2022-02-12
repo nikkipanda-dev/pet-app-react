@@ -2,34 +2,34 @@ import { Regular } from './Regular';
 import { Modal } from './Modal';
 import { Toggle } from './Toggle';
 
-export const Anchor = ({ type, text, href, isTargetBlank, isShown, anchorOnclick, anchorClass, anchorStyle, dataTargetUserId, dataTargetPostId, dataTargetBody, dataTarget }) => {
+export const Anchor = ({ type, color, css, text, href, isTargetBlank, isShown, anchorOnclick, className, dataTargetUserId, dataTargetPostId, dataTargetBody, dataTarget }) => {
     return (
         (type == 'regular') ? 
             <Regular 
-                text={ text } 
-                href={ href } 
-                isTargetBlank={ isTargetBlank } 
-                anchorClass={ anchorClass } 
-                anchorStyle={ anchorStyle }
-            /> : 
+            text={ text } 
+            color={ color }
+            css={ css }
+            href={ href } 
+            isTargetBlank={ isTargetBlank } 
+            className={ className }/> : 
         (type == 'modal') ? 
             <Modal 
-                text={ text } 
-                anchorClass={ anchorClass } 
-                anchorOnclick={ anchorOnclick } 
-                dataTargetUserId={ dataTargetUserId ? dataTargetUserId : false }
-                dataTargetPostId={ dataTargetPostId ? dataTargetPostId : false } 
-                dataTargetBody={ dataTargetBody ? dataTargetBody : false } 
-                anchorStyle={ anchorStyle }
-            /> :
+            text={ text } 
+            className={ className } 
+            color={ color }
+            css={ css }
+            anchorOnclick={ anchorOnclick } 
+            dataTargetUserId={ dataTargetUserId ? dataTargetUserId : false }
+            dataTargetPostId={ dataTargetPostId ? dataTargetPostId : false } 
+            dataTargetBody={ dataTargetBody ? dataTargetBody : false }/> :
             <Toggle 
-                text={ text } 
-                anchorClass={ anchorClass } 
-                anchorOnclick={ anchorOnclick } 
-                isShown={ isShown } 
-                anchorStyle={ anchorStyle } 
-                dataTarget={ dataTarget }
-            />
+            text={ text } 
+            className={ className } 
+            color={ color }
+            css={ css }
+            anchorOnclick={ anchorOnclick } 
+            isShown={ isShown } 
+            dataTarget={ dataTarget }/>
     )
 };
 

@@ -13,7 +13,6 @@ import Input from '../../core/Input'
 import Button from '../../core/Button'
 import Header from '../../core/Header';
 import Card from '../../widgets/Card';
-import Modal from '../../widgets/Modal';
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -87,22 +86,31 @@ const LandingPage = () => {
 
     return (
         <>
-            <Container fluid={ true }>
-                <Container fluid='md' containerClass='pt-5'>
-                    <Jumbotron jumbotronStyle={{ minHeight: '100vh', }}>
-                        <Row rowClass='p-2' rowStyle={{ minHeight: 'inherit', }}>
-                            <Column columnClass='mt-5 py-3' sm={ 6 } md={ 7 } lg={ 8 } columnStyle={{ height: '100%', }}>
+            <Container type='regular'>
+                <Container maxFluid='xl' className='mt-5'>
+                    <Jumbotron style={{ minHeight: '90vh', }} className='mt-3'>
+                        <Row className='m-0'>
+                            <Column 
+                            className='mt-5 py-3' 
+                            md={ 7 } 
+                            lg={ 8 } >
                                 <Header text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, dolorem necessitatibus!' headerClass='display-5'/>
                             </Column>
-                            <Column columnClass='mt-5 py-3' sm={ 6 } md={ 5 } lg={ 4 } columnStyle={{ height: '100%', }}>
-                                <Form action='#' method='post' encType='multipart' onSubmit={ register }>
-                                    <div>
+                            <Column 
+                            className='mt-5 py-3' 
+                            md={ 5 } 
+                            lg={ 4 }>
+                                <Form 
+                                action='#' 
+                                method='post' 
+                                encType='multipart' 
+                                onSubmit={ register }>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='First name:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ firstNameRef }
-                                        />
+                                            refTarget={ firstNameRef }/>
                                         <Input 
                                             validationType='name' 
                                             type='text' 
@@ -118,16 +126,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Last name:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ lastNameRef }
-                                        />
+                                            refTarget={ lastNameRef }/>
                                         <Input 
                                             validationType='name' 
                                             type='text' 
@@ -143,16 +149,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Username:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ usernameRef }
-                                        />
+                                            refTarget={ usernameRef }/>
                                         <Input 
                                             validationType='name' 
                                             type='text' 
@@ -168,16 +172,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Email:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ emailRef }
-                                        />
+                                            refTarget={ emailRef }/>
                                         <Input 
                                             validationType='email' 
                                             type='email' 
@@ -193,16 +195,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Password:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ passwordRef }
-                                        />
+                                            refTarget={ passwordRef }/>
                                         <Input 
                                             validationType='password' 
                                             type='password' 
@@ -218,16 +218,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Repeat password:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ repeatPasswordRef }
-                                        />
+                                            refTarget={ repeatPasswordRef }/>
                                         <Input 
                                             validationType='repeatPassword' 
                                             type='password' 
@@ -243,30 +241,27 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div className='d-grid gap-2 col-12 col-sm-6 mx-auto'>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-grid gap-2 col-12 col-sm-6 mx-auto'>
                                         <Button 
-                                            type='submit' 
-                                            text='Register' 
-                                            btnClass='btn btn-reg btn-purple'
-                                        />
-                                    </div>
+                                        type='submit' 
+                                        text='Register'  
+                                        color='yellow'/>
+                                    </Container>
                                 </Form>
                             </Column>
                         </Row>
                     </Jumbotron>
                 </Container>
             </Container>
-            <Container fluid={ true } containerClass='mt-5'>
-                <Container fluid='md' containerClass=''>
-                    <Row rowClass='g-5' xs={ 1 } md={ 2 }>
+            <Container maxFluid={ true } className='mt-5'>
+                <Container maxFluid='md' className=''>
+                    <Row className='g-5' xs={ 1 } md={ 2 }>
                         <Column>
                             <Card 
                                 cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}
-                            >
+                                cardStyle={{ border: 'none', }}>
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat explicabo neque totam amet autem quasi iusto sequi non aspernatur accusantium, modi quas ab cupiditate, laboriosam magnam unde, laudantium vel sit.
                                 <Button btnClass='btn btn-purple' text='Browse Communities'/>
                             </Card>
@@ -274,8 +269,7 @@ const LandingPage = () => {
                         <Column>
                             <Card 
                                 cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}
-                            >
+                                cardStyle={{ border: 'none', }}>
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae debitis dolorem eligendi natus laborum praesentium officia, repellat nobis. Voluptatum inventore tenetur vel cumque ab libero consequatur quam saepe accusantium necessitatibus.
                                 <Button btnClass='btn btn-purple' text='Browse Stories'/>
                             </Card>

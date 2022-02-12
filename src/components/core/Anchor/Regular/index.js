@@ -1,8 +1,29 @@
-export const Regular = ( { text, href, isTargetBlank, anchorClass, anchorOnclick }) => {
+import { styled } from "../../../../css/stitches.config";
+
+const Anchor = styled('a', {
+    textDecoration: 'none',
+    fontSize: '1.3rem',
+    fontWeight: 300,
+    variants: {
+        color: {
+            yellow: {
+                color: '$yellow200',          
+            }
+        }
+    }, 
+});
+
+export const Regular = ( { text, color, css, href, isTargetBlank, className, anchorOnclick }) => {
+    console.log('regular')
 
     return (
-        <a href={ href } className={ anchorClass } target={ isTargetBlank ? '_blank' : '' } >
+        <Anchor 
+        css={{ ...css }}
+        color={ color }
+        { ...href && { href: href }} 
+        className={ className } 
+        target={ isTargetBlank ? '_blank' : '' } >
             { text }
-        </a>
+        </Anchor>
     )
 };

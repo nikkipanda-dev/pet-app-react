@@ -1,6 +1,6 @@
 import { HeaderDefault } from "./HeaderDefault";
 
-export const Header = ({ text, headerClass }) => {
+export const Header = ({ css, text, headerClass }) => {
     return (
         <HeaderDefault text={ text } headerClass={ headerClass }/>
     )

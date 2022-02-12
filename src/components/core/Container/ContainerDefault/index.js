@@ -1,13 +1,12 @@
 import Container from "react-bootstrap/Container";
 
-export const ContainerDefault = ({ children , fluid, containerStyle, containerClass, hidden }) => {
+export const Responsive = ({ children, maxFluid, style, className, hidden }) => {
     return (
         <Container 
-            fluid={ fluid } 
-            className={ containerClass } 
-            style={{ ...containerStyle }}
-            hidden={ hidden }
-        >
+            fluid={ maxFluid } 
+            className={ className } 
+            style={{ ...style }}
+            hidden={ hidden }>
             { children }
         </Container>
     )

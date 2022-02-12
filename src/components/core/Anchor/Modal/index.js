@@ -1,15 +1,40 @@
-import { ModalIdx } from '../../../widgets/Modal';
+import { styled } from "../../../../css/stitches.config";
 
-export const Modal = ({ text, anchorOnclick, anchorClass, dataTargetUserId, dataTargetPostId, dataTargetBody }) => {
+const Anchor = styled('a', {
+    textDecoration: 'none',
+    fontSize: '1.3rem',
+    fontWeight: 300,
+    transition: 'all .1s',
+    variants: {
+        color: {
+            neutral: {
+                color: '$gray200',
+            },
+            tangerine: {
+                color: '$tangerine200',
+            }
+        }
+    },
+    '&.navbar-link': {
+        fontWeight: 400,
+    },
+    '&:hover': {
+        color: '$dark100',
+        transition: 'all .1s',                 
+    },   
+});
+
+export const Modal = ({ color, css, text, anchorOnclick, className, dataTargetUserId, dataTargetPostId, dataTargetBody }) => {
     return (
-        <a 
-            onClick={ evt => anchorOnclick(evt) } 
-            className={ anchorClass } 
-            data-target-user-id={ dataTargetUserId } 
-            data-target-post-id={ dataTargetPostId } 
-            data-target-body={ dataTargetBody }
-        >
+        <Anchor 
+        css={{ ...css }}
+        color={ color }
+        onClick={ evt => anchorOnclick(evt) } 
+        className={ className } 
+        data-target-user-id={ dataTargetUserId } 
+        data-target-post-id={ dataTargetPostId } 
+        data-target-body={ dataTargetBody }>
             { text }
-        </a>
+        </Anchor>
     )
 };

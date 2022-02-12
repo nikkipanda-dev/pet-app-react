@@ -1,12 +1,21 @@
-export const Div = ({ children, divClass, divStyle, hidden, refTarget }) => {
+import { styled } from "../../../../css/stitches.config";
+
+const Div = styled('div', {
+    display: 'flex',
+    width: '100%',
+})
+
+export const Fluid = ({ css, color, children, className, style, hidden, refTarget }) => {
     return (
-        <div 
-            className={ divClass } 
-            style={{ ...divStyle }} 
+        <Div 
+            css={{ ...css }}
+            color={ color }
+            className={ className } 
+            style={{ ...style }} 
             hidden={ hidden }
             ref={ refTarget }
         >
             { children }
-        </div>
+        </Div>
     )
 };

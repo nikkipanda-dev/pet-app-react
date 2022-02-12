@@ -1,10 +1,11 @@
 import { Regular } from "./Regular";
 
-export const Label = ({ text, labelClass, labelOnclick, refTarget }) => {
+export const Label = ({ css, text, color, className, labelOnclick, refTarget }) => {
     return (
         <Regular 
+        css={ css }
         text={ text } 
-        labelClass={ labelClass } 
+        className={ className } 
         labelOnclick={ labelOnclick } 
         refTarget={ refTarget }/>
     )
