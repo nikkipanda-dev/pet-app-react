@@ -1,14 +1,25 @@
-import { Regular } from "./Regular/CardReg";
+import { Regular } from "./Regular";
+import { Full } from "./Full";
 
-export const Card = ({ children, cardClass, cardStyle }) => {
+export const Card = ({ type, children, css, color, header, footer, className }) => {
     return (
-        <Regular 
-            // keyID={ keyID } 
-            cardClass={ cardClass } 
-            cardStyle={ cardStyle }
-        >
-            { children }
-        </Regular>
+            (type === 'regular') ? 
+            <Regular 
+            className={ className } 
+            color={ color }
+            header={ header }
+            footer={ footer }
+            css={ css }>
+                { children }
+            </Regular> :
+            <Full 
+            className={ className } 
+            color={ color }
+            header={ header }
+            footer={ footer }
+            css={ css }>
+                { children }
+            </Full>
     )
 };
 

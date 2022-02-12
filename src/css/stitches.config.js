@@ -23,6 +23,10 @@ export const {
             tangerine200: '#ff9f1c',
             dark100: '#3b3b3b',
             dark200: '#1a1a1a',
+            pastelCyan: '#dfffff',
+            pastelYellow: '#fffad3',
+            pastelTangerine: '#ffeed7',
+            error: '#FF5733',
         },
         space: {
             1: '5px',
@@ -86,7 +90,7 @@ export const riseUp = keyframes({
 });  
 
 export const yellowLinearGradient = keyframes({
-    '0%': { background: 'linear-gradient(to right, $yellow200 0%, $tangerine200 100%)' },
-    '20%': { background: 'linear-gradient(to right, $tangerine200 0%, $tangerine200 100%)' },
-    '100%': { background: 'linear-gradient(to right, $tangerine200 0%, $yellow200 100%)' },
+    '0%': { background: 'linear-gradient(to right, $yellow200, $tangerine200)' },
+    '25%': { background: 'linear-gradient(to right, $tangerine200, $tangerine200)' },
+    '100%': { background: 'linear-gradient(to right, $tangerine200, $yellow200)' },
 });

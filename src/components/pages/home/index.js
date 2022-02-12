@@ -24,6 +24,7 @@ import Span from '../../core/Span';
 
 const Home = () => {
     //TODO sanitize textarea, submits if empty
+    console.log('user', JSON.parse(Cookies.get('x_auth_user')))
 
     // // toggle
     // const [show, setShow] = useState(false);

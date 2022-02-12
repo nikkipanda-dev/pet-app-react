@@ -11,8 +11,7 @@ export const Regular = ({ children, className, style, xs, sm, md, lg, xl, xxl, r
             xxl={ xxl } 
             className={ className } 
             style={{ ...style }} 
-            { ...refTarget && { ref: refTarget }}
-        >
+            { ...refTarget && { ref: refTarget }}>
             { children }
         </Col>
     )

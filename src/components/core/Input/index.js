@@ -64,7 +64,7 @@ export const Input = (
                     />
             }
 
-            <Alert alertClass={ alertClass }>
+            <Alert className={ alertClass } color='tangerine'>
                 {                    
                     // thisErrorMsg ? thisErrorMsg : 
                     errorMsg && errorMsg[name] ? (!errorMsg['password_confirmation'] ? errorMsg[name] : errorMsg[name]) :

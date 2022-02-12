@@ -12,8 +12,7 @@ export const Column = ({ children, className, style, xs, sm, md, lg, xl, xxl, re
             lg={ lg } 
             xl={ xl } 
             xxl={ xxl } 
-            refTarget={ refTarget }
-        >
+            refTarget={ refTarget }>
             { children }
         </Regular>
     )

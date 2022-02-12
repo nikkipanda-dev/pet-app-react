@@ -1,8 +1,11 @@
 import { Regular } from "./Regular";
 
-export const Alert = ({ children, alertClass }) => {
+export const Alert = ({ css, color, children, className }) => {
     return (
-        <Regular alertClass={ alertClass }>
+        <Regular 
+        css={ css } 
+        color={ color } 
+        className={ className }>
             { children }
         </Regular>
     )

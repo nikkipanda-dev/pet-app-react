@@ -256,40 +256,46 @@ const LandingPage = () => {
                 </Container>
             </Container>
             <Container maxFluid={ true } className='mt-5'>
-                <Container maxFluid='md' className=''>
-                    <Row className='g-5' xs={ 1 } md={ 2 }>
+                <Container maxFluid='md'>
+                    <Row className='g-5' md={ 1 } lg={ 2 }>
                         <Column>
-                            <Card 
-                                cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat explicabo neque totam amet autem quasi iusto sequi non aspernatur accusantium, modi quas ab cupiditate, laboriosam magnam unde, laudantium vel sit.
-                                <Button btnClass='btn btn-purple' text='Browse Communities'/>
+                            <Card type='regular' color='yellow' className='p-3 fs-3 d-flex flex-column justify-content-between'>
+                                <Container type='regular' className='body'>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat explicabo neque totam amet autem quasi iusto sequi non aspernatur accusantium, modi quas ab cupiditate, laboriosam magnam unde, laudantium vel sit.
+                                </Container>
+                                <Container type='regular' className='footer d-grid gap-2 mt-5'>
+                                    <Button type='regular' text='Browse Communities' color='yellow'/>
+                                </Container>
                             </Card>
                         </Column>
                         <Column>
-                            <Card 
-                                cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae debitis dolorem eligendi natus laborum praesentium officia, repellat nobis. Voluptatum inventore tenetur vel cumque ab libero consequatur quam saepe accusantium necessitatibus.
-                                <Button btnClass='btn btn-purple' text='Browse Stories'/>
+                            <Card type='regular' color='yellow' className='p-3 fs-3 d-flex flex-column justify-content-between'>
+                                <Container type='regular' className='body'>
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae debitis dolorem eligendi natus laborum praesentium officia, repellat nobis. Voluptatum inventore tenetur vel cumque ab libero consequatur quam saepe accusantium necessitatibus.
+                                </Container>
+                                <Container type='regular' className='footer d-grid gap-2 mt-5'>
+                                    <Button type='regular' text='Browse Stories' color='yellow'/>
+                                </Container>
                             </Card>
                         </Column>
                         <Column>
-                            <Card 
-                                cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}
-                            >
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem natus, odio labore nesciunt quis eaque nobis quod quaerat suscipit id quibusdam non quo rerum dolores excepturi provident in laborum asperiores.
-                                <Button btnClass='btn btn-purple' text='Browse Memes'/>
+                            <Card type='regular' color='yellow' className='p-3 fs-3 d-flex flex-column justify-content-between'>
+                                <Container type='regular' className='body'>
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem natus, odio labore nesciunt quis eaque nobis quod quaerat suscipit id quibusdam non quo rerum dolores excepturi provident in laborum asperiores.
+                                </Container>
+                                <Container type='regular' className='footer d-grid gap-2 mt-5'>
+                                    <Button type='regular' text='Browse Memes' color='yellow'/>
+                                </Container>
                             </Card>
                         </Column>
                         <Column>
-                            <Card 
-                                cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}
-                            >
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore laudantium sunt quaerat quam! Tempora suscipit modi ipsa sint eaque similique voluptatem. Nobis id assumenda reprehenderit nemo fugit dolor aperiam. Animi.
-                                <Button btnClass='btn btn-purple' text='Browse DOFTD'/>
+                            <Card type='regular' color='yellow' className='p-3 fs-3 d-flex flex-column justify-content-between'>
+                                <Container type='regular' className='body'>
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore laudantium sunt quaerat quam! Tempora suscipit modi ipsa sint eaque similique voluptatem. Nobis id assumenda reprehenderit nemo fugit dolor aperiam. Animi.
+                                </Container>
+                                <Container type='regular' className='footer d-grid gap-2 mt-5'>
+                                    <Button type='regular' text='Browse DOFTD' color='yellow'/>
+                                </Container>
                             </Card>
                         </Column>
                     </Row>
