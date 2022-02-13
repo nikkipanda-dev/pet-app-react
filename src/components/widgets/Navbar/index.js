@@ -58,7 +58,7 @@ export const Navbar = () => {
 
                     if (loginRes.isSuccess) {
                         Cookies.set('x_auth_user', JSON.stringify(loginRes.data), { sameSite: 'strict', secure: true });
-                        Cookies.set('x_auth_secret_tk', loginRes.secret, { sameSite: 'strict', secure: true });
+                        Cookies.set('x_auth_secret_tk', JSON.stringify(loginRes.secret), { sameSite: 'strict', secure: true });
 
                         hideNavModal(false);
 
@@ -78,6 +78,36 @@ export const Navbar = () => {
                     }
                 })
         });
+    }
+
+    const logout = evt => {
+        evt.preventDefault();
+
+        const logoutForm = new FormData();
+        logoutForm.append('id', parseInt(JSON.parse(Cookies.get('x_auth_user'))['id'], 10));
+        logoutForm.append('token', parseInt(JSON.parse(Cookies.get('x_auth_secret_tk')).match(/[^|]*/), 10));
+
+        axiosDef.post('http://localhost:8000/api/logout', logoutForm)
+
+        .then (res => {
+            console.log('res ', res.data);
+            const logoutRes = res.data;
+
+            if (logoutRes.isSuccess) {
+                Cookies.remove('x_auth_user');
+                Cookies.remove('x_auth_secret_tk');
+                Cookies.remove('laravel_session');
+                Cookies.remove('XSRF-TOKEN');
+
+                navigate('/');
+            } else {
+                console.log('logoutRes err' , logoutRes.data);
+            }
+        })
+
+        .catch (err => {
+            console.log('err ' , err.response.data.errors);
+        })
     }
 
     return (
@@ -118,8 +148,19 @@ export const Navbar = () => {
                                 text='Settings' 
                                 to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/settings' }
                                 color='tangerine'
-                                className='navbar-link'/>
-                                <a href='/' className='navbar-link'><FontAwesomeIcon icon={faSignOutAlt}/></a>
+                                className='navbar-link me-2'/>
+                                <Form
+                                action='#'
+                                method='POST'
+                                encType='multipart'
+                                onSubmit={ logout }
+                                css={{ width: 'auto', }}>
+                                    <Button 
+                                    type='submit'
+                                    text={ <FontAwesomeIcon icon={faSignOutAlt}/> } 
+                                    color='yellowNoTranslate'
+                                    size='tiny'/>
+                                </Form>
                             </> :
                             <Anchor 
                             type='modal' 
