@@ -12,6 +12,7 @@ import Container from '../../core/Container';
 import Row from '../../core/Row';
 import Column from '../../core/Column';
 import Card from '../../widgets/Card';
+import Ticker from '../../sections/ticker';
 import Modal from '../../widgets/Modal';
 import Form from '../../widgets/Form';
 import Label from '../../core/Label';
@@ -20,6 +21,9 @@ import Button from '../../core/Button';
 import Image from '../../core/Image';
 import Anchor from '../../core/Anchor';
 import Span from '../../core/Span';
+import Header from '../../core/Header';
+import Paragraph from '../../core/Paragraph';
+import Blockquote from '../../core/Blockquote';
 // import { BtnIdx } from '../../core/Button';
 
 const Home = () => {
@@ -31,27 +35,7 @@ const Home = () => {
             <Container maxFluid='xl' className='mt-5'>
                 <Row className='flex-column flex-md-row mt-5'>
                     <Column className='d-none d-md-flex flex-column p-2' md={ 3 }>
-                        <Card type='regular' className='p-2'>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.</p>
-                        </Card>
-                        <Card type='regular' className='mt-3 p-2'>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.</p>
-                        </Card>
-                        <Card type='regular' className='mt-3 p-2'>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.</p>
-                        </Card>
-                        <Card type='regular' className='mt-3 p-2'>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.</p>
-                        </Card>
-                        <Card type='regular' className='mt-3 p-2'>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.</p>
-                        </Card>
-                        <Card type='regular' className='mt-3 p-2'>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.</p>
-                        </Card>
-                        <Card type='regular' className='mt-3 p-2'>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus esse et eligendi ratione quasi, dolores dolorem eaque adipisci repudiandae inventore nesciunt ipsam fugiat ad maxime. Aliquid incidunt quisquam aliquam dolorum.</p>
-                        </Card>
+                        <Ticker />
                     </Column>
                     <Column className='py-2 mt-3' md={ 6 }>
                         <Posts />

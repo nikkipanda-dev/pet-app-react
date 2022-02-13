@@ -1,4 +1,4 @@
-import { styled, riseUp, yellowLinearGradient } from "../../../../css/stitches.config";
+import { styled, riseUp, yellowLinearGradient, cyanLinearGradient } from "../../../../css/stitches.config";
 
 const Button = styled('button', {
     fontFamily: 'Fira Sans',
@@ -24,6 +24,13 @@ const Button = styled('button', {
                 '&:hover': {
                     background: 'linear-gradient(to right, $gray100 0%, $gray200 100%)',
                     animation: `${riseUp} .2s 1 normal forwards`,
+                },
+            },
+            cyanNoTranslate: {
+                background: 'linear-gradient(to right, $yellow200 0%, $cyan200 100%)',
+                color: '$dark100',
+                '&:hover': {
+                    animation: `${cyanLinearGradient} .2s 1 normal forwards`,
                 },
             },
             dark: {

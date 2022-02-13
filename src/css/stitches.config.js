@@ -13,6 +13,10 @@ export const {
     prefix: 'draw',
     theme: {
         colors: {
+            darkCyan: '#11bfbf',
+            darkTangerine: '#e88600',
+            darkYellow: '#f7da00',
+            darkGray: '#7c7c7c',
             cyan100: '#90ffff',
             cyan200: '#00fafa',
             gray100: '#ececec',
@@ -34,6 +38,10 @@ export const {
             2: '10px',
             3: '15px',
         },
+        display: {
+            block: 'block',
+            inlineBlock: 'inline-block',
+        },
         fontSizes: {
             tiny: '.8rem',
             regular: '1rem',
@@ -47,10 +55,14 @@ export const {
             weight300: '300',
             weight400: '400',
         },
-        lineHeights: {},
+        lineHeights: {
+            condensed: '1rem',
+            expand: '1.5rem',
+            lineHeight1: '1.8rem',
+        },
         letterSpacings: {
-            normal: '.01rem',
-            expand: '0.3rem',
+            normal: '-.01rem',
+            expand: '0.01rem',
         },
         sizes: {},
         borderWidths: {
@@ -87,9 +99,6 @@ export const globalStyles = globalCss({
     'a:hover': {
         cursor: 'pointer',
     },
-    'p': {
-        letterSpacing: '$normal',
-    },
     'textarea:focus': {
         border: '1px solid $gray200',
         borderWidth: '$borderMedium',
@@ -109,4 +118,10 @@ export const yellowLinearGradient = keyframes({
     '0%': { background: 'linear-gradient(to right, $yellow200, $tangerine200)' },
     '25%': { background: 'linear-gradient(to right, $tangerine200, $tangerine200)' },
     '100%': { background: 'linear-gradient(to right, $tangerine200, $yellow200)' },
+});
+
+export const cyanLinearGradient = keyframes({
+    '0%': { background: 'linear-gradient(to right, $yellow200, $cyan200)' },
+    '25%': { background: 'linear-gradient(to right, $cyan200, $cyan200)' },
+    '100%': { background: 'linear-gradient(to right, $cyan200, $yellow200)' },
 });
