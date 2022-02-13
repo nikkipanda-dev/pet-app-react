@@ -24,12 +24,12 @@ const Anchor = styled('a', {
     },   
 });
 
-export const Modal = ({ color, css, text, anchorOnclick, className, dataTargetUserId, dataTargetPostId, dataTargetBody }) => {
+export const Modal = ({ color, css, text, onClick, className, dataTargetUserId, dataTargetPostId, dataTargetBody }) => {
     return (
         <Anchor 
         css={{ ...css }}
         color={ color }
-        onClick={ evt => anchorOnclick(evt) } 
+        onClick={ evt => onClick(evt) } 
         className={ className } 
         data-target-user-id={ dataTargetUserId } 
         data-target-post-id={ dataTargetPostId } 

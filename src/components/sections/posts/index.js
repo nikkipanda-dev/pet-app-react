@@ -1,18 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axiosDef from "../../../util/Request";
 import ReactPaginate from 'react-paginate';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImages, faPaw } from "@fortawesome/free-solid-svg-icons";
 
 import Container from "../../core/Container";
 import { Post as PostSection } from '../../widgets/post'
+import Form from "../../widgets/Form";
+import Input from "../../core/Input";
+import Label from "../../core/Label";
+import Button from "../../core/Button";
+import Card from "../../widgets/Card";
 
 export const Posts = ({ isDefault, showUserPosts }) => {
+    const [body, setBody] = useState('');
     const [posts, setPosts] = useState(null);
     const [pageSize, setPageSize] = useState(0);
-    const [chunkedPosts, setChunkedPosts] = useState(5);
+    const [chunkedPosts, setChunkedPosts] = useState(null);
     const location = useLocation();
     const currentPathname = isDefault ? location.pathname.slice(3) + '/posts' : location.pathname.slice(3);
+
+    const imageRef = useRef();
+
+    const focusField = evt => {
+        evt.current.click();
+    }
 
     const getUserPosts = async(evt) => {
         const userPosts = []
@@ -23,15 +37,14 @@ export const Posts = ({ isDefault, showUserPosts }) => {
             const userPostsRes = res.data;
 
             if (userPostsRes.isSuccess) {
-                // console.log(userPostsRes.data)
                 userPosts.push(userPostsRes.data);
             } else {
-                console.log('res error get comments ', userPostsRes.data);
+                console.log('res error get user posts ', userPostsRes.data);
             }
         })
 
         .catch (err => {
-            console.log('err get comments ', err);
+            console.log('err get user posts ', err);
         })
 
         return userPosts;
@@ -46,24 +59,56 @@ export const Posts = ({ isDefault, showUserPosts }) => {
             const friendsPostsRes = res.data;
 
             if (friendsPostsRes.isSuccess) {
+                console.log('success post get friends')
                 friendsPosts.push(friendsPostsRes.data)
             } else {
-                console.log('res error get comments ', friendsPostsRes.data);
+                console.log('res error get friends posts ', friendsPostsRes.data);
             }
         })
 
         .catch (err => {
-            console.log('err get comments ', err);
+            console.log('err get friends posts ', err);
         })
 
         return friendsPosts;
     }
 
+    const postForm = evt => {
+        evt.preventDefault();
+
+        const postForm = new FormData(evt.target);
+        postForm.append('id', JSON.parse(Cookies.get('x_auth_user'))['id']);
+
+        axiosDef.post('http://localhost:8000/api/post/create', postForm)
+
+        .then(res => {
+            const postRes = res.data;
+
+            if (postRes.isSuccess) {
+                setBody('');
+
+                // clear file input
+                imageRef.current.value = '';
+
+                // refresh posts
+                handlePosts();
+            } else {
+                console.log('texttttt: ', postRes.data);
+            }
+        })
+
+        .catch(err => {
+            console.log('err: ', err.response);
+        })
+    }
+
     const handlePosts = () => {
         if (showUserPosts) {
+            console.log('show user posts')
             const userPostsRes = getUserPosts();
 
             userPostsRes.then(res => {
+                console.log('res ', res)
                 setPosts(res[0]);
             })
     
@@ -71,6 +116,8 @@ export const Posts = ({ isDefault, showUserPosts }) => {
                 console.log('err user ', err)
             })
         } else {
+            console.log('show friends posts')
+
             const friendsPostsRes = getFriendsPosts();
 
             friendsPostsRes.then(res => {
@@ -112,44 +159,95 @@ export const Posts = ({ isDefault, showUserPosts }) => {
     }, [posts])
 
     return (
-        <Container type='regular'>
-        {
-            chunkedPosts && Object.keys(chunkedPosts).map((i, val) => {
-                const data = Object.values(chunkedPosts)[val];
-                const postId = Object.values(chunkedPosts)[val]['id'] ? Object.values(chunkedPosts)[val]['id'] : Object.values(chunkedPosts)[val]['post_id'];
-                const userThumbnail = posts['display_photo'] ? posts['display_photo']['image_path'] : '';
+        <>
+            {
+                (location.pathname !== '/home') && 
+                <Container type='regular'>
+                    <Form 
+                    action='#' 
+                    method='POST' 
+                    encType='multipart' 
+                    onSubmit={ postForm }>
+                        <Input
+                        fieldType='textarea' 
+                        inputClass='form-control' 
+                        value={ body } 
+                        name='body' 
+                        onChange={ setBody } 
+                        rows={ 4 }/>
+                        <Container type='regular' className='mt-3 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-between align-items-sm-center'>
+                            <Label 
+                            text={ <FontAwesomeIcon icon={ faImages } className='fa-2x'/> } 
+                            refTarget={ imageRef } 
+                            labelOnclick={ focusField } 
+                            className='pointer-cursor mt-3 mt-sm-0 align-self-center'/>
+                            <Input 
+                            fieldType='file' 
+                            type='file' 
+                            refTarget={ imageRef } 
+                            name='images[]' 
+                            inputClass='bg-purple-200' 
+                            accept='image/*' 
+                            multiple={ true } 
+                            hidden={ true }/>
+                            <Button
+                            type='submit'
+                            text='post'
+                            color='yellow'/>
+                        </Container>
+                    </Form>
+                </Container>
+            }
+            <Container 
+            type='regular' 
+            className={ ((location.pathname !== '/home') ? 'mt-5 ' : '') + 'd-flex flex-column p-3' }
+            color='neutral'>
+            {
+                chunkedPosts && Object.keys(chunkedPosts).map((i, val) => {
+                    const data = Object.values(chunkedPosts)[val];
+                    const postId = Object.values(chunkedPosts)[val]['id'] ? Object.values(chunkedPosts)[val]['id'] : Object.values(chunkedPosts)[val]['post_id'];
+                    const userThumbnail = posts['display_photo'] ? posts['display_photo']['image_path'] : '';
 
-                return (
-                    <PostSection 
-                    key={ 'post-' + postId }
-                    data={ data } 
-                    showUserPosts={ showUserPosts }
-                    userThumbnail={ userThumbnail }/>
-                )
-            })
-        }
-        {
-            chunkedPosts && 
-            <ReactPaginate
-            previousLabel="Previous"
-            nextLabel="Next"
-            // pageClassName="page-item"
-            // pageLinkClassName="page-link"
-            // previousClassName="page-item"
-            // previousLinkClassName="page-link"
-            // nextClassName="page-item"
-            // nextLinkClassName="page-link"
-            breakLabel="..."
-            // breakClassName="page-item"
-            // breakLinkClassName="page-link"
-            pageCount={ pageSize }
-            marginPagesDisplayed={ 2 }
-            pageRangeDisplayed={ 5 }
-            onPageChange={ setPage }
-            containerClassName="pagination"
-            activeClassName="active"/>
-        }
-        </Container>
+                    return (
+                        <PostSection 
+                        key={ 'post-' + postId }
+                        data={ data } 
+                        showUserPosts={ showUserPosts }
+                        userThumbnail={ userThumbnail }/>
+                    )
+                })
+            }
+            {
+                !(chunkedPosts) && 
+                <Card type='regular' color='neutral'>
+                    <Container type='regular' className='d-flex justify-content-center align-items-center'>
+                        <FontAwesomeIcon icon={ faPaw } size='1x' className='me-3'/> No post to show
+                    </Container>
+                </Card>
+            }
+            {
+                posts && 
+                <ReactPaginate
+                previousLabel="Previous"
+                nextLabel="Next"
+                // pageClassName="page-item"
+                // pageLinkClassName="page-link"
+                // previousClassName="page-item"
+                // previousLinkClassName="page-link"
+                // nextClassName="page-item"
+                // nextLinkClassName="page-link"
+                breakLabel="..."
+                // breakClassName="page-item"
+                // breakLinkClassName="page-link"
+                pageCount={ pageSize }
+                marginPagesDisplayed={ 2 }
+                pageRangeDisplayed={ 5 }
+                onPageChange={ setPage }
+                containerClassName="pagination"
+                activeClassName="active"/>
+            }
+            </Container>
+        </>
     )
 };
 

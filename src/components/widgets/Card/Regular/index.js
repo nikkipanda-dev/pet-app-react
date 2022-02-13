@@ -15,16 +15,19 @@ const Div = styled('div', {
     variants: {
         color: {
             neutral: {
-                background: '$gray100',
+                background: '$pastelGray',
             },
             yellow: {
                 background: '$pastelYellow',
+            },
+            white: {
+                background: '#fff',
             },
         }
     }
 });
 
-export const Regular = ({ children, header, footer, css, color, className }) => {    
+export const Regular = ({ children, css, color, className }) => {    
     return (
         <Div 
         css={{ ...css }}

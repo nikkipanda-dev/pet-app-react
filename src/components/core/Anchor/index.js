@@ -2,14 +2,34 @@ import { Regular } from './Regular';
 import { Modal } from './Modal';
 import { Toggle } from './Toggle';
 
-export const Anchor = ({ type, color, css, text, href, isTargetBlank, isShown, anchorOnclick, className, dataTargetUserId, dataTargetPostId, dataTargetBody, dataTarget }) => {
+export const Anchor = (
+    { 
+        type, 
+        color, 
+        css, 
+        text, 
+        href, 
+        to,
+        size,
+        isTargetBlank, 
+        isShown, 
+        onClick, 
+        className, 
+        dataTargetUserId, 
+        dataTargetPostId, 
+        dataTargetBody, 
+        dataTarget }
+) => {
     return (
-        (type == 'regular') ? 
+        (type === 'regular') ? 
             <Regular 
             text={ text } 
             color={ color }
+            size={ size }
             css={ css }
             href={ href } 
+            to={ to } 
+            onClick={ onClick }
             isTargetBlank={ isTargetBlank } 
             className={ className }/> : 
         (type == 'modal') ? 
@@ -18,7 +38,7 @@ export const Anchor = ({ type, color, css, text, href, isTargetBlank, isShown, a
             className={ className } 
             color={ color }
             css={ css }
-            anchorOnclick={ anchorOnclick } 
+            onClick={ onClick } 
             dataTargetUserId={ dataTargetUserId ? dataTargetUserId : false }
             dataTargetPostId={ dataTargetPostId ? dataTargetPostId : false } 
             dataTargetBody={ dataTargetBody ? dataTargetBody : false }/> :
@@ -27,7 +47,7 @@ export const Anchor = ({ type, color, css, text, href, isTargetBlank, isShown, a
             className={ className } 
             color={ color }
             css={ css }
-            anchorOnclick={ anchorOnclick } 
+            onClick={ onClick } 
             isShown={ isShown } 
             dataTarget={ dataTarget }/>
     )

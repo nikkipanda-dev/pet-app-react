@@ -26,6 +26,7 @@ export const {
             pastelCyan: '#dfffff',
             pastelYellow: '#fffad3',
             pastelTangerine: '#ffeed7',
+            pastelGray: '#f7f7f7',
             error: '#FF5733',
         },
         space: {
@@ -34,9 +35,9 @@ export const {
             3: '15px',
         },
         fontSizes: {
-            12: '12px',
-            13: '13px',
-            15: '15px',
+            tiny: '.8rem',
+            regular: '1rem',
+            medium: '1.3rem',
         },
         fontWeights: {
             weight200: '200',
@@ -44,7 +45,10 @@ export const {
             weight400: '400',
         },
         lineHeights: {},
-        letterSpacings: {},
+        letterSpacings: {
+            normal: '.01rem',
+            expand: '0.3rem',
+        },
         sizes: {},
         borderWidths: {
             'borderThin': '1px',
@@ -79,6 +83,9 @@ export const globalStyles = globalCss({
     },
     'a:hover': {
         cursor: 'pointer',
+    },
+    'p': {
+        letterSpacing: '$normal',
     },
     '@import': ["url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,200;0,300;1,200;1,300&display=swap')", "url('https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap')"], 
 });

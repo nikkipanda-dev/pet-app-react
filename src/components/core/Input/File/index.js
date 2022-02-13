@@ -1,8 +1,8 @@
-export const File = ({ type, inputClass, inputStyle, refTarget, name, accept, multiple, onChange, value, hidden }) => {
+export const File = ({ type, className, inputStyle, refTarget, name, accept, multiple, onChange, value, hidden }) => {
     return (
         <input 
             type={ type } 
-            className={ inputClass } 
+            className={ className } 
             ref={ refTarget } 
             name={ name } 
             { ...onChange && { onChange: evt => onChange(evt) }} 

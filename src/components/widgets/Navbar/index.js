@@ -96,14 +96,29 @@ export const Navbar = () => {
                             </Link>
                         </Column>
                         <Column 
-                        className='pe-auto pe-sm-5 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-end align-items-center mt-3 mt-sm-0'
+                        className='pe-auto pe-sm-5 d-flex flex-row flex-wrap justify-content-center justify-content-sm-end align-items-center mt-3 mt-sm-0'
                         sm={ 10 }>
                         { 
                             Cookies.get('x_auth_secret_tk') ? 
                             <>
-                                <Link to='home' className='navbar-link me-3'>Home</Link>
-                                <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] } className='navbar-link me-3'>Profile</Link>
-                                <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/settings' } className='navbar-link me-3'>Settings</Link> 
+                                <Anchor 
+                                type='regular'
+                                text='Home' 
+                                color='tangerine'
+                                to='home'
+                                className='navbar-link me-2'/>
+                                <Anchor 
+                                type='regular'
+                                text='Profile' 
+                                to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] }
+                                color='tangerine'
+                                className='navbar-link me-2'/>
+                                <Anchor 
+                                type='regular'
+                                text='Settings' 
+                                to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/settings' }
+                                color='tangerine'
+                                className='navbar-link'/>
                                 <a href='/' className='navbar-link'><FontAwesomeIcon icon={faSignOutAlt}/></a>
                             </> :
                             <Anchor 
@@ -111,31 +126,10 @@ export const Navbar = () => {
                             text='Log In' 
                             className='navbar-link'
                             color='tangerine'
-                            anchorOnclick={ showNavModal }/>
+                            onClick={ showNavModal }/>
                         }
                         </Column>
                     </Row>
-                    {/* <Container type='regular' className='bg-primary'>
-                        <Link to={Cookies.get('x_auth_secret_tk') ? '/home' : '/'}>
-                            <Image src='/pup_patrol_logo.png' imgStyle={{ objectFit: 'cover', width: '40px', height: '40px', }}/>
-                        </Link>
-                    </Container>
-                    <Container type='regular' className="bg-primary">
-                        { 
-                            Cookies.get('x_auth_secret_tk') ? 
-                            <>
-                                <Link to='home' className='navbar-link me-3'>Home</Link>
-                                <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] } className='navbar-link me-3'>Profile</Link>
-                                <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/settings' } className='navbar-link me-3'>Settings</Link> 
-                                <a href='/' className='navbar-link'><FontAwesomeIcon icon={faSignOutAlt}/></a>
-                            </> :
-                            <Anchor 
-                                type='modal' 
-                                text='Log In' 
-                                anchorClass='navbar-link me-3' 
-                                anchorOnclick={ showNavModal }/>
-                        }
-                    </Container> */}
                 </Container>
             </Container>
             <Modal 
@@ -143,15 +137,17 @@ export const Navbar = () => {
                 modalSize='md' 
                 modalHeader=''
                 isShown={ navModal } 
-                btnOnhide={ hideNavModal } 
-            >
-                <Form action='#' method='POST' encType='multipart' onSubmit={ authenticate }>
+                btnOnhide={ hideNavModal } >
+                <Form 
+                action='#' 
+                method='POST' 
+                encType='multipart' 
+                onSubmit={ authenticate }>
                     <Label 
                         text='Email address:' 
-                        labelClass='form-label' 
+                        className='form-label' 
                         refTarget={ authEmailRef } 
-                        labelOnclick={ focusField }
-                    />
+                        labelOnclick={ focusField }/>
                     <Input
                         fieldType='regular' 
                         refTarget={ authEmailRef } 
@@ -168,14 +164,12 @@ export const Navbar = () => {
                         // setIsError={ setIsRegisterError } 
                         alertClass='text-alert red-300 mb-4' 
                         errorMsg={ loginErr } 
-                        fieldType='regular'
-                    />
+                        fieldType='regular'/>
                     <Label 
                         text='Password:' 
-                        labelClass='form-label' 
+                        className='form-label' 
                         refTarget={ authPasswordRef } 
-                        labelOnclick={ focusField }
-                    />
+                        labelOnclick={ focusField }/>
                     <Input
                         fieldType='regular' 
                         refTarget={ authPasswordRef } 
@@ -192,9 +186,11 @@ export const Navbar = () => {
                         // setIsError={ setIsRegisterError } 
                         alertClass='text-alert red-300 mb-4' 
                         errorMsg={ loginErr } 
-                        fieldType='regular'
-                    />
-                    <Button type='regular' text='Log In' btnClass='btn btn-purple'/>
+                        fieldType='regular'/>
+                    <Button 
+                    type='regular' 
+                    text='Log In' 
+                    color='yellow'/>
                 </Form>
             </Modal>
         </>

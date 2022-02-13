@@ -1,7 +1,8 @@
-// import Form from 'react-bootstrap/Form';
 import { styled } from '../../../../css/stitches.config';
 
-const Form = styled('form', {});
+const Form = styled('form', {
+    width: '100%',
+});
 
 export const Regular = ({ children, className, css, color, action, method, encType, onSubmit, hidden, refTarget, dataTarget }) => {
     return (

@@ -1,7 +1,7 @@
-export const Toggle = ({ css, color, text, anchorOnclick, isShown, className, dataTarget }) => {
+export const Toggle = ({ css, color, text, onClick, isShown, className, dataTarget }) => {
     return (
         <a 
-            onClick={ evt => anchorOnclick(evt) } 
+            onClick={ evt => onClick(evt) } 
             className={ className } 
             color={ color }
             css={{ ...css }} 

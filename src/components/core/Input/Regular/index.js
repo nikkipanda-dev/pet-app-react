@@ -1,8 +1,8 @@
-export const Regular = ({ type, inputClass, refTarget, hidden, name, onChange, defaultValue, value }) => {
+export const Regular = ({ type, className, refTarget, hidden, name, onChange, defaultValue, value }) => {
     return (
         <input 
             type={ type } 
-            className={ inputClass } 
+            className={ className } 
             ref={ refTarget } 
             name={ name } 
             // { ...onChange && { onChange: evt => onChange(evt.target.value) }} 

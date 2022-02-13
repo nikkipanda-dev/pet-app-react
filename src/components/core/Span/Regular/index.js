@@ -1,12 +1,22 @@
-export const Regular = ({ text, spanClass, spanStyle, spanOnclick, dataTarget }) => {
-        return (
-        <span
-            className={spanClass}
-            style={{ ...spanStyle }}
-            { ...spanOnclick && { onClick: evt => spanOnclick(evt) }}
-            data-target={ dataTarget }>
-            
-            {text}
-        </span>
+import { styled } from "../../../../css/stitches.config";
+
+const Span = styled('span', {
+    '&.handle': {
+        '&::before': {
+            content: `@`,
+        }
+    }
+});
+
+export const Regular = ({ css, color, text, className, onClick, dataTarget }) => {
+    return (
+        <Span
+        className={ className }
+        css={{ ...css }}
+        color={ color }
+        { ...onClick && { onClick: evt => onClick(evt) }}
+        data-target={ dataTarget }>
+            { text }
+        </Span>
     )
 };

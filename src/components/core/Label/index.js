@@ -5,6 +5,7 @@ export const Label = ({ css, text, color, className, labelOnclick, refTarget }) 
         <Regular 
         css={ css }
         text={ text } 
+        color={ color }
         className={ className } 
         labelOnclick={ labelOnclick } 
         refTarget={ refTarget }/>

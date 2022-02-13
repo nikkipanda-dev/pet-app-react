@@ -1,7 +1,7 @@
 import { Regular } from './Regular';
 import { Modal } from './Modal';
 
-export const Button = ({ css, text, type, color, className, btnOnclick, btnOnhide, isShown, targetID }) => {
+export const Button = ({ css, text, type, color, size, className, btnOnclick, btnOnhide, isShown, targetID }) => {
     return (
         (type === 'modal') ? 
         <Modal 
@@ -15,6 +15,7 @@ export const Button = ({ css, text, type, color, className, btnOnclick, btnOnhid
         css={ css } 
         text={ text } 
         color={ color } 
+        size={ size }
         className={ className }
         btnOnclick={ btnOnclick ? btnOnclick : false } 
         isShown={ isShown } 

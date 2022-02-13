@@ -24,7 +24,6 @@ import BetaSettings from './components/pages/settings/beta';
 import MessagingSettings from './components/pages/settings/messaging';
 import NotificationSettings from './components/pages/settings/notifications';
 import ProfileSettings from './components/pages/settings/profile';
-import Test from "./components/pages/test";
 
 // Styling
 import './css/bootstrap.css';
@@ -47,7 +46,7 @@ export const App = () => {
                 <Route exact path={'/u/:username'} element={<Profile />}>
                     <Route index element={ <Posts isDefault={ true } showUserPosts={ true }/> }/>
                     <Route exact path={ 'friends' } element={ <Friends /> }/>
-                    <Route exact path={ 'posts' } element={ <Posts /> }/>
+                    <Route exact path={ 'posts' } element={ <Posts showUserPosts={ true }/> }/>
                     <Route exact path={ 'posts/friends' } element={ <FriendsPost /> }/>
                 </Route>
                 <Route exact path={'/u/' + username + '/settings'} element={<Settings />}>
@@ -61,9 +60,8 @@ export const App = () => {
                 </Route>
                 <Route exact path='/communities' element={<Communities />} />
                 <Route exact path='/stories' element={<Stories />} />
-                <Route exact path='/test' element={<Test />} />
             </Routes>
-            <Footer />
+            <Footer/>
         </Router>
     );
 }

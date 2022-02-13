@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import axiosDef from "../../../../util/Request";
 import Cookies from "js-cookie";
 import ReactPaginate from 'react-paginate';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 
 import Container from "../../../core/Container";
 import Card from "../../../widgets/Card";
@@ -12,6 +14,7 @@ import Span from "../../../core/Span";
 import Button from "../../../core/Button";
 import Form from "../../../widgets/Form";
 import Input from "../../../core/Input";
+import Image from "../../../core/Image";
 
 export const Friends = ({ isDefault }) => {
     const location = useLocation();
@@ -108,8 +111,6 @@ export const Friends = ({ isDefault }) => {
     const declineRequest = evt => {
         evt.preventDefault();
 
-        console.log('evt ', evt.target);
-
         const declineFriendForm = new FormData(evt.target);
 
         for (let [i, val] of declineFriendForm.entries()) {
@@ -189,38 +190,41 @@ export const Friends = ({ isDefault }) => {
 
     useEffect(() => {
         if (pendingFriends) {
-            setChunkedPendingPosts(pendingFriends.slice(0, 3));
-            setPageRequestSize(Math.ceil(Object.keys(pendingFriends).length / 3));
+            setChunkedPendingPosts(pendingFriends.slice(0, 2));
+            setPageRequestSize(Math.ceil(Object.keys(pendingFriends).length / 2));
         }
     }, [pendingFriends])
 
     return (
         <>
-            <Container type='regular' containerClass='mt-3'>
-                <Container type='regular' containerClass='d-flex flex-column flex-md-row'>
+            <Container type='regular' className='mt-3 d-flex flex-column p-3' color='neutral'>
+                <Container type='regular' className='d-flex flex-column flex-md-row justify-content-center align-items-center'>
                 {
                     // pending requests
                     chunkedPendingPosts && chunkedPendingPosts.map(i => {
-
                         return (
                             <Card 
+                            type='regular'
                             key={ 'pending' + i['id'] } 
-                            cardClass='mb-3 me-sm-2' 
-                            cardStyle={{ flex: '33.33%', height: '100px' }}>
+                            className='mb-3 me-sm-2'
+                            color='white'>
                                 <Row 
-                                rowClass='m-1 py-3' 
-                                rowClass='' 
-                                rowStyle={{ height: '100%' }}>
-                                    <Column columnClass='' sm={ 5 }>
-                                        User's pic here
-                                        { i['id'] }
+                                className='m-1 py-3'>
+                                    <Column sm={ 5 } className='d-flex flex-column justify-content-center align-items-center'>
+                                    {
+                                        i['display_photo']['image_path'] ? 
+                                        <Image 
+                                        src={ new URL(i['display_photo']['image_path'], 'http://localhost:8000/storage/display_photos/') } 
+                                        style={{ objectFit: 'cover', width: '100px', height: '100px', maxHeight: '100%', }}/> : 
+                                        <FontAwesomeIcon icon={ faUserSecret } size='5x'/>
+                                    }
                                     </Column>
-                                    <Column columnClass='d-flex flex-column justify-content-around' sm={ 7 }>
-                                        <Container type='regular' containerClass='d-flex flex-column'>
+                                    <Column className='d-flex flex-column justify-content-around' sm={ 7 }>
+                                        <Container type='regular' className='d-flex flex-column'>
                                             <Span 
                                             type='regular' 
                                             text={ i['users'][0]['username'] } 
-                                            spanClass='handle'/>
+                                            className='handle'/>
                                             <Span 
                                             type='regular' 
                                             text={ i['users'][0]['first_name'] }/>
@@ -228,7 +232,7 @@ export const Friends = ({ isDefault }) => {
                                             type='regular' 
                                             text={ i['users'][0]['last_name'] }/>
                                         </Container>
-                                        <Container type='regular d-flex flex-column flex-sm-row' containerClass=''>
+                                        <Container type='regular' className='d-flex flex-column flex-sm-row'>
                                             <Form 
                                             action='#'
                                             method='POST'
@@ -245,7 +249,12 @@ export const Friends = ({ isDefault }) => {
                                                 name='id'
                                                 value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
                                                 hidden={ true }/>
-                                                <Button type='submit' text='Accept'/>
+                                                <Button 
+                                                type='submit' 
+                                                text='Accept'
+                                                color='yellowNoTranslate'
+                                                className='mt-3'
+                                                size='tiny'/>
                                             </Form>
                                             <Form 
                                             action='#'
@@ -263,7 +272,11 @@ export const Friends = ({ isDefault }) => {
                                                 name='id'
                                                 value={ JSON.parse(Cookies.get('x_auth_user'))['id'] }
                                                 hidden={ true }/>
-                                                <Button type='submit' text='Decline'/>
+                                                <Button 
+                                                type='submit' 
+                                                text='Decline'
+                                                className='mt-3'
+                                                size='tiny'/>
                                             </Form>
                                         </Container>
                                     </Column>
@@ -290,44 +303,47 @@ export const Friends = ({ isDefault }) => {
                 {
                     // pending requests pagination
                     chunkedPendingPosts && 
+                    <Container type='regular' className='mt-5'>
                     <ReactPaginate
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        // pageClassName="page-item"
-                        // pageLinkClassName="page-link"
-                        // previousClassName="page-item"
-                        // previousLinkClassName="page-link"
-                        // nextClassName="page-item"
-                        // nextLinkClassName="page-link"
-                        breakLabel="..."
-                        // breakClassName="page-item"
-                        // breakLinkClassName="page-link"
-                        pageCount={ pageRequestSize }
-                        marginPagesDisplayed={ 2 }
-                        pageRangeDisplayed={ 5 }
-                        onPageChange={ setRequestsPage }
-                        containerClassName="pagination"/>
+                    previousLabel="Previous"
+                    nextLabel="Next"
+                    // pageClassName="page-item"
+                    // pageLinkClassName="page-link"
+                    // previousClassName="page-item"
+                    // previousLinkClassName="page-link"
+                    // nextClassName="page-item"
+                    // nextLinkClassName="page-link"
+                    breakLabel="..."
+                    // breakClassName="page-item"
+                    // breakLinkClassName="page-link"
+                    pageCount={ pageRequestSize }
+                    marginPagesDisplayed={ 2 }
+                    pageRangeDisplayed={ 5 }
+                    onPageChange={ setRequestsPage }
+                    containerClassName="pagination"/>
+                    </Container>
                 }
             </Container>
-            <Container fluid={ true }>
+            <Container type='regular' className='mt-5 p-3' color='neutral'>
                 <Container type='regular' containerClass='d-flex flex-column flex-md-row'>
                 {
                     chunkedFriendsPosts && chunkedFriendsPosts.map(i => {
-                        // console.log('i: ', i)
-
                         return (
-                            <Card key={ 'pending' + i['id'] } cardClass='mb-3 me-sm-2' cardStyle={{ flex: '33.33%', height: '100px' }}>
-                                <Row rowClass='m-1 py-3' rowClass='' rowStyle={{ height: '100%' }}>
-                                    <Column columnClass='' sm={ 5 }>
+                            <Card 
+                            key={ 'pending' + i['id'] } 
+                            className='mb-3 me-sm-2' 
+                            css={{ flex: '33.33%', height: '100px' }}>
+                                <Row className='m-1 py-3' style={{ height: '100%' }}>
+                                    <Column sm={ 5 }>
                                         User's pic here
                                         { i['id'] }
                                     </Column>
-                                    <Column columnClass='d-flex flex-column justify-content-around' sm={ 7 }>
-                                        <Container type='regular' containerClass='d-flex flex-column'>
+                                    <Column className='d-flex flex-column justify-content-around' sm={ 7 }>
+                                        <Container type='regular' className='d-flex flex-column'>
                                             <Span 
                                             type='regular' 
                                             text={ i['users'][0]['username'] } 
-                                            spanClass='handle'/>
+                                            className='handle'/>
                                             <Span 
                                             type='regular' 
                                             text={ i['users'][0]['first_name'] }/>
@@ -335,7 +351,7 @@ export const Friends = ({ isDefault }) => {
                                             type='regular' 
                                             text={ i['users'][0]['last_name'] }/>
                                         </Container>
-                                        <Container type='regular d-flex flex-column flex-sm-row' containerClass=''>
+                                        <Container type='regular d-flex flex-column flex-sm-row'>
                                             Remove || Send message
                                             {/* <Form 
                                             action='#'
@@ -383,11 +399,10 @@ export const Friends = ({ isDefault }) => {
                 {
                     // No friends message
                     !(chunkedFriendsPosts) &&  
-                    <Card cardClass='mb-3 me-sm-2' cardStyle={{ flex: '33.33%', height: '100px' }}>
+                    <Card className='mb-3 me-sm-2' css={{ flex: '33.33%', height: '100px' }}>
                         <Row 
-                        rowClass='m-1 py-3' 
-                        rowClass='' 
-                        rowStyle={{ height: '100%' }}>
+                        className='m-1 py-3' 
+                        style={{ height: '100%' }}>
                             <Column>
                                 No friends :(
                             </Column>

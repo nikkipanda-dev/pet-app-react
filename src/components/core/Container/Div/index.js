@@ -3,6 +3,16 @@ import { styled } from "../../../../css/stitches.config";
 const Div = styled('div', {
     display: 'flex',
     width: '100%',
+    variants: {
+        color: {
+            neutral: {
+                background: '$pastelGray',
+            },
+            dark: {
+                background: '$gray100',
+            },
+        }
+    }
 })
 
 export const Fluid = ({ css, color, children, className, style, hidden, refTarget }) => {
@@ -13,8 +23,7 @@ export const Fluid = ({ css, color, children, className, style, hidden, refTarge
             className={ className } 
             style={{ ...style }} 
             hidden={ hidden }
-            ref={ refTarget }
-        >
+            ref={ refTarget }>
             { children }
         </Div>
     )

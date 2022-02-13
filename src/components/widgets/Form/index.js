@@ -27,8 +27,7 @@ export const Form = ({ children, className, color, css, action, method, encType,
             encType={ formEncType } 
             hidden={ hidden } 
             refTarget={ refTarget } 
-            dataTarget={ dataTarget }
-        >
+            dataTarget={ dataTarget }>
             { children }
         </Regular>
     )
