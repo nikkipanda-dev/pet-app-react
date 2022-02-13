@@ -60,6 +60,7 @@ export const App = () => {
                 </Route>
                 <Route exact path='/communities' element={<Communities />} />
                 <Route exact path='/stories' element={<Stories />} />
+                <Route exact path='/:path' element={<Stories />} />
             </Routes>
             <Footer/>
         </Router>

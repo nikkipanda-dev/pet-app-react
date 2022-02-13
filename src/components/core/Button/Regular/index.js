@@ -36,6 +36,12 @@ const Button = styled('button', {
         size: {
             tiny: {
                 fontSize: '$tiny',
+            },
+            regular: {
+                fontSize: '$regular',
+            },
+            medium: {
+                fontSize: '$medium',
             }
         }
     },
