@@ -28,7 +28,7 @@ import Blockquote from '../../core/Blockquote';
 
 const Home = () => {
     //TODO sanitize textarea, submits if empty
-    console.log('user', JSON.parse(Cookies.get('x_auth_user')))
+    // console.log('user', JSON.parse(Cookies.get('x_auth_user')))
 
     return (
         <Container type='regular'>
