@@ -38,6 +38,9 @@ export const {
             tiny: '.8rem',
             regular: '1rem',
             medium: '1.3rem',
+            display1: '1.5rem',
+            display2: '2rem',
+            display3: '3rem',
         },
         fontWeights: {
             weight200: '200',

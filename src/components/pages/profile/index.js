@@ -67,7 +67,7 @@ const Profile = () => {
     }, [])
 
     return (
-        JSON.parse(Cookies.get('x_auth_user'))['username'] ? 
+        Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user')) ? 
         <Container type='regular'>
             <Container maxFluid='xl' className='mt-5'>
                 <Row className='mt-5'>
