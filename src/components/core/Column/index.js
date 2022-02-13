@@ -4,15 +4,15 @@ import { Regular } from "./Regular";
 export const Column = ({ children, className, style, xs, sm, md, lg, xl, xxl, refTarget }) => {
     return (
         <Regular 
-            className={ className } 
-            style={ style } 
-            xs={ xs } 
-            sm={ sm } 
-            md={ md } 
-            lg={ lg } 
-            xl={ xl } 
-            xxl={ xxl } 
-            refTarget={ refTarget }>
+        className={ className } 
+        style={ style } 
+        xs={ xs } 
+        sm={ sm } 
+        md={ md } 
+        lg={ lg } 
+        xl={ xl } 
+        xxl={ xxl } 
+        refTarget={ refTarget }>
             { children }
         </Regular>
     )

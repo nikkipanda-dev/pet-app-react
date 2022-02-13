@@ -87,6 +87,12 @@ export const globalStyles = globalCss({
     'p': {
         letterSpacing: '$normal',
     },
+    'textarea:focus': {
+        border: '1px solid $gray200',
+        borderWidth: '$borderMedium',
+        transition: 'all .05s',
+        outline: 'unset',
+    },
     '@import': ["url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,200;0,300;1,200;1,300&display=swap')", "url('https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap')"], 
 });
 

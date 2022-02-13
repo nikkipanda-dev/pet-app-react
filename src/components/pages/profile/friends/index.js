@@ -16,10 +16,10 @@ import Form from "../../../widgets/Form";
 import Input from "../../../core/Input";
 import Image from "../../../core/Image";
 
-export const Friends = ({ isDefault }) => {
-    const location = useLocation();
-    const userId = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['id'];
+export const Friends = ({ isDefault, path }) => {
+    // console.log('path friends', path);
 
+    const location = useLocation();
     const [friends, setFriends] = useState(null);
     const [pendingFriends, setPendingFriends] = useState(null);
     const [isLoading, setIsLoading] = useState(true);

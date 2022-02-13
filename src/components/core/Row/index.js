@@ -4,15 +4,14 @@ import { Regular } from "./RowReg";
 export const Row = ({ children, className, style, xs, sm, md, lg, xl, xxl }) => {
     return (
         <Regular 
-            className={ className ? className : '' } 
-            style={ style } 
-            xs={ xs } 
-            sm={ sm } 
-            md={ md } 
-            lg={ lg } 
-            xl={ xl } 
-            xxl={ xxl } 
-        >
+        className={ className ? className : '' } 
+        style={ style } 
+        xs={ xs } 
+        sm={ sm } 
+        md={ md } 
+        lg={ lg } 
+        xl={ xl } 
+        xxl={ xxl } >
             { children }
         </Regular>
     )

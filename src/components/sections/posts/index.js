@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams, matchPath } from "react-router-dom";
 import Cookies from "js-cookie";
 import axiosDef from "../../../util/Request";
 import ReactPaginate from 'react-paginate';
@@ -14,13 +14,13 @@ import Label from "../../core/Label";
 import Button from "../../core/Button";
 import Card from "../../widgets/Card";
 
-export const Posts = ({ isDefault, showUserPosts }) => {
+export const Posts = ({ showUserPosts }) => {
     const [body, setBody] = useState('');
     const [posts, setPosts] = useState(null);
     const [pageSize, setPageSize] = useState(0);
     const [chunkedPosts, setChunkedPosts] = useState(null);
     const location = useLocation();
-    const currentPathname = isDefault ? location.pathname.slice(3) + '/posts' : location.pathname.slice(3);
+    const params = useParams();
 
     const imageRef = useRef();
 
@@ -31,7 +31,7 @@ export const Posts = ({ isDefault, showUserPosts }) => {
     const getUserPosts = async(evt) => {
         const userPosts = []
         
-        await axiosDef.get('http://localhost:8000/api/user/' + currentPathname.slice(0, -6) + '/posts')
+        await axiosDef.get('http://localhost:8000/api/user/' + params.username + '/posts')
 
         .then (res => {
             const userPostsRes = res.data;
@@ -104,7 +104,6 @@ export const Posts = ({ isDefault, showUserPosts }) => {
 
     const handlePosts = () => {
         if (showUserPosts) {
-            console.log('show user posts')
             const userPostsRes = getUserPosts();
 
             userPostsRes.then(res => {
@@ -149,7 +148,7 @@ export const Posts = ({ isDefault, showUserPosts }) => {
 
     useEffect(() => {
         handlePosts();
-    }, [currentPathname])
+    }, [params.username])
 
     useEffect(() => {
         if (posts) {

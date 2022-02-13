@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, Outlet, Link, Navigate } from 'react-router-dom';
+import { useLocation, Outlet, Link, Navigate, useParams } from 'react-router-dom';
 import axiosDef from '../../../util/Request';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,19 +19,16 @@ import Modal from '../../widgets/Modal';
 import Span from '../../core/Span';
 
 const Profile = () => {
+    const params = useParams();
     const [isLoading, setIsLoading] = useState(true);
-    const location = useLocation();
-    const currentPathname =  location.pathname.slice(3);
     const [displayPhoto, setDisplayPhoto] = useState(null);
-
-    console.log('currentPathname ', currentPathname)
 
     const addUser = evt => {
         evt.preventDefault();
 
         const addUserForm = new FormData(evt.target);
         addUserForm.append('id', parseInt(JSON.parse(Cookies.get('x_auth_user'))['id']));
-        addUserForm.append('member_username', currentPathname);
+        addUserForm.append('member_username', params.username);
 
         axiosDef.post('http://localhost:8000/api/user/add', addUserForm)
 
@@ -45,7 +42,7 @@ const Profile = () => {
     }
 
     const getDisplayPhoto = () => {
-        axiosDef.get('http://localhost:8000/api/user/' + currentPathname + '/display-photo/get')
+        axiosDef.get('http://localhost:8000/api/user/' + params.username + '/display-photo/get')
 
         .then (res => {
             const getDisplayPhotoRes = res.data;
@@ -86,7 +83,7 @@ const Profile = () => {
                         </Container>
                         <Container type='regular' className='mt-3'>
                         {
-                            (currentPathname !== JSON.parse(Cookies.get('x_auth_user'))['username']) ? 
+                            (params.username !== JSON.parse(Cookies.get('x_auth_user'))['username']) ? 
                             <Form
                             action='#'
                             method='POST'

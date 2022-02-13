@@ -1,13 +1,14 @@
 import { Regular } from "./Regular";
 import { Full } from "./Full";
 
-export const Card = ({ type, children, css, color, header, footer, className }) => {
+export const Card = ({ type, children, css, color, border, header, footer, className }) => {
     return (
         (type === 'regular') ? 
         <Regular 
         className={ className } 
         color={ color }
-        header={ header }
+        header={ header } 
+        border={ border }
         footer={ footer }
         css={ css }>
             { children }

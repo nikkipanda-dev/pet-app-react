@@ -23,15 +23,21 @@ const Div = styled('div', {
             white: {
                 background: '#fff',
             },
+        },
+        border: {
+            none: {
+                borderRadius: '0',
+            }
         }
     }
 });
 
-export const Regular = ({ children, css, color, className }) => {    
+export const Regular = ({ children, css, border, color, className }) => {    
     return (
         <Div 
         css={{ ...css }}
-        color={ color }
+        color={ color } 
+        border={ border }
         className={ className }>
             { children }
         </Div>

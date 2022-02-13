@@ -14,10 +14,8 @@ import Button from "../../core/Button";
 import Image from "../../core/Image";
 import Anchor from "../../core/Anchor";
 import Container from "../../core/Container";
-import Span from "../../core/Span";
 
 export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
-    // console.log('data: ', data)
     const [isLoading, setIsLoading] = useState(true);
     const [postId, setPostId] = useState(null);
     const [postAuthor, setPostAuthor] = useState(null);
@@ -25,11 +23,10 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
     const [postImages, setPostImages] = useState(null);
     const [postDate, setPostDate] = useState(null);
     const [comments, setComments] = useState(null);
+    const [loadMore, setLoadMore] = useState(false);
     const [commentBody, setCommentBody] = useState('');
     const [limit, setLimit] = useState(5);
     const [postDisplayPhotoPath, setPostDisplayPhotoPath] = useState('');
-
-    console.log('postImages ', postImages)
 
     const getComments = async() => {
         setIsLoading(false);
@@ -45,7 +42,8 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
             const getCommentsRes = res.data;
 
             if (getCommentsRes.isSuccess) {
-                setComments(getCommentsRes.data);
+                setComments(getCommentsRes.data['comments']);
+                setLoadMore(getCommentsRes.data['loadMore']);
             } else {
                 console.log('res err', getCommentsRes.data);
             }
@@ -69,13 +67,8 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
             const addCommentRes = res.data;
 
             if(addCommentRes.isSuccess) {
-                // const postIndex = Object.keys(posts).findIndex((i, val) => {
-                //     return (Object.values(posts)[val]['post_id'] === parseInt(evt.target.dataset.target, 10)) && Object.values(posts)[val]
-                // });
-
                 getComments();
-                //clear textarea
-                document.querySelector("textarea[data-target=comment-" + postId + "]").value='';
+                setCommentBody('');
             } else {
                 console.log('err comment add ', addCommentRes.data);
             }
@@ -111,10 +104,10 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
     }, [postId])
 
     return (
-        <Card type='regular' className='mt-5' color='white'>
+        <Card type='regular' className='mb-5' color='white'>
             <Row className='m-1'>
                 <Column 
-                className='d-flex flex-column justify-content-center align-items-center py-sm-3 py-md-4' 
+                className='d-flex flex-column justify-content-center align-items-center p-sm-2 p-md-3' 
                 xs={ 2 }
                 sm={ 3 }
                 md={ 2 }>
@@ -129,14 +122,11 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
                 </Container>
                 </Column>
                 <Column 
-                className='d-flex flex-column align-items-end'
+                className='d-flex flex-column align-items-end p-sm-2 p-md-3'
                 xs={ 10 }
                 sm={ 9 }
                 md={ 10 }>
-                    <FontAwesomeIcon 
-                    icon={ faPaw } 
-                    size='3x' 
-                    style={{ transform: 'translateY(-30px)', color: '#00ebeb', stroke: '#fff', strokeWidth: '30px' }}/>
+                    <FontAwesomeIcon icon={ faPaw } size='1x' style={{ color: '#ff9f1c' }}/>
                 </Column>
                 <Column className='mt-3'>
                 {
@@ -157,17 +147,17 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
                     }
                     </Container> : ''
                 }
-                    <p className='mt-3' style={{ width: '100%', }}>{ postBody }</p>
+                    <p className='mt-3' style={{ width: '100%', }}>{ postBody } { postId }</p>
                 </Column>
                 <Column className='bg-secondary text-end mt-3' xs={ 12 }>
                     { postDate }
                 </Column>
             </Row>
             <Row>
-                <Column>
-                    <Container type='regular' className='p-3' color='dark'>
+                <Column xs={ 12 }>
+                    <Container type='regular' className='p-3 d-flex flex-column' color='dark'>
                     {
-                        comments && 
+                        loadMore && 
                         <Anchor 
                         type='regular' 
                         text='Load more comments' 
@@ -197,23 +187,18 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
                             color='dark'
                             text='Comment'/>
                         </Form>
+                    {
+                        comments && Object.values(comments).map((a, b) => {
+                            const commentId = a['id'];
+                            const commentData = a;
+
+                            return (
+                                <Comment key={ 'comment-' + commentId } data={ commentData }/>
+                            )
+                        })
+                    }
                     </Container>
                 </Column>
-                {
-                    comments && Object.values(comments).map((a, b) => {
-                        const commentId = a['id'];
-                        const commentData = a;
-
-                        return (
-                            <Column 
-                            key={ 'comment-' + commentId } 
-                            columnClass='bg-success'
-                            xs={ 12 }>
-                                <Comment data={ commentData }/>
-                            </Column>
-                        )
-                    })
-                }
             </Row>
         </Card>
     )
