@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axiosDef from "../../../util/Request";
 
 import Container from "../../core/Container";
 import Row from "../../core/Row";
@@ -13,6 +15,46 @@ import Button from "../../core/Button";
 export const Ticker = () => {
     const test = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto officiis aut ea tempore, debitis non laborum voluptatibus vel beatae quo officia magnam et totam doloremque, cumque reiciendis quis voluptate a.';
 
+    const getTicker = async() => {
+        const ticker = [];
+
+        await axiosDef.get('http://localhost:8000/api/home/ticker')
+
+        .then (res => {
+            console.log('res ', res.data)
+        })
+
+        .catch (err => {
+            console.log('res ', err)
+        });
+
+        return ticker;
+    }
+
+    const handleTicker = () => {
+        const tickerRes = getTicker();
+
+        tickerRes.then(res => {
+            console.log('res ', res)
+        })
+
+        .catch (err => {
+            console.log('res ', err)
+        })
+    }
+
+    useEffect(() => {
+      let loading = true;
+
+      if (loading) {
+        handleTicker();
+
+        return () => {
+          loading = false;
+        }
+      }
+    }, []);
+    
     return (
         <Container type='regular' color='neutral' className='p-3 d-flex flex-column align-items-center'>
             <Header 
