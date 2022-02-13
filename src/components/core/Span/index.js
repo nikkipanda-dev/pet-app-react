@@ -1,14 +1,15 @@
 import { Regular } from "./Regular";
 
-export const Span = ({ type, spanClass, spanStyle, text, spanOnclick, dataTarget }) => {
+export const Span = ({ type, className, css, color, text, onClick, dataTarget }) => {
     return (
         (type === 'regular') ?
             <Regular
-                text={ text }
-                spanClass={ spanClass ? spanClass : ''}
-                spanStyle={ spanStyle }
-                spanOnclick={ spanOnclick } 
-                dataTarget={ dataTarget }/>
+            text={ text }
+            className={ className ? className : ''}
+            css={ css }
+            color={ color }
+            onClick={ onClick } 
+            dataTarget={ dataTarget }/>
             : ''
     )
 };

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-
 import { Regular } from "./Regular";
 
 let formMethod;
@@ -11,7 +10,7 @@ const sanitizeFormProp = ({ ...props}) => {
     (props.formEncType === 'multipart') ? 'multipart/form-data' : undefined;
 }
 
-export const Form = ({ children, formClass, formStyle, action, method, encType, onSubmit, hidden, refTarget, dataTarget }) => {
+export const Form = ({ children, className, color, css, action, method, encType, onSubmit, hidden, refTarget, dataTarget }) => {
     formMethod = method;
     formEncType = encType;
 
@@ -20,15 +19,15 @@ export const Form = ({ children, formClass, formStyle, action, method, encType, 
     return (
         <Regular
             onSubmit={ evt => onSubmit(evt) }
-            formClass={ formClass } 
-            formStyle={ formStyle }
+            className={ className } 
+            css={ css }
+            color={ color }
             action={ action }
             method={ formMethod }
             encType={ formEncType } 
             hidden={ hidden } 
             refTarget={ refTarget } 
-            dataTarget={ dataTarget }
-        >
+            dataTarget={ dataTarget }>
             { children }
         </Regular>
     )

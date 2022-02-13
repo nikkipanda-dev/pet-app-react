@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, Outlet, Link, Navigate } from 'react-router-dom';
+import { useLocation, Outlet, Link, Navigate, useParams } from 'react-router-dom';
 import axiosDef from '../../../util/Request';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faUserSecret, faEdit, faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import Container from '../../core/Container';
 import Row from '../../core/Row';
@@ -16,26 +16,19 @@ import Button from '../../core/Button';
 import Form from '../../widgets/Form';
 import Label from '../../core/Label';
 import Modal from '../../widgets/Modal';
+import Span from '../../core/Span';
 
 const Profile = () => {
+    const params = useParams();
     const [isLoading, setIsLoading] = useState(true);
-    const location = useLocation();
-    const currentPathname =  location.pathname.slice(3);
     const [displayPhoto, setDisplayPhoto] = useState(null);
-
-    console.log('currentPathname ', currentPathname)
 
     const addUser = evt => {
         evt.preventDefault();
 
-        console.log('add frienddd');
-
         const addUserForm = new FormData(evt.target);
-
-        for (let [i, val] of addUserForm.entries()) {
-            console.log('i: ', i)
-            console.log('val: ', val)
-        }
+        addUserForm.append('id', parseInt(JSON.parse(Cookies.get('x_auth_user'))['id']));
+        addUserForm.append('member_username', params.username);
 
         axiosDef.post('http://localhost:8000/api/user/add', addUserForm)
 
@@ -49,7 +42,7 @@ const Profile = () => {
     }
 
     const getDisplayPhoto = () => {
-        axiosDef.get('http://localhost:8000/api/user/' + currentPathname + '/display-photo/get')
+        axiosDef.get('http://localhost:8000/api/user/' + params.username + '/display-photo/get')
 
         .then (res => {
             const getDisplayPhotoRes = res.data;
@@ -72,73 +65,64 @@ const Profile = () => {
             setIsLoading(false);
         } 
     }, [])
-    
 
     return (
         JSON.parse(Cookies.get('x_auth_user'))['username'] ? 
-        <Container fluid={ true } containerClass='pt-5'>
-            <Container fluid='xl' containerClass='mt-5'>
-                <Row>
-                    <Column columnClass='p-2 d-flex flex-column' xs={ 12 } sm={ 5 } md={ 4 }>
-                        <Container type='regular' containerClass='bg-purple-100'>
+        <Container type='regular'>
+            <Container maxFluid='xl' className='mt-5'>
+                <Row className='mt-5'>
+                    <Column className='p-2 d-flex flex-column' sm={ 12 } md={ 4 }>
+                        <Container type='regular' className='d-flex flex-column align-items-center'>
+                        {
+                            displayPhoto ? 
                             <img 
                             src={ new URL(displayPhoto, 'http://localhost:8000/storage/display_photos/') } 
-                            style={{ objectFit: 'cover', width: '300px', height: '300px', maxHeight: '100%', }}/>
-                            {/* <Row>
-                                <Column>
-                                {
-                                    (currentPathname !== JSON.parse(Cookies.get('x_auth_user'))['username']) ? 
-                                    <Form
-                                        action='#'
-                                        method='POST'
-                                        encType='multipart'
-                                        onSubmit={ evt => addUser(evt) }>
-                                        <Input 
-                                            fieldType='regular'
-                                            name='id'
-                                            value={ JSON.parse(Cookies.get('x_auth_user'))['id'] } 
-                                            hidden={ true }/>
-                                        <Input 
-                                            fieldType='regular'
-                                            name='member_username'
-                                            value={ currentPathname } 
-                                            hidden={ true }/>
-                                        <Button 
-                                            type='submit'
-                                            text='Send friend invitation'/>
-                                    </Form> : ''
-                                }
-                                </Column>
-                                <Column>
-                                    message
-                                </Column>
-                            </Row> */}
+                            style={{ objectFit: 'cover', width: '300px', height: '300px', maxHeight: '100%', }}/> : <FontAwesomeIcon icon={ faUserSecret } size='10x'/>
+                        }
+                        name here
                         </Container>
-                        <Container type='regular' containerClass=''>
-                            badges
+                        <Container type='regular' className='mt-3'>
+                        {
+                            (params.username !== JSON.parse(Cookies.get('x_auth_user'))['username']) ? 
+                            <Form
+                            action='#'
+                            method='POST'
+                            encType='multipart'
+                            onSubmit={ addUser }
+                            className='d-flex flex-column flex-sm-row align-items-center justify-content-center'>
+                                <Button
+                                type='submit'
+                                text='Add friend'
+                                color='yellowNoTranslate'
+                                size='tiny'/>
+                            </Form> : ''
+                        }
                         </Container>
-                        <Container type='regular' containerClass=''>
-                            Friends
-                            <Link to='friends'>See all</Link>
+                        <Container type='regular' className='mt-3 d-flex flex-column'>
+                            <Span type='regular' text='Badges'/>
                         </Container>
-                        <Container type='regular' containerClass=''>
-                            communities
+                        <Container type='regular' className='mt-3 d-flex flex-column'>
+                            <Span type='regular' text='Friends'/>
+                            <Anchor type='regular' to='friends' text='See all' size='tiny' color='tangerine'/>
                         </Container>
-                        <Container type='regular' containerClass=''>
-                            memes
+                        <Container type='regular' className='mt-3 d-flex flex-column'>
+                            <Span type='regular' text='Communities'/>
                         </Container>
-                        <Container type='regular' containerClass=''>
-                            activities
+                        <Container type='regular' className='mt-3 d-flex flex-column'>
+                            <Span type='regular' text='Memes'/>
+                        </Container>
+                        <Container type='regular' className='mt-3 d-flex flex-column'>
+                            <Span type='regular' text='Activities'/>
                         </Container>
                     </Column>
-                    <Column columnClass='' xs={ 12 } sm={ 7 } md={ 8 }>
-                        <Container type='regular' containerClass=''>
+                    <Column className='' sm={ 12 } md={ 8 }>
+                        <Container type='regular'>
                             cover photo
                         </Container>
-                        <Container type='regular' containerClass=''>
+                        <Container type='regular'>
                             featured stories
                         </Container>
-                        <Container type='regular' containerClass=''>
+                        <Container type='regular'>
                             <Link to='posts'>Posts</Link>
                         </Container>
                         <Outlet />

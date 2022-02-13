@@ -1,9 +1,8 @@
-export const Thumbnail = ({ src, imgClass, imgStyle }) => {
+export const Thumbnail = ({ src, className, style }) => {
     return (
         <img 
-            src={ src } 
-            className={ imgClass } 
-            style={{ ...imgStyle }}
-        />
+        src={ src } 
+        className={ className } 
+        style={{ ...style }}/>
     )
 };

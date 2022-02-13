@@ -11,7 +11,7 @@ import Form from "../../../widgets/Form";
 import Button from "../../../core/Button";
 import Input from "../../../core/Input";
 
-export const AccountSettings = ({ isDefault }) => {
+export const AccountSettings = () => {
     const [isLoading, setIsLoading] = useState(true);
     const username = JSON.parse(Cookies.get('x_auth_user'))['username'];
 

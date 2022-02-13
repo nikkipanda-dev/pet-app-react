@@ -1,8 +1,11 @@
 import Container from "../../core/Container";
 
-export const Jumbotron = ({ children, jumbotronClass, jumbotronStyle }) => {
+export const Jumbotron = ({ children, className, style }) => {
     return (
-        <Container fluid={ true } containerClass={ jumbotronClass } containerStyle={ jumbotronStyle }>
+        <Container 
+        type='regular' 
+        className={ className } 
+        style={{ ...style }}>
             { children }
         </Container>
     )

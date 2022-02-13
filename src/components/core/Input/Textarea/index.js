@@ -1,7 +1,7 @@
-export const Textarea = ({ textareaClass, rows, name, value, onChange, defaultValue, dataTarget, onFocus }) => {
+export const Textarea = ({ className, rows, name, value, style, onChange, defaultValue, dataTarget, onFocus }) => {
     return (
         <textarea 
-            className={ textareaClass } 
+            className={ className } 
             name={ name }
             { ...onChange && { onChange: evt => onChange(evt.target.value) }} 
             { ...onFocus && { onFocus: evt => onFocus(evt) }}
@@ -9,6 +9,7 @@ export const Textarea = ({ textareaClass, rows, name, value, onChange, defaultVa
             defaultValue={ defaultValue } 
             value={ value } 
             data-target={ dataTarget }
+            style={{ ...style }}
         />
     )
 };

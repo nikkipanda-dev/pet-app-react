@@ -2,6 +2,7 @@ import {
     BrowserRouter as Router, Routes, Route, Navigate as Redirect
 } from "react-router-dom";
 import Cookies from "js-cookie";
+import { globalStyles } from "./css/stitches.config";
 
 // Widgets
 import Navbar from './components/widgets/Navbar';
@@ -26,28 +27,30 @@ import ProfileSettings from './components/pages/settings/profile';
 
 // Styling
 import './css/bootstrap.css';
-import './css/style.css';
+// import './css/style.css';
 
 // Bootstrap bundle
 import 'react-bootstrap/dist/react-bootstrap.min.js';
 
 export const App = () => {
+    globalStyles();
+
     const username = Cookies.get('x_auth_user') && JSON.parse(Cookies.get('x_auth_user'))['username'];
 
     return (
-        <Router forceRefresh={ true }>
+        <Router>
             <Navbar />
             <Routes>
                 <Route exact path='/' element={<LandingPage />} />
                 <Route exact path='/home' element={<Home />} />
                 <Route exact path={'/u/:username'} element={<Profile />}>
-                    <Route index element={ <Posts isDefault={ true } showUserPosts={ true }/> }/>
+                    <Route index element={ <Posts showUserPosts={ true }/> }/>
                     <Route exact path={ 'friends' } element={ <Friends /> }/>
                     <Route exact path={ 'posts' } element={ <Posts /> }/>
                     <Route exact path={ 'posts/friends' } element={ <FriendsPost /> }/>
                 </Route>
                 <Route exact path={'/u/' + username + '/settings'} element={<Settings />}>
-                    <Route index element={ <AccountSettings isDefault={ true }/> }/>
+                    <Route index element={ <AccountSettings /> }/>
                     <Route exact path={ 'account' } element={ <AccountSettings /> }/>
                     <Route exact path={ 'profile' } element={ <ProfileSettings /> }/>
                     <Route exact path={ 'privacy' } element={ <PrivacySettings /> }/>
@@ -58,7 +61,7 @@ export const App = () => {
                 <Route exact path='/communities' element={<Communities />} />
                 <Route exact path='/stories' element={<Stories />} />
             </Routes>
-            <Footer />
+            <Footer/>
         </Router>
     );
 }

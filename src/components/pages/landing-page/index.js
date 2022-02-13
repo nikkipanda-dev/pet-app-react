@@ -13,7 +13,6 @@ import Input from '../../core/Input'
 import Button from '../../core/Button'
 import Header from '../../core/Header';
 import Card from '../../widgets/Card';
-import Modal from '../../widgets/Modal';
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -87,22 +86,31 @@ const LandingPage = () => {
 
     return (
         <>
-            <Container fluid={ true }>
-                <Container fluid='md' containerClass='pt-5'>
-                    <Jumbotron jumbotronStyle={{ minHeight: '100vh', }}>
-                        <Row rowClass='p-2' rowStyle={{ minHeight: 'inherit', }}>
-                            <Column columnClass='mt-5 py-3' sm={ 6 } md={ 7 } lg={ 8 } columnStyle={{ height: '100%', }}>
+            <Container type='regular'>
+                <Container maxFluid='xl' className='mt-5'>
+                    <Jumbotron style={{ minHeight: '90vh', }} className='mt-3'>
+                        <Row className='m-0'>
+                            <Column 
+                            className='mt-5 py-3' 
+                            md={ 7 } 
+                            lg={ 8 } >
                                 <Header text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, dolorem necessitatibus!' headerClass='display-5'/>
                             </Column>
-                            <Column columnClass='mt-5 py-3' sm={ 6 } md={ 5 } lg={ 4 } columnStyle={{ height: '100%', }}>
-                                <Form action='#' method='post' encType='multipart' onSubmit={ register }>
-                                    <div>
+                            <Column 
+                            className='mt-5 py-3' 
+                            md={ 5 } 
+                            lg={ 4 }>
+                                <Form 
+                                action='#' 
+                                method='post' 
+                                encType='multipart' 
+                                onSubmit={ register }>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='First name:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ firstNameRef }
-                                        />
+                                            refTarget={ firstNameRef }/>
                                         <Input 
                                             validationType='name' 
                                             type='text' 
@@ -118,16 +126,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Last name:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ lastNameRef }
-                                        />
+                                            refTarget={ lastNameRef }/>
                                         <Input 
                                             validationType='name' 
                                             type='text' 
@@ -143,16 +149,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Username:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ usernameRef }
-                                        />
+                                            refTarget={ usernameRef }/>
                                         <Input 
                                             validationType='name' 
                                             type='text' 
@@ -168,16 +172,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Email:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ emailRef }
-                                        />
+                                            refTarget={ emailRef }/>
                                         <Input 
                                             validationType='email' 
                                             type='email' 
@@ -193,16 +195,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Password:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ passwordRef }
-                                        />
+                                            refTarget={ passwordRef }/>
                                         <Input 
                                             validationType='password' 
                                             type='password' 
@@ -218,16 +218,14 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-flex flex-column'>
                                         <Label 
                                             text='Repeat password:' 
                                             labelClass='form-label' 
                                             labelOnclick={ focusRegister } 
-                                            refTarget={ repeatPasswordRef }
-                                        />
+                                            refTarget={ repeatPasswordRef }/>
                                         <Input 
                                             validationType='repeatPassword' 
                                             type='password' 
@@ -243,59 +241,61 @@ const LandingPage = () => {
                                             setIsError={ setIsRegisterError } 
                                             alertClass='text-alert red-300 mb-4' 
                                             errorMsg={ registerErr } 
-                                            fieldType='regular'
-                                        />
-                                    </div>
-                                    <div className='d-grid gap-2 col-12 col-sm-6 mx-auto'>
+                                            fieldType='regular'/>
+                                    </Container>
+                                    <Container type='regular' className='d-grid gap-2 col-12 col-sm-6 mx-auto'>
                                         <Button 
-                                            type='submit' 
-                                            text='Register' 
-                                            btnClass='btn btn-reg btn-purple'
-                                        />
-                                    </div>
+                                        type='submit' 
+                                        text='Register'  
+                                        color='yellow'/>
+                                    </Container>
                                 </Form>
                             </Column>
                         </Row>
                     </Jumbotron>
                 </Container>
             </Container>
-            <Container fluid={ true } containerClass='mt-5'>
-                <Container fluid='md' containerClass=''>
-                    <Row rowClass='g-5' xs={ 1 } md={ 2 }>
+            <Container maxFluid={ true } className='mt-5'>
+                <Container maxFluid='md'>
+                    <Row className='g-5' md={ 1 } lg={ 2 }>
                         <Column>
-                            <Card 
-                                cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}
-                            >
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat explicabo neque totam amet autem quasi iusto sequi non aspernatur accusantium, modi quas ab cupiditate, laboriosam magnam unde, laudantium vel sit.
-                                <Button btnClass='btn btn-purple' text='Browse Communities'/>
+                            <Card type='regular' color='yellow' className='p-3 fs-3 d-flex flex-column justify-content-between'>
+                                <Container type='regular' className='body'>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat explicabo neque totam amet autem quasi iusto sequi non aspernatur accusantium, modi quas ab cupiditate, laboriosam magnam unde, laudantium vel sit.
+                                </Container>
+                                <Container type='regular' className='footer d-grid gap-2 mt-5'>
+                                    <Button type='regular' text='Browse Communities' color='yellow'/>
+                                </Container>
                             </Card>
                         </Column>
                         <Column>
-                            <Card 
-                                cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}
-                            >
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae debitis dolorem eligendi natus laborum praesentium officia, repellat nobis. Voluptatum inventore tenetur vel cumque ab libero consequatur quam saepe accusantium necessitatibus.
-                                <Button btnClass='btn btn-purple' text='Browse Stories'/>
+                            <Card type='regular' color='yellow' className='p-3 fs-3 d-flex flex-column justify-content-between'>
+                                <Container type='regular' className='body'>
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae debitis dolorem eligendi natus laborum praesentium officia, repellat nobis. Voluptatum inventore tenetur vel cumque ab libero consequatur quam saepe accusantium necessitatibus.
+                                </Container>
+                                <Container type='regular' className='footer d-grid gap-2 mt-5'>
+                                    <Button type='regular' text='Browse Stories' color='yellow'/>
+                                </Container>
                             </Card>
                         </Column>
                         <Column>
-                            <Card 
-                                cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}
-                            >
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem natus, odio labore nesciunt quis eaque nobis quod quaerat suscipit id quibusdam non quo rerum dolores excepturi provident in laborum asperiores.
-                                <Button btnClass='btn btn-purple' text='Browse Memes'/>
+                            <Card type='regular' color='yellow' className='p-3 fs-3 d-flex flex-column justify-content-between'>
+                                <Container type='regular' className='body'>
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem natus, odio labore nesciunt quis eaque nobis quod quaerat suscipit id quibusdam non quo rerum dolores excepturi provident in laborum asperiores.
+                                </Container>
+                                <Container type='regular' className='footer d-grid gap-2 mt-5'>
+                                    <Button type='regular' text='Browse Memes' color='yellow'/>
+                                </Container>
                             </Card>
                         </Column>
                         <Column>
-                            <Card 
-                                cardClass='curved-border p-3 fs-3' 
-                                cardStyle={{ border: 'none', }}
-                            >
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore laudantium sunt quaerat quam! Tempora suscipit modi ipsa sint eaque similique voluptatem. Nobis id assumenda reprehenderit nemo fugit dolor aperiam. Animi.
-                                <Button btnClass='btn btn-purple' text='Browse DOFTD'/>
+                            <Card type='regular' color='yellow' className='p-3 fs-3 d-flex flex-column justify-content-between'>
+                                <Container type='regular' className='body'>
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore laudantium sunt quaerat quam! Tempora suscipit modi ipsa sint eaque similique voluptatem. Nobis id assumenda reprehenderit nemo fugit dolor aperiam. Animi.
+                                </Container>
+                                <Container type='regular' className='footer d-grid gap-2 mt-5'>
+                                    <Button type='regular' text='Browse DOFTD' color='yellow'/>
+                                </Container>
                             </Card>
                         </Column>
                     </Row>

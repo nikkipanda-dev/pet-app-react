@@ -1,12 +1,11 @@
 import { Thumbnail } from './Thumbnail';
 
-export const Image = ({ src, imgClass, imgStyle }) => {
+export const Image = ({ src, className, style }) => {
     return (
         <Thumbnail 
-            src={ src } 
-            imgClass={ imgClass } 
-            imgStyle={ imgStyle }
-        />
+        src={ src } 
+        className={ className } 
+        style={ style }/>
     )
 };
 

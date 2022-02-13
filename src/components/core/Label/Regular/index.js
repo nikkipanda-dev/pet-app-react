@@ -1,11 +1,18 @@
-export const Regular = ({ text, labelClass, labelOnclick, refTarget }) => {
+import { styled } from "../../../../css/stitches.config";
+
+const Label = styled('label', {
+    fontFamily: 'Fira Sans',
+    fontWeight: '200',
+});
+
+export const Regular = ({ css, color, text, className, labelOnclick, refTarget }) => {
     return (
-        <label 
-            className={ labelClass } 
-            className={ labelClass } 
-            onClick={ () => labelOnclick(refTarget) } 
-        >
+        <Label 
+            css={{ ...css }} 
+            color={ color }
+            className={ className } 
+            onClick={ () => labelOnclick(refTarget) }>
             { text }
-        </label>
+        </Label>
     )
 };

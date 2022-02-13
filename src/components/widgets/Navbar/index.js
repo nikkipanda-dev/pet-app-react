@@ -7,6 +7,8 @@ import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 import Modal from "../Modal";
 import Container from "../../core/Container";
+import Row from "../../core/Row";
+import Column from "../../core/Column";
 import Anchor from "../../core/Anchor";
 import Image from '../../core/Image';
 import Form from "../Form";
@@ -15,22 +17,19 @@ import Input from "../../core/Input";
 import Button from "../../core/Button";
 
 export const Navbar = () => {
-    // TODO: custom div
-
     const navigate = useNavigate();
     
     const navbarStyle = {
-        backgroundColor: '#4b507a',
+        background: '#fff',
         minHeight: '7vh',
         zIndex: '9999',
+        borderBottom: '.05rem solid $gray100',
     }
 
     const [authEmail, setAuthEmail] = useState('');
     const [authPassword, setAuthPassword] = useState('');
-
     const authEmailRef = createRef();
     const authPasswordRef = createRef();
-
     const [validateLogin, setValidateLogin] = useState(false);
     const [loginErr, setLoginErr] = useState({});
 
@@ -84,32 +83,53 @@ export const Navbar = () => {
     return (
         <>
             <Container 
-                fluid={ true } 
-                containerStyle={ navbarStyle } 
-                containerClass='position-fixed d-flex align-items-center'
-            >
-                <Container fluid='xl' containerClass='d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center'>
-                    <div>
-                        <Link to={Cookies.get('x_auth_secret_tk') ? '/home' : '/'}>
-                            <Image src='/pup_patrol_logo.png' imgStyle={{ objectFit: 'cover', width: '40px', height: '40px', }}/>
-                        </Link>
-                    </div>
-                    <div className="d-flex flex-wrap">
-                        { Cookies.get('x_auth_secret_tk') ? 
+                type='regular'
+                css={ navbarStyle } 
+                className='position-fixed d-flex align-items-center'>
+                <Container maxFluid='xl'>
+                    <Row>
+                        <Column 
+                        className='ps-auto ps-sm-5 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-start align-items-center' 
+                        sm={ 2 }>
+                            <Link to={Cookies.get('x_auth_secret_tk') ? '/home' : '/'}>
+                                <Image src='/pup_patrol_logo.png' style={{ objectFit: 'cover', width: '40px', height: '40px', }}/>
+                            </Link>
+                        </Column>
+                        <Column 
+                        className='pe-auto pe-sm-5 d-flex flex-row flex-wrap justify-content-center justify-content-sm-end align-items-center mt-3 mt-sm-0'
+                        sm={ 10 }>
+                        { 
+                            Cookies.get('x_auth_secret_tk') ? 
                             <>
-                                <Link to='home' className='navbar-link me-3'>Home</Link>
-                                <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] } className='navbar-link me-3'>Profile</Link>
-                                <Link to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/settings' } className='navbar-link me-3'>Settings</Link> 
+                                <Anchor 
+                                type='regular'
+                                text='Home' 
+                                color='tangerine'
+                                to='home'
+                                className='navbar-link me-2'/>
+                                <Anchor 
+                                type='regular'
+                                text='Profile' 
+                                to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] }
+                                color='tangerine'
+                                className='navbar-link me-2'/>
+                                <Anchor 
+                                type='regular'
+                                text='Settings' 
+                                to={ 'u/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/settings' }
+                                color='tangerine'
+                                className='navbar-link'/>
                                 <a href='/' className='navbar-link'><FontAwesomeIcon icon={faSignOutAlt}/></a>
                             </> :
                             <Anchor 
-                                type='modal' 
-                                text='Log In' 
-                                anchorClass='navbar-link me-3' 
-                                anchorOnclick={ showNavModal }
-                            />
+                            type='modal' 
+                            text='Log In' 
+                            className='navbar-link'
+                            color='tangerine'
+                            onClick={ showNavModal }/>
                         }
-                    </div>
+                        </Column>
+                    </Row>
                 </Container>
             </Container>
             <Modal 
@@ -117,15 +137,17 @@ export const Navbar = () => {
                 modalSize='md' 
                 modalHeader=''
                 isShown={ navModal } 
-                btnOnhide={ hideNavModal } 
-            >
-                <Form action='#' method='POST' encType='multipart' onSubmit={ authenticate }>
+                btnOnhide={ hideNavModal } >
+                <Form 
+                action='#' 
+                method='POST' 
+                encType='multipart' 
+                onSubmit={ authenticate }>
                     <Label 
                         text='Email address:' 
-                        labelClass='form-label' 
+                        className='form-label' 
                         refTarget={ authEmailRef } 
-                        labelOnclick={ focusField }
-                    />
+                        labelOnclick={ focusField }/>
                     <Input
                         fieldType='regular' 
                         refTarget={ authEmailRef } 
@@ -142,14 +164,12 @@ export const Navbar = () => {
                         // setIsError={ setIsRegisterError } 
                         alertClass='text-alert red-300 mb-4' 
                         errorMsg={ loginErr } 
-                        fieldType='regular'
-                    />
+                        fieldType='regular'/>
                     <Label 
                         text='Password:' 
-                        labelClass='form-label' 
+                        className='form-label' 
                         refTarget={ authPasswordRef } 
-                        labelOnclick={ focusField }
-                    />
+                        labelOnclick={ focusField }/>
                     <Input
                         fieldType='regular' 
                         refTarget={ authPasswordRef } 
@@ -166,9 +186,11 @@ export const Navbar = () => {
                         // setIsError={ setIsRegisterError } 
                         alertClass='text-alert red-300 mb-4' 
                         errorMsg={ loginErr } 
-                        fieldType='regular'
-                    />
-                    <Button type='regular' text='Log In' btnClass='btn btn-purple'/>
+                        fieldType='regular'/>
+                    <Button 
+                    type='regular' 
+                    text='Log In' 
+                    color='yellow'/>
                 </Form>
             </Modal>
         </>
