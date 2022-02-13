@@ -1,8 +1,14 @@
-import { HeaderDefault } from "./HeaderDefault";
+import { Regular } from "./Regular";
 
-export const Header = ({ css, text, headerClass }) => {
+export const Header = ({ color, size, css, text, textShadow, className }) => {
     return (
-        <HeaderDefault text={ text } headerClass={ headerClass }/>
+        <Regular 
+        text={ text } 
+        color={ color }
+        size={ size }
+        className={ className }
+        textShadow={ textShadow }
+        css={ css }/>
     )
 };
 

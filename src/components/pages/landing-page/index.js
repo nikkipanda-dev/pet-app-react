@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 import Container from '../../core/Container'
-import Jumbotron from '../../sections/Jumbotron'
+import Jumbotron from '../../sections/jumbotron'
 import Row from '../../core/Row'
 import Column from '../../core/Column'
 import Form from '../../widgets/Form'
