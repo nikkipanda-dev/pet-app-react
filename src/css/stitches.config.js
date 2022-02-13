@@ -54,6 +54,9 @@ export const {
             weight200: '200',
             weight300: '300',
             weight400: '400',
+            weight500: '500',
+            weight600: '600',
+            weight700: '700',
         },
         lineHeights: {
             condensed: '1rem',

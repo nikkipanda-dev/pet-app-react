@@ -14,16 +14,16 @@ const Button = styled('button', {
                     animation: `${yellowLinearGradient} .2s 1 normal forwards, ${riseUp} .1s 1 normal forwards`
                 },
             },
-            yellowNoTranslate: {
-                background: 'linear-gradient(to right, $yellow200 0%, $tangerine200 100%)',
-                '&:hover': {
-                    animation: `${yellowLinearGradient} .2s 1 normal forwards`,
-                },
-            },
             neutral: {
                 '&:hover': {
                     background: 'linear-gradient(to right, $gray100 0%, $gray200 100%)',
                     animation: `${riseUp} .2s 1 normal forwards`,
+                },
+            },
+            yellowNoTranslate: {
+                background: 'linear-gradient(to right, $yellow200 0%, $tangerine200 100%)',
+                '&:hover': {
+                    animation: `${yellowLinearGradient} .2s 1 normal forwards`,
                 },
             },
             cyanNoTranslate: {
@@ -31,6 +31,13 @@ const Button = styled('button', {
                 color: '$dark100',
                 '&:hover': {
                     animation: `${cyanLinearGradient} .2s 1 normal forwards`,
+                },
+            },
+            neutralNoTranslate: {
+                background: '$gray100',
+                color: '$dark100',
+                '&:hover': {
+                    background: '$gray200',
                 },
             },
             dark: {

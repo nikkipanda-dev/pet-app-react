@@ -1,6 +1,8 @@
 export const PrivacySettings = () => {
     return (
-        <div>Privacy</div>
+        <div>
+            Privacy
+        </div>
     )
 };
 

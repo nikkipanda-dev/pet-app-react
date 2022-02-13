@@ -7,6 +7,9 @@ export const Input = (
     { 
         fieldType, 
         type, 
+        css,
+        color,
+        size,
         inputClass, 
         inputStyle, 
         refTarget, 
@@ -35,10 +38,14 @@ export const Input = (
                 className={ inputClass } 
                 refTarget={ refTarget } 
                 name={ name } 
+                css={ css }
+                color={ color }
+                size={ size }
                 // onChange={ onChange } 
                 // value={ value }
                 defaultValue={ defaultValue ? defaultValue : '' } 
                 hidden={ hidden }/>  : 
+
                 (fieldType === 'textarea') ? 
                 <Textarea 
                 className={ inputClass } 
@@ -50,6 +57,7 @@ export const Input = (
                 style={ inputStyle } 
                 defaultValue={ defaultValue } 
                 dataTarget={ dataTarget }/> :
+
                 <File 
                 type={ type } 
                 className={ inputClass } 

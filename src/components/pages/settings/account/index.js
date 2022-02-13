@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axiosDef from "../../../../util/Request";
 
@@ -10,6 +9,7 @@ import Span from "../../../core/Span";
 import Form from "../../../widgets/Form";
 import Button from "../../../core/Button";
 import Input from "../../../core/Input";
+import Header from "../../../core/Header";
 
 export const AccountSettings = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -111,11 +111,17 @@ export const AccountSettings = () => {
     }, [email]);
 
     return (
-       <Container fluid={ true } containerClass='bg-warning'>
-           Settings/Account
-           <Row rowClass='bg-success mt-3'>
-               <Column columnClass='bg-secondary'>
-                   <Container type='regular' containerClass='d-flex flex-column'>
+       <Container 
+       type='regular' 
+       className='p-2 d-flex flex-column' 
+       color='neutral'>
+           <Header 
+           text='Settings / Account' 
+           color='dark' 
+           size='display1'/>
+           <Row className='mt-3 p-3'>
+               <Column className='' style={{ background: '#fff', }} md={ 6 }>
+                   <Container type='regular' className='d-flex flex-column'>
                         <Span type='regular' text='Email address:'/>
                         <Span type='regular' text={ email }/>
                         {
@@ -138,17 +144,31 @@ export const AccountSettings = () => {
                                 name='password' 
                                 refTarget={ passwordRef }
                                 defaultValue=''/>
-                                <Button type='regular' text='Save'/>
+                                <Button 
+                                type='submit' 
+                                text='Save'
+                                color='yellowNoTranslate'
+                                size='tiny'/>
                             </Form> : 'submitted'
                         }
                    </Container>
                </Column>
-               <Column>
-                    <Button type='regular' text={ emailText } btnOnclick={ toggleEmail }/>
+               <Column 
+               className='d-flex flex-column py-2' 
+               style={{ background: '#fff', }} 
+               md={ 6 }>
+                   <Container type='regular'>
+                        <Button 
+                        type='regular' 
+                        text={ emailText } 
+                        color='neutralNoTranslate'
+                        size='tiny'
+                        btnOnclick={ toggleEmail }/>
+                   </Container>
                </Column>
            </Row>
-           <Row rowClass='bg-success mt-3'>
-                <Column>
+           <Row className='mt-3 p-3'>
+                <Column style={{ background: '#fff', }} md={ 6 }>
                 {
                     !(isSubmitted) ? 
                     <Form
@@ -175,19 +195,28 @@ export const AccountSettings = () => {
                         name='new_password_confirmation' 
                         refTarget={ confirmNewPasswordRef }
                         defaultValue=''/>
-                        <Button type='regular' text='Save'/>
+                        <Button 
+                        type='regular' 
+                        text='Save'
+                        color='yellow'
+                        size='tiny'/>
                     </Form> : 'submitted'
                 }
                 </Column>
-                <Column columnClass='bg-secondary'>
-                    <Button type='regular' text={ passwordText } btnOnclick={ togglePassword }/>
+                <Column className='' style={{ background: '#fff', }} md={ 6 }>
+                    <Button 
+                    type='regular' 
+                    text={ passwordText } 
+                    color='neutralNoTranslate'
+                    size='tiny'
+                    btnOnclick={ togglePassword }/>
                 </Column>
             </Row>
-            <Row rowClass='bg-success mt-3'>
-                <Column columnClass='bg-secondary'>
+            <Row className='mt-3 p-3'>
+                <Column style={{ background: '#fff', }} md={ 6 }>
                     Delete account
                 </Column>
-                <Column>
+                <Column style={{ background: '#fff', }} md={ 6 }>
                     Request
                 </Column>
             </Row>
