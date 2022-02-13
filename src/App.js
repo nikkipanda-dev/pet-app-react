@@ -24,6 +24,7 @@ import BetaSettings from './components/pages/settings/beta';
 import MessagingSettings from './components/pages/settings/messaging';
 import NotificationSettings from './components/pages/settings/notifications';
 import ProfileSettings from './components/pages/settings/profile';
+import NotFound from "./components/pages/404";
 
 // Styling
 import './css/bootstrap.css';
@@ -60,7 +61,7 @@ export const App = () => {
                 </Route>
                 <Route exact path='/communities' element={<Communities />} />
                 <Route exact path='/stories' element={<Stories />} />
-                <Route exact path='/:path' element={<Stories />} />
+                <Route path='*' element={<NotFound />} />
             </Routes>
             <Footer/>
         </Router>
