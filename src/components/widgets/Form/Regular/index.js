@@ -7,16 +7,16 @@ const Form = styled('form', {
 export const Regular = ({ children, className, css, color, action, method, encType, onSubmit, hidden, refTarget, dataTarget }) => {
     return (
         <Form
-            onSubmit={ (evt) => onSubmit(evt) }
-            color={ color }
-            action={ action } 
-            method={ method } 
-            encType={ encType } 
-            className={ className } 
-            style={{ ...css }} 
-            hidden={ hidden } 
-            { ...refTarget && { ref: refTarget }}
-            data-target={ dataTarget }>
+        onSubmit={ (evt) => onSubmit(evt) }
+        color={ color }
+        action={ action } 
+        method={ method } 
+        encType={ encType } 
+        className={ className } 
+        css={{ ...css }} 
+        hidden={ hidden } 
+        { ...refTarget && { ref: refTarget }}
+        data-target={ dataTarget }>
             { children }
         </Form>
     )

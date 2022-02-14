@@ -46,6 +46,14 @@ const Button = styled('button', {
                     background: '#cbcbcb',
                 },
             },
+            danger: {
+                background: '$error',
+                color: '#fff',
+                '&:hover': {
+                    background: '$darkGray',
+                    color: '#fff',
+                },
+            },
         },
         size: {
             tiny: {
@@ -65,17 +73,19 @@ const Button = styled('button', {
     } 
 });
 
-export const Regular = ({ css, text, color, size, type, className, btnOnclick, isShown, targetID }) => {
+export const Regular = ({ css, text, color, size, type, className, refTarget, btnOnclick, isShown, targetID, hidden }) => {
     return (
         <Button 
         css={{ ...css }}
         color={ color } 
         size={ size }
+        { ...refTarget && { ref: refTarget }}
         className={ className }
         type={ type } 
         { ...btnOnclick && { onClick: evt => btnOnclick(evt) }}
         data-is-shown={ isShown } 
-        data-target-id={ targetID }>
+        data-target-id={ targetID }
+        hidden={ hidden }>
             { text }
         </Button>
     )

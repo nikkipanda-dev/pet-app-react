@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axiosDef from "../../../../util/Request";
 
@@ -13,6 +14,7 @@ import Label from '../../../core/Label';
 import Header from "../../../core/Header";
 
 export const AccountSettings = () => {
+    const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const username = JSON.parse(Cookies.get('x_auth_user'))['username'];
 
@@ -134,7 +136,7 @@ export const AccountSettings = () => {
        className='p-2 d-flex flex-column' 
        color='neutral'>
            <Header 
-           text='Settings / Account' 
+           text={ location.pathname.replace('/u/' + username, '') } 
            color='dark' 
            size='display1'/>
            <Row className='mt-3 p-3'>
@@ -146,10 +148,6 @@ export const AccountSettings = () => {
                     type='regular' 
                     text='Email address: '
                     className='mb-3'/>
-                    <Span 
-                    type='regular' 
-                    text={ email }
-                    color='dark'/>
                    <Container 
                    type='regular' 
                    className={ isEmailShown ? 'mt-5 ' : '' + 'd-flex flex-column' }>

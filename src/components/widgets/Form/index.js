@@ -18,16 +18,16 @@ export const Form = ({ children, className, color, css, action, method, encType,
 
     return (
         <Regular
-            onSubmit={ evt => onSubmit(evt) }
-            className={ className } 
-            css={ css }
-            color={ color }
-            action={ action }
-            method={ formMethod }
-            encType={ formEncType } 
-            hidden={ hidden } 
-            refTarget={ refTarget } 
-            dataTarget={ dataTarget }>
+        onSubmit={ evt => onSubmit(evt) }
+        className={ className } 
+        css={ css }
+        color={ color }
+        action={ action }
+        method={ formMethod }
+        encType={ formEncType } 
+        hidden={ hidden } 
+        refTarget={ refTarget } 
+        dataTarget={ dataTarget }>
             { children }
         </Regular>
     )

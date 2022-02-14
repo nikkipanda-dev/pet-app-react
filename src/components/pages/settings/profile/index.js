@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import axiosDef from "../../../../util/Request";
 import Cookies from "js-cookie";
 
@@ -11,12 +12,17 @@ import Input from "../../../core/Input";
 import Label from "../../../core/Label";
 import Button from "../../../core/Button";
 import Image from "../../../core/Image";
+import Header from "../../../core/Header";
 
 export const ProfileSettings = () => {
+    const location = useLocation();
     const username = JSON.parse(Cookies.get('x_auth_user'))['username'];
 
+    const [showUploadBtn, setShowUploadBtn] = useState(false);
     const [displayPhotoPath, setDisplayPhotoPath] = useState(null);
     const displayPhotoRef = useRef();
+
+    // console.log('displayPhotoPath ', displayPhotoPath ? true : false)
 
     const triggerFileSelect = evt => {
         evt.current.click();
@@ -37,6 +43,7 @@ export const ProfileSettings = () => {
                 Cookies.set('x_auth_user_display_photo', JSON.stringify(addPhotoRes.data['image_path']), { sameSite: 'strict', secure: true });
 
                 setDisplayPhotoPath(addPhotoRes.data['image_path']);
+                setShowUploadBtn(false);
 
                 // clear input field
                 displayPhotoRef.current.value = '';
@@ -65,7 +72,7 @@ export const ProfileSettings = () => {
                 Cookies.set('x_auth_user_display_photo', JSON.stringify(changePhotoRes.data['image_path']), { sameSite: 'strict', secure: true });
 
                 setDisplayPhotoPath(changePhotoRes.data['image_path']);
-    
+                setShowUploadBtn(false);
                 // clear input field
                 displayPhotoRef.current.value = '';
             } else {
@@ -103,6 +110,12 @@ export const ProfileSettings = () => {
         })
     }
 
+    const handleUpload = evt => {
+        console.log('upload ', evt.target.files.length);
+
+        (evt.target.files.length !== 0) ? setShowUploadBtn(true) : setShowUploadBtn(false);
+    }
+
     useEffect(() => {
         if (displayPhotoPath === null) {
             Cookies.get('x_auth_user_display_photo') && setDisplayPhotoPath(JSON.parse(Cookies.get('x_auth_user_display_photo')));
@@ -110,69 +123,116 @@ export const ProfileSettings = () => {
     }, [])
 
     return (
-        <Container fluid={ true } containerClass='bg-warning'>
-            Settings/Account
-            <Row rowClass='bg-success mt-3'>
-                <Column columnClass='bg-secondary p-3'>
-                    <Span type='regular' text='Display photo:'/>
+        <Container 
+        type='regular' 
+        className='p-2 d-flex flex-column'
+        color='neutral'>
+            <Header 
+           text={ location.pathname.replace('/u/' + username, '') } 
+           color='dark' 
+           size='display1'/>
+            <Row className='mt-3 p-3'>
+                <Column 
+                className='py-2'
+                style={{ background: '#fff', }} >
+                    <Span 
+                    type='regular' 
+                    text='Display photo: '/>
+                    <Container 
+                    type='regular' 
+                    className='mt-5 d-flex flex-column align-items-center'>
                     {
                         displayPhotoPath ? 
                         <Image 
                         src={ new URL(displayPhotoPath, 'http://localhost:8000/storage/display_photos/') }
-                        imgClass='bg-purple-100'
-                        imgStyle={{ objectFit: 'cover', width: '100%', height: '100%', maxWidth: '400px', maxHeight: '400px', }}/> : 'none'
+                        style={{ objectFit: 'cover', width: '400px', height: '400px', maxHeight: '100%', }}/> : 
+                        <Span 
+                        type='regular' 
+                        text='No display photo yet.' 
+                        size='tiny'
+                        color='gray'/>
                     }
+                        <Container 
+                        type='regular'
+                        className='mt-3 d-flex flex-column justify-content-center align-items-center p-2'>
+                        {
+                            !(displayPhotoPath) ? 
+                            <Form
+                            action='#'
+                            method='POST'
+                            encType='multipart'
+                            onSubmit={ addDisplayPhoto }
+                            className='d-flex flex-column justify-content-center align-items-center'>
+                                <Label
+                                text='Add a new photo' 
+                                size='regular'
+                                color='neutral'
+                                className='label-file'
+                                labelOnclick={ triggerFileSelect } 
+                                refTarget={ displayPhotoRef }/>
+                                <Input 
+                                fieldType='file'
+                                type='file' 
+                                refTarget={ displayPhotoRef }
+                                onChange={ handleUpload }
+                                name='display_photo' 
+                                accept='image/*'
+                                hidden={ true }/>
+                                <Button 
+                                type='submit' 
+                                text='Upload'
+                                hidden={ showUploadBtn ? false : true }
+                                size='tiny'
+                                color='neutralNoTranslate'
+                                className='mt-3'/>
+                            </Form> :
+                            <>
+                                <Form
+                                action='#'
+                                method='POST'
+                                encType='multipart'
+                                onSubmit={ changeDisplayPhoto }
+                                className='d-flex flex-column justify-content-center align-items-center'>
+                                <Label
+                                text='Change photo' 
+                                size='tiny'
+                                color='neutral'
+                                className='label-file'
+                                labelOnclick={ triggerFileSelect } 
+                                refTarget={ displayPhotoRef }/>
+                                <Input 
+                                fieldType='file'
+                                type='file' 
+                                refTarget={ displayPhotoRef } 
+                                onChange={ handleUpload }
+                                name='display_photo' 
+                                accept='image/*'
+                                hidden={ true }/>
+                                <Button 
+                                type='submit' 
+                                text='Save'
+                                size='tiny'
+                                hidden={ showUploadBtn ? false : true }
+                                color='neutralNoTranslate'
+                                className='mt-3'/>
+                            </Form>
+                            <Form
+                                action='#'
+                                method='POST'
+                                encType='multipart'
+                                onSubmit={ removeDisplayPhoto }
+                                className='mt-3 d-flex flex-column justify-content-center align-items-center'>
+                                <Button 
+                                type='submit' 
+                                text='Remove display photo'
+                                size='tiny'
+                                color='danger'/>
+                            </Form>
+                        </>
+                        }
+                        </Container>
+                    </Container>
                 </Column>
-                <Column>
-                {
-                    !(displayPhotoPath) ? 
-                    <Form
-                    action='#'
-                    method='POST'
-                    encType='multipart'
-                    onSubmit={ addDisplayPhoto }>
-                        <Label
-                        text='Select' 
-                        labelOnclick={ triggerFileSelect } 
-                        refTarget={ displayPhotoRef }/>
-                        <Input 
-                        fieldType='file'
-                        type='file' 
-                        refTarget={ displayPhotoRef } 
-                        name='display_photo' 
-                        accept='image/*'
-                        hidden={ true }/>
-                        <Button type='submit' text='Save'/>
-                    </Form> :
-                    <>
-                        <Form
-                        action='#'
-                        method='POST'
-                        encType='multipart'
-                        onSubmit={ changeDisplayPhoto }>
-                        <Label
-                        text='Select' 
-                        labelOnclick={ triggerFileSelect } 
-                        refTarget={ displayPhotoRef }/>
-                        <Input 
-                        fieldType='file'
-                        type='file' 
-                        refTarget={ displayPhotoRef } 
-                        name='display_photo' 
-                        accept='image/*'
-                        hidden={ true }/>
-                        <Button type='submit' text='Change display photo'/>
-                    </Form>
-                    <Form
-                        action='#'
-                        method='POST'
-                        encType='multipart'
-                        onSubmit={ removeDisplayPhoto }>
-                        <Button type='submit' text='Remove display photo'/>
-                    </Form>
-                    </>
-                }
-               </Column>
             </Row>
         </Container>
     )
