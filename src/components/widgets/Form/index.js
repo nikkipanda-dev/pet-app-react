@@ -10,7 +10,22 @@ const sanitizeFormProp = ({ ...props}) => {
     (props.formEncType === 'multipart') ? 'multipart/form-data' : undefined;
 }
 
-export const Form = ({ children, className, color, css, action, method, encType, onSubmit, hidden, refTarget, dataTarget }) => {
+export const Form = (
+    {
+        children, 
+        className, 
+        color, 
+        css, 
+        action, 
+        method, 
+        encType, 
+        onSubmit, 
+        hidden, 
+        refTarget, 
+        dataTarget
+    }
+) => {
+    console.log('hidden ? form ', hidden)
     formMethod = method;
     formEncType = encType;
 
@@ -34,11 +49,11 @@ export const Form = ({ children, className, color, css, action, method, encType,
 };
 
 Form.propTypes = {
-    'formClass': PropTypes.oneOfType([
+    'className': PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.bool,
     ]),
-    'formStyle': PropTypes.oneOfType([
+    'css': PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.bool,
     ]),
@@ -52,11 +67,13 @@ Form.propTypes = {
         PropTypes.func,
         PropTypes.bool,
     ]),
+    'hidden': PropTypes.bool,
 }
 
 Form.defaultProps = {
-    'formClass': false,
-    'formStyle': false,
+    'className': false,
+    'css': false,
+    'hidden': false,
     'onSubmit': false,
 }
 

@@ -22,8 +22,6 @@ export const ProfileSettings = () => {
     const [displayPhotoPath, setDisplayPhotoPath] = useState(null);
     const displayPhotoRef = useRef();
 
-    // console.log('displayPhotoPath ', displayPhotoPath ? true : false)
-
     const triggerFileSelect = evt => {
         evt.current.click();
     }
@@ -145,7 +143,9 @@ export const ProfileSettings = () => {
                         displayPhotoPath ? 
                         <Image 
                         src={ new URL(displayPhotoPath, 'http://localhost:8000/storage/display_photos/') }
-                        style={{ objectFit: 'cover', width: '400px', height: '400px', maxHeight: '100%', }}/> : 
+                        size='displayPhoto'
+                        color='tangerine'
+                        radius='full'/> : 
                         <Span 
                         type='regular' 
                         text='No display photo yet.' 

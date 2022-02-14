@@ -1,11 +1,14 @@
-import { Thumbnail } from './Thumbnail';
+import { Regular } from './Regular';
 
-export const Image = ({ src, className, style }) => {
+export const Image = ({ src, color, size, radius, className, css }) => {
     return (
-        <Thumbnail 
+        <Regular 
         src={ src } 
         className={ className } 
-        style={ style }/>
+        css={ css }
+        radius={ radius }
+        color={ color }
+        size={ size }/>
     )
 };
 
