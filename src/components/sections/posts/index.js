@@ -147,13 +147,27 @@ export const Posts = ({ showUserPosts }) => {
     }
 
     useEffect(() => {
-        handlePosts();
+        let loading = true;
+
+        if (loading) {
+            handlePosts();
+        }
+
+        return () => {
+            loading = false;
+        }
     }, [params.username])
 
     useEffect(() => {
-        if (posts) {
-            setChunkedPosts(posts['posts'] ? posts['posts'].slice(0, 5) : posts.slice(0, 5));
+        let loading = true;
+
+        if (loading && posts) {
+            posts && setChunkedPosts(posts['posts'] ? posts['posts'].slice(0, 5) : posts.slice(0, 5));
             setPageSize(Math.ceil(posts['posts'] ? posts['posts'].length / 10 : posts.length / 10));
+
+            return () => {
+                loading = false;
+            }
         }
     }, [posts])
 

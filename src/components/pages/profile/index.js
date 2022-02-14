@@ -60,10 +60,14 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        isLoading && (!(displayPhoto) && getDisplayPhoto());
-        return () => {
-            setIsLoading(false);
-        } 
+        let loading = true;
+
+        if (loading) {
+            !(displayPhoto) && getDisplayPhoto();
+            return () => {
+                loading = false;
+            }
+        }
     }, [])
 
     return (

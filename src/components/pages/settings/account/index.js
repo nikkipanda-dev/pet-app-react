@@ -9,6 +9,7 @@ import Span from "../../../core/Span";
 import Form from "../../../widgets/Form";
 import Button from "../../../core/Button";
 import Input from "../../../core/Input";
+import Label from '../../../core/Label';
 import Header from "../../../core/Header";
 
 export const AccountSettings = () => {
@@ -104,6 +105,23 @@ export const AccountSettings = () => {
         })
     }
 
+    const deleteAccount = evt => {
+        evt.preventDefault();
+
+        const deleteAccountForm = new FormData(evt.target);
+        deleteAccountForm.append('id', parseInt(JSON.parse(Cookies.get('x_auth_user'))['id'], 10));
+
+        axiosDef.post('http://localhost:8000/api/user/' + JSON.parse(Cookies.get('x_auth_user'))['username'] + '/settings/account/destroy', deleteAccountForm)
+
+        .then (res => {
+            console.log('res del ', res.data)
+        })
+
+        .catch (err => {
+            console.log('err del ', err.response);
+        })
+    }
+
     useEffect(() => {
         if ((email === null) && isLoading) {
             setEmail(JSON.parse(Cookies.get('x_auth_user'))['email']);
@@ -120,37 +138,51 @@ export const AccountSettings = () => {
            color='dark' 
            size='display1'/>
            <Row className='mt-3 p-3'>
-               <Column className='' style={{ background: '#fff', }} md={ 6 }>
-                   <Container type='regular' className='d-flex flex-column'>
-                        <Span type='regular' text='Email address:'/>
-                        <Span type='regular' text={ email }/>
-                        {
-                            !(isSubmitted) ? 
-                            <Form
-                            action='#'
-                            method='POST'
-                            encType='multipart'
-                            onSubmit={ updateEmail }
-                            hidden={ isEmailShown ? false : true }>
-                                <Input
-                                fieldType='regular' 
-                                type='email'
-                                name='email' 
-                                refTarget={ emailRef }
-                                defaultValue=''/>
-                                <Input
-                                fieldType='regular' 
-                                type='password'
-                                name='password' 
-                                refTarget={ passwordRef }
-                                defaultValue=''/>
-                                <Button 
-                                type='submit' 
-                                text='Save'
-                                color='yellowNoTranslate'
-                                size='tiny'/>
-                            </Form> : 'submitted'
-                        }
+               <Column 
+               className='py-2' 
+               style={{ background: '#fff', }} 
+               md={ 6 }>
+                    <Span 
+                    type='regular' 
+                    text='Email address: '
+                    className='mb-3'/>
+                    <Span 
+                    type='regular' 
+                    text={ email }
+                    color='dark'/>
+                   <Container 
+                   type='regular' 
+                   className={ isEmailShown ? 'mt-5 ' : '' + 'd-flex flex-column' }>
+                    {
+                        !(isSubmitted) ? 
+                        <Form
+                        action='#'
+                        method='POST'
+                        encType='multipart'
+                        onSubmit={ updateEmail }
+                        hidden={ isEmailShown ? false : true }>
+                            <Input
+                            fieldType='regular' 
+                            type='email'
+                            name='email' 
+                            refTarget={ emailRef }
+                            defaultValue=''
+                            inputClass='mb-3'/>
+                            <Input
+                            fieldType='regular' 
+                            type='password'
+                            name='password' 
+                            refTarget={ passwordRef }
+                            defaultValue=''
+                            inputClass='mb-3'/>
+                            <Button 
+                            type='submit' 
+                            text='Save'
+                            color='yellowNoTranslate'
+                            size='tiny'
+                            className='mb-3'/>
+                        </Form> : 'submitted'
+                    }
                    </Container>
                </Column>
                <Column 
@@ -168,56 +200,115 @@ export const AccountSettings = () => {
                </Column>
            </Row>
            <Row className='mt-3 p-3'>
-                <Column style={{ background: '#fff', }} md={ 6 }>
-                {
-                    !(isSubmitted) ? 
-                    <Form
-                    action='#'
-                    method='POST'
-                    encType='multipart'
-                    onSubmit={ updatePassword }
-                    hidden={ isPasswordShown ? false : true }>
-                        <Input
-                        fieldType='regular' 
-                        type='password'
-                        name='old_password' 
-                        refTarget={ oldPasswordRef }
-                        defaultValue=''/>
-                        <Input
-                        fieldType='regular' 
-                        type='password'
-                        name='new_password' 
-                        refTarget={ newPasswordRef }
-                        defaultValue=''/>
-                        <Input
-                        fieldType='regular' 
-                        type='password'
-                        name='new_password_confirmation' 
-                        refTarget={ confirmNewPasswordRef }
-                        defaultValue=''/>
+                <Column 
+                className='py-2'
+                style={{ background: '#fff', }} 
+                md={ 6 }>
+                    <Span 
+                    type='regular' 
+                    text='Password: '
+                    className='mb-3'/>
+                    <Span 
+                    type='regular' 
+                    text='***'
+                    color='dark'/>
+                    <Container 
+                    type='regular' 
+                    className={ isEmailShown ? 'mt-5 ' : '' + 'd-flex flex-column' }>
+                    {
+                        !(isSubmitted) ? 
+                        <Form
+                        action='#'
+                        method='POST'
+                        encType='multipart'
+                        onSubmit={ updatePassword }
+                        hidden={ isPasswordShown ? false : true }>
+                            <Label 
+                            text='Enter current password: '
+                            color='neutral'
+                            size='tiny'/>
+                            <Input
+                            fieldType='regular' 
+                            type='password'
+                            name='old_password' 
+                            refTarget={ oldPasswordRef }
+                            defaultValue=''/>
+                            <Label 
+                            text='Enter new password: '
+                            color='neutral'
+                            size='tiny'
+                            className='mt-3'/>
+                            <Input
+                            fieldType='regular' 
+                            type='password'
+                            name='new_password' 
+                            refTarget={ newPasswordRef }
+                            defaultValue=''/>
+                            <Label 
+                            text='Repeat new password: '
+                            color='neutral'
+                            size='tiny'
+                            className='mt-3'/>
+                            <Input
+                            fieldType='regular' 
+                            type='password'
+                            name='new_password_confirmation' 
+                            refTarget={ confirmNewPasswordRef }
+                            defaultValue=''/>
+                            <Button 
+                            type='regular' 
+                            text='Save'
+                            color='yellow'
+                            size='tiny'
+                            className='mt-3'/>
+                        </Form> : 'submitted'
+                    }
+                    </Container>
+                </Column>
+                <Column 
+                className='py-2' 
+                style={{ background: '#fff', }} 
+                md={ 6 }>
+                    <Container type='regular'>
                         <Button 
                         type='regular' 
-                        text='Save'
-                        color='yellow'
-                        size='tiny'/>
-                    </Form> : 'submitted'
-                }
-                </Column>
-                <Column className='' style={{ background: '#fff', }} md={ 6 }>
-                    <Button 
-                    type='regular' 
-                    text={ passwordText } 
-                    color='neutralNoTranslate'
-                    size='tiny'
-                    btnOnclick={ togglePassword }/>
+                        text={ passwordText } 
+                        color='neutralNoTranslate'
+                        size='tiny'
+                        btnOnclick={ togglePassword }/>
+                    </Container>
                 </Column>
             </Row>
             <Row className='mt-3 p-3'>
-                <Column style={{ background: '#fff', }} md={ 6 }>
-                    Delete account
+                <Column 
+                className='d-flex flex-column py-2'
+                style={{ background: '#fff', }} 
+                md={ 6 }>
+                    <Container 
+                    type='regular' 
+                    className={ isEmailShown ? 'mt-5 ' : '' + 'd-flex flex-column' }>
+                        <Span
+                        type='regular' 
+                        text='Delete account' 
+                        color='danger'/>
+                    </Container>
                 </Column>
-                <Column style={{ background: '#fff', }} md={ 6 }>
-                    Request
+                <Column 
+                className='py-2'
+                style={{ background: '#fff', }} 
+                md={ 6 }>
+                    <Container type='regular'>
+                        <Form
+                        action='#'
+                        method='POST'
+                        encType='multipart'
+                        onSubmit={ deleteAccount }>
+                            <Button 
+                            type='submit'
+                            size='tiny'
+                            text='Request'/>
+                        </Form>
+                    </Container>
                 </Column>
             </Row>
        </Container>

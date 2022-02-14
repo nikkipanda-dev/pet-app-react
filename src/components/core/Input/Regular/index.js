@@ -1,11 +1,13 @@
 import { styled } from '../../../../css/stitches.config';
 
 const Input = styled('input', {
-    transition: 'all .1s',
+    transition: 'all .05s',
     padding: '5px',
-    '$:focus': {
-        transition: 'all .1s',
-        border: '1px solid red',
+    width: '100%',
+    border: '1px solid $gray200',
+    '&:focus': {
+        transition: 'all .05s',
+        border: '1px solid $darkGray',
         outline: 'unset',
     }
 });

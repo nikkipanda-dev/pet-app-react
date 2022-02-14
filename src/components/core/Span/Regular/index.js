@@ -6,6 +6,9 @@ const Span = styled('span', {
             gray: {
                 color: '$darkGray',
             },
+            dark: {
+                color: '$dark100',
+            },
             tangerine: {
                 color: '$darkTangerine',
             },
@@ -14,6 +17,9 @@ const Span = styled('span', {
             },
             cyan: {
                 color: '$darkCyan',
+            },
+            danger: {
+                color: '$error',
             },
         }
     },
