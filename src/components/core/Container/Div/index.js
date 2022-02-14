@@ -11,6 +11,9 @@ const Div = styled('div', {
             dark: {
                 background: '$gray100',
             },
+            white: {
+                background: '#fff',
+            },
         }
     }
 })

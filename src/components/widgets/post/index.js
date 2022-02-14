@@ -28,9 +28,7 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
     const [limit, setLimit] = useState(5);
     const [postDisplayPhotoPath, setPostDisplayPhotoPath] = useState('');
 
-    const getComments = async() => {
-        setIsLoading(false);
-        
+    const getComments = async() => {        
         await axiosDef.get('http://localhost:8000/api/post/' + postId + '/comments/get', {
             params: {
                 'limit': limit,
@@ -80,7 +78,10 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
     }
 
     useEffect(() => {
-        if (isLoading) {
+        // if (isLoading) {
+        let loading = true;
+
+        if (loading) {
             !(postId) && (data && setPostId(data['post_id'] ? data['post_id'] : data['id']));
             !(postBody) && (data && setPostBody(data['body']));
             !(postImages) && (data && setPostImages(data['post_images']));
@@ -88,6 +89,10 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
             !(postDate) && (data && setPostDate(data['date_posted']));
             !(postDisplayPhotoPath) && (userThumbnail && setPostDisplayPhotoPath(userThumbnail));
             !(postDisplayPhotoPath) && (data && data['display_photo']) && setPostDisplayPhotoPath(userThumbnail['image_path']);
+
+            return () => {
+                loading = false;
+            }
         }
     }, []);
 
@@ -149,7 +154,7 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
                 }
                     <p className='mt-3' style={{ width: '100%', }}>{ postBody } { postId }</p>
                 </Column>
-                <Column className='bg-secondary text-end mt-3' xs={ 12 }>
+                <Column className='text-end mt-3' xs={ 12 }>
                     { postDate }
                 </Column>
             </Row>

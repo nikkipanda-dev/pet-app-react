@@ -22,7 +22,10 @@ const style = {
                 '&:hover': {
                     color: '$tangerine100',
                 }, 
-            }
+            },
+            dark: {
+                color: '$dark100',
+            },
         },
         size: {
             tiny: {
@@ -32,6 +35,17 @@ const style = {
                 fontSize: '$medium',
             }
         },
+        fontWeight: {
+            light: {
+                fontWeight: '$weight200',
+            },
+            regular: {
+                fontWeight: '$weight500',
+            },
+            thick: {
+                fontWeight: '$weight600',
+            },
+        }
     },
     '&.navbar-link': {
         fontWeight: 400,
@@ -63,6 +77,7 @@ export const Regular = (
         to, 
         isTargetBlank, 
         className, 
+        fontWeight,
         onClick,
     }
 ) => {
@@ -73,17 +88,31 @@ export const Regular = (
         color={ color }
         href= { href } 
         size={ size }
+        fontWeight={ fontWeight }
         className={ className } 
         target={ isTargetBlank ? '_blank' : '' } >
             { text }
         </Anchor> : 
         (onClick) ? 
-        <Div color={ color } className={ className } size={ size } onClick={ evt => onClick(evt) }>{ text }</Div> :
+        <Div 
+        color={ color } 
+        className={ className } 
+        size={ size } 
+        onClick={ evt => onClick(evt) }
+        fontWeight={ fontWeight }>
+            { text }
+        </Div> :
         <Link 
         to={ to } 
         className={ className }
         style={{ textDecoration: 'none' }}>
-            <Div color={ color } className={ className } size={ size }>{ text }</Div>
+            <Div 
+            color={ color } 
+            className={ className } 
+            size={ size } 
+            fontWeight={ fontWeight }>
+                { text }
+            </Div>
         </Link> 
     )
 };

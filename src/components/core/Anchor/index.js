@@ -11,6 +11,7 @@ export const Anchor = (
         href, 
         to,
         size,
+        fontWeight,
         isTargetBlank, 
         isShown, 
         onClick, 
@@ -18,7 +19,8 @@ export const Anchor = (
         dataTargetUserId, 
         dataTargetPostId, 
         dataTargetBody, 
-        dataTarget }
+        dataTarget 
+    }
 ) => {
     return (
         (type === 'regular') ? 
@@ -29,6 +31,7 @@ export const Anchor = (
             css={ css }
             href={ href } 
             to={ to } 
+            fontWeight={ fontWeight }
             onClick={ onClick }
             isTargetBlank={ isTargetBlank } 
             className={ className }/> : 
