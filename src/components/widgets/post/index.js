@@ -120,7 +120,7 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
                     postDisplayPhotoPath ?  
                     <Image 
                     src={ new URL(postDisplayPhotoPath, 'http://localhost:8000/storage/display_photos/') }
-                    imgStyle={{ objectFit: 'cover', width: '70px', height: '70px', maxHeight: '100%', }}/> : <FontAwesomeIcon icon={ faUserSecret } size='3x'/>
+                    size='thumbnail'/> : <FontAwesomeIcon icon={ faUserSecret } size='3x'/>
                 }
                 <Container type='regular' className='d-none d-sm-block text-center'>
                     { postAuthor ? postAuthor : JSON.parse(Cookies.get('x_auth_user'))['username'] }
@@ -146,7 +146,7 @@ export const Post = ({ isDefault, data, showUserPosts, userThumbnail }) => {
                                 key={ 'post-' + postId + 'image-' + i['id'] } 
                                 src={ url } 
                                 className='mx-3'
-                                style={{ objectFit: 'cover', width: '150px', height: '150px', maxHeight: '100%', }}/>
+                                size='post'/>
                             )
                         })
                     }

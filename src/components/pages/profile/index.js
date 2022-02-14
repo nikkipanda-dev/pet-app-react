@@ -79,9 +79,9 @@ const Profile = () => {
                         <Container type='regular' className='d-flex flex-column align-items-center'>
                         {
                             displayPhoto ? 
-                            <img 
+                            <Image 
                             src={ new URL(displayPhoto, 'http://localhost:8000/storage/display_photos/') } 
-                            style={{ objectFit: 'cover', width: '300px', height: '300px', maxHeight: '100%', }}/> : <FontAwesomeIcon icon={ faUserSecret } size='10x'/>
+                            size='displayPhoto'/> : <FontAwesomeIcon icon={ faUserSecret } size='10x'/>
                         }
                         name here
                         </Container>

@@ -32,6 +32,8 @@ export const AccountSettings = () => {
     const newPasswordRef = useRef();
     const confirmNewPasswordRef = useRef();
 
+    console.log('email shown account ', isEmailShown)
+
     const toggleEmail = () => {
         isEmailShown ? setEmailText('Update') : setEmailText('Cancel');
 
@@ -148,9 +150,14 @@ export const AccountSettings = () => {
                     type='regular' 
                     text='Email address: '
                     className='mb-3'/>
+                    <Span 
+                    type='regular' 
+                    text={ email }
+                    color='gray'
+                    className='mb-3'/>
                    <Container 
                    type='regular' 
-                   className={ isEmailShown ? 'mt-5 ' : '' + 'd-flex flex-column' }>
+                   className={ (isEmailShown ? 'mt-5 ' : '') + 'd-flex flex-column' }>
                     {
                         !(isSubmitted) ? 
                         <Form
@@ -159,6 +166,10 @@ export const AccountSettings = () => {
                         encType='multipart'
                         onSubmit={ updateEmail }
                         hidden={ isEmailShown ? false : true }>
+                            <Label 
+                            text='Enter new email address: '
+                            color='neutral'
+                            size='tiny'/>
                             <Input
                             fieldType='regular' 
                             type='email'
@@ -166,6 +177,10 @@ export const AccountSettings = () => {
                             refTarget={ emailRef }
                             defaultValue=''
                             inputClass='mb-3'/>
+                            <Label 
+                            text='Enter current password: '
+                            color='neutral'
+                            size='tiny'/>
                             <Input
                             fieldType='regular' 
                             type='password'
@@ -173,12 +188,14 @@ export const AccountSettings = () => {
                             refTarget={ passwordRef }
                             defaultValue=''
                             inputClass='mb-3'/>
-                            <Button 
-                            type='submit' 
-                            text='Save'
-                            color='yellowNoTranslate'
-                            size='tiny'
-                            className='mb-3'/>
+                            <Container type='regular' className='d-grid col-sm-3 mx-auto'>
+                                <Button 
+                                type='submit' 
+                                text='Save'
+                                color='yellowNoTranslate'
+                                size='tiny'
+                                className='mb-3'/>
+                            </Container>
                         </Form> : 'submitted'
                     }
                    </Container>
@@ -187,7 +204,7 @@ export const AccountSettings = () => {
                className='d-flex flex-column py-2' 
                style={{ background: '#fff', }} 
                md={ 6 }>
-                   <Container type='regular'>
+                   <Container type='regular' className='d-flex justify-content-center'>
                         <Button 
                         type='regular' 
                         text={ emailText } 
@@ -212,7 +229,7 @@ export const AccountSettings = () => {
                     color='dark'/>
                     <Container 
                     type='regular' 
-                    className={ isEmailShown ? 'mt-5 ' : '' + 'd-flex flex-column' }>
+                    className={ (isPasswordShown ? 'mt-5 ' : '') + 'd-flex flex-column' }>
                     {
                         !(isSubmitted) ? 
                         <Form
@@ -253,12 +270,14 @@ export const AccountSettings = () => {
                             name='new_password_confirmation' 
                             refTarget={ confirmNewPasswordRef }
                             defaultValue=''/>
-                            <Button 
-                            type='regular' 
-                            text='Save'
-                            color='yellow'
-                            size='tiny'
-                            className='mt-3'/>
+                            <Container type='regular' className='d-grid col-sm-3 mx-auto'>
+                                <Button 
+                                type='regular' 
+                                text='Save'
+                                color='yellow'
+                                size='tiny'
+                                className='mt-3'/>
+                            </Container>
                         </Form> : 'submitted'
                     }
                     </Container>
@@ -267,7 +286,7 @@ export const AccountSettings = () => {
                 className='py-2' 
                 style={{ background: '#fff', }} 
                 md={ 6 }>
-                    <Container type='regular'>
+                    <Container type='regular' className='d-flex justify-content-center'>
                         <Button 
                         type='regular' 
                         text={ passwordText } 
@@ -282,9 +301,7 @@ export const AccountSettings = () => {
                 className='d-flex flex-column py-2'
                 style={{ background: '#fff', }} 
                 md={ 6 }>
-                    <Container 
-                    type='regular' 
-                    className={ isEmailShown ? 'mt-5 ' : '' + 'd-flex flex-column' }>
+                    <Container type='regular'>
                         <Span
                         type='regular' 
                         text='Delete account' 
@@ -300,10 +317,12 @@ export const AccountSettings = () => {
                         action='#'
                         method='POST'
                         encType='multipart'
+                        className='d-flex justify-content-center'
                         onSubmit={ deleteAccount }>
                             <Button 
                             type='submit'
                             size='tiny'
+                            color='neutralNoTranslate'
                             text='Request'/>
                         </Form>
                     </Container>

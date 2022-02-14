@@ -34,9 +34,9 @@ export const {
             error: '#FF5733',
         },
         space: {
-            1: '5px',
-            2: '10px',
-            3: '15px',
+            regular: '5px',
+            medium: '10px',
+            expand: '15px',
         },
         display: {
             block: 'block',
@@ -74,7 +74,15 @@ export const {
             'borderThick': '10px',
         },
         borderStyles: {},
-        radii: {},
+        radii: {
+            rounded1: '10px',
+            rounded2: '20px',
+            rounded3: '30px',
+            rounded4: '40px',
+            rounded5: '50px',
+            rounded80: '80%',
+            roundedFull: '100%',
+        },
         shadows: {},
         zIndices: {
             zIndex5: '5',

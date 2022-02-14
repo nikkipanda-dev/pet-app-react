@@ -122,7 +122,7 @@ export const Navbar = () => {
                         className='ps-auto ps-sm-5 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-start align-items-center' 
                         sm={ 2 }>
                             <Link to={Cookies.get('x_auth_secret_tk') ? '/home' : '/'}>
-                                <Image src='/pup_patrol_logo.png' style={{ objectFit: 'cover', width: '40px', height: '40px', }}/>
+                                <Image src='/pup_patrol_logo.png' size='logo'/>
                             </Link>
                         </Column>
                         <Column 
