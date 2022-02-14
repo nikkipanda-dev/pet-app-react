@@ -28,6 +28,9 @@ const Label = styled('label', {
             dark: {
                 color: '$dark100',
             },
+            neutral: {
+                color: '$darkGray',
+            },
             tangerine: {
                 color: '$tangerine200',
             },
@@ -38,7 +41,19 @@ const Label = styled('label', {
                 color: '$cyan200',
             }
         },
-    }
+    },
+    '&.label-file': {
+        cursor: 'pointer',
+        border: 'solid $gray100',
+        borderWidth: '$borderThin',
+        fontWeight: '$weight600',
+        borderRadius: '10px',
+        background: 'transparent',
+        padding: '5px 10px',
+        '$:hover': {
+            background: 'transparent',
+        }
+    },
 });
 
 export const Regular = ({ css, color, text, size, className, labelOnclick, refTarget }) => {

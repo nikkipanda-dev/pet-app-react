@@ -21,6 +21,26 @@ const Span = styled('span', {
             danger: {
                 color: '$error',
             },
+        },
+        size: {
+            tiny: {
+                fontSize: '$tiny',
+            },
+            regular: {
+                fontSize: '$regular',
+            },
+            medium: {
+                fontSize: '$medium',
+            },
+            display1: {
+                fontSize: '$display1',
+            },
+            display2: {
+                fontSize: '$display2',
+            },
+            display3: {
+                fontSize: '$display3',
+            },
         }
     },
     '&.handle': {
@@ -30,11 +50,12 @@ const Span = styled('span', {
     }
 });
 
-export const Regular = ({ css, color, text, className, onClick, dataTarget }) => {
+export const Regular = ({ css, color, text, size, className, onClick, dataTarget }) => {
     return (
         <Span
         className={ className }
         css={{ ...css }}
+        size={ size }
         color={ color }
         { ...onClick && { onClick: evt => onClick(evt) }}
         data-target={ dataTarget }>
